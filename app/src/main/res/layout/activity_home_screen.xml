@@ -12,7 +12,7 @@
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:keepScreenOn="true"
         android:text="@string/title_content"
         android:textColor="#7d669e"
@@ -45,6 +45,20 @@
                 android:text="@string/begin_button" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/magnifyingglass_icon"
+            android:layout_width="188dp"
+            android:layout_height="181dp"
+            android:layout_gravity="left|center_vertical"
+            android:src="@drawable/magnifying2"/>
+
+        <ImageView
+            android:id="@+id/openbox_icon"
+            android:layout_width="198dp"
+            android:layout_height="182dp"
+            android:layout_gravity="right|center_vertical"
+            android:src="@drawable/box"/>
 
     </FrameLayout>
 

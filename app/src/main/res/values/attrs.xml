@@ -11,9 +11,5 @@
 
     <!-- stackoverflow.com/questions/9327053/
     using-custom-font-in-android-textview-using-xml -->
-    <?xml version="1.0" encoding="utf-8"?>
-    <declare-stylebale name="FontText">
-        <attr name="typefaceAsset" format="string"/>
-    </declare-stylebale>
 
 </resources>
