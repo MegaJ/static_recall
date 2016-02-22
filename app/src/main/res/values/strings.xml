@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Static Recall App</string>
+
+    <string name="begin_button">Begin</string>
+    <string name="store_button">Store</string>
+    <string name="title_content">STATIC\nRECALL</string>
+</resources>
