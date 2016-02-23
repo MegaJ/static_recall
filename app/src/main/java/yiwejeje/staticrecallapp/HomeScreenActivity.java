@@ -1,7 +1,9 @@
 package yiwejeje.staticrecallapp;
 
 import android.annotation.SuppressLint;
+import android.app.ExpandableListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -82,6 +84,8 @@ public class HomeScreenActivity extends AppCompatActivity {
             if (AUTO_HIDE) {
                 delayedHide(AUTO_HIDE_DELAY_MILLIS);
             }
+
+
             return false;
         }
     };
@@ -167,6 +171,11 @@ public class HomeScreenActivity extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    public void showItemsList(View view) {
+        Intent intent = new Intent(this, MyExpandableListView.class);
+        startActivity(intent);
     }
 
 }
