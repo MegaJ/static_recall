@@ -9,6 +9,8 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,8 +60,12 @@ public class MyExpandableListView extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.edit_text);
         String message = editText.getText().toString();
         comingSoon.add(message);
-
+        Collections.sort(comingSoon);
         // somehow update the view of Coming Soon.
+    }
+
+    public void refreshList() {
+        // TODO: implement this, after user adds something, they should see it
     }
 
     /*
