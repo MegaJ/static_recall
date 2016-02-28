@@ -12,4 +12,5 @@
     <string name="searchbar">Search for...</string>
     <string name="search_items">Search for Item</string>
     <string name="add_message">Add To Coming Soon</string>
+    <string name="title_activity_store_location">StoreLocationActivity</string>
 </resources>
