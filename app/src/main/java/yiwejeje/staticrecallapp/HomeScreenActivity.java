@@ -174,10 +174,10 @@ public class HomeScreenActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    /*public void showItemsList(View view) {
+    public void showItemsList(View view) {
         Intent intent = new Intent(this, MyExpandableListView.class);
         startActivity(intent);
-    }*/
+    }
 
     public void storeLocation(View view){
         Intent intent=new Intent(this, StoreLocationActivity.class);

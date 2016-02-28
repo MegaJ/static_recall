@@ -64,7 +64,7 @@
             android:layout_height="165dp"
             android:layout_weight="2"
             android:text="@string/store_button"
-            android:onClick="showItemsList"
+            android:onClick="storeLocation"
             android:layout_gravity="bottom|left"
             android:textColor="#2a3432"
             android:textSize="30sp"

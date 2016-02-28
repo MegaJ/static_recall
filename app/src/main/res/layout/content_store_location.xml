@@ -11,14 +11,15 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="yiwejeje.staticrecallapp.StoreLocationActivity"
     tools:showIn="@layout/activity_store_location"
-    android:background="#EAD2AC">
+    android:background="#90afc5">
+    <!--android:background="#EAD2AC">-->
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="Item Title"
-        android:textColor="#4281A4"
+        android:textColor="#d00d0c0c"
         android:ems="10"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -27,6 +28,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <!--android:textColor="#4281A4"-->
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,21 +37,21 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Location:"
         android:textSize="35sp"
-        android:textColor="#FE938C"
+        android:textColor="#354950"
         android:textStyle="bold"
         android:id="@+id/textView"
         android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="39dp" />
+    <!--android:textColor="#FE938C"-->
 
-    <ImageButton
+    <!--<ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/imageButton2"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="53dp" />
+        android:layout_alignParentStart="true" />-->
 
     <ImageButton
         android:layout_width="100dp"
@@ -57,9 +60,9 @@
         android:src="@drawable/camera"
         android:scaleType="fitXY"
 
-        android:layout_below="@+id/textView"
-        android:layout_toRightOf="@+id/imageButton"
-        android:layout_toEndOf="@+id/imageButton" />
+        android:layout_alignTop="@+id/imageButton4"
+        android:layout_toLeftOf="@+id/textView"
+        android:layout_toStartOf="@+id/textView" />
 
     <ImageButton
         android:layout_width="110dp"
@@ -67,7 +70,7 @@
         android:scaleType="fitXY"
         android:id="@+id/imageButton3"
         android:src="@drawable/soundwave"
-        android:layout_below="@+id/textView"
+        android:layout_alignTop="@+id/imageButton4"
         android:layout_toRightOf="@+id/textView"
         android:layout_toEndOf="@+id/textView" />
 
@@ -88,10 +91,11 @@
         android:id="@+id/editText2"
         android:text="Enter text here"
         android:textSize="35sp"
-        android:textColor="#4281A4"
+        android:textColor="#d00e0e0e"
         android:textStyle="bold"
         android:layout_below="@+id/imageButton2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp" />
+    <!--android:textColor="#4281A4"-->
 
 </RelativeLayout>
