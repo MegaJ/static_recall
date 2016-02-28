@@ -10,4 +10,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="edit_message">Enter a message</string>
     <string name="add_message">Add To Coming Soon</string>
+    <string name="title_activity_store_location">StoreLocationActivity</string>
 </resources>

@@ -54,12 +54,23 @@
             android:layout_gravity="left|center_vertical"
             android:src="@drawable/magnifying2"/>
 
-        <ImageView
+<!--        <ImageView
             android:id="@+id/openbox_icon"
             android:layout_width="198dp"
             android:layout_height="182dp"
             android:layout_gravity="right|center_vertical"
-            android:src="@drawable/box"/>
+            android:src="@drawable/box"/>-->
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="175dp"
+            android:layout_height="144dp"
+            android:layout_x="118dp"
+            android:layout_y="95dp"
+            android:background="@drawable/box"
+            android:onClick="toast"
+            android:text="Store "
+            android:layout_gravity="right|center_vertical" />
 
     </FrameLayout>
 
