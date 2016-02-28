@@ -9,7 +9,6 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +18,9 @@ public class MyExpandableListView extends AppCompatActivity {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-    List<String> comingSoon = new ArrayList<String>();
-    List<String> nowShowing = new ArrayList<String>();
-    List<String> top250 = new ArrayList<String>();
+    List<String> medical = new ArrayList<String>();
+    List<String> docs = new ArrayList<String>();
+    List<String> travel = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +54,18 @@ public class MyExpandableListView extends AppCompatActivity {
 
     }
 
-    /** Called when the user clicks the Send button */
-    public void addNewTitle (View view) {
-        EditText editText = (EditText) findViewById(R.id.edit_text);
-        String message = editText.getText().toString();
-        comingSoon.add(message);
-        Collections.sort(comingSoon);
-        // somehow update the view of Coming Soon.
+    /** Called when the user clicks the Send button
+     * Edited out for the moment while re-writing with search function, instead.*/
+    /**public void addNewTitle (View view) {
+        EditText searchText = (EditText) findViewById(R.id.search_text);
+        String message = searchText.getText().toString();
+        medical.add(message);
+        Collections.sort(medical);
+        // somehow update the view of the Medical category.
+    }*/
+
+    public void searchItems (View view) {
+        // TODO: Find a way to add the search widget to this activity.
     }
 
     public void refreshList() {
@@ -76,37 +80,37 @@ public class MyExpandableListView extends AppCompatActivity {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding child data
-        listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon..");
+        listDataHeader.add("Travel");
+        listDataHeader.add("Important Documents");
+        listDataHeader.add("Medical");
 
         // Adding child data
 
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
+        travel.add("Passport");
+        travel.add("Suitcase");
+        travel.add("Toothbrush");
+        travel.add("Books");
+        travel.add("Flight Ticket");
+        travel.add("iPod");
+        travel.add("Jacket");
 
 
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
+        docs.add("Birth Certificate");
+        docs.add("Social Security Card");
+        docs.add("Academic Transcript");
+        docs.add("W2 Forms");
+        docs.add("Job Application");
+        docs.add("Groupon for Pilates");
 
 
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
+        medical.add("Shot Record");
+        medical.add("Antibiotics");
+        medical.add("Birth Control");
+        medical.add("Pamphlet about the Flu Shot");
+        medical.add("Doctor's Business Card");
 
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
+        listDataChild.put(listDataHeader.get(0), travel); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), docs);
+        listDataChild.put(listDataHeader.get(2), medical);
     }
 }

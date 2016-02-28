@@ -102,7 +102,8 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         TextView textView = (TextView) mContentView;
         Context context = this;
-        Typeface custom_font = Typeface.createFromAsset(context.getAssets(), "fonts/Forque.ttf");
+        Typeface custom_font = Typeface.createFromAsset(context.getAssets(), "fonts/CODE Bold.otf");
+        // Font from: http://www.fontfabric.com/code-free-font-3/
         textView.setTypeface(custom_font);
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -116,7 +117,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.begin_button).setOnTouchListener(mDelayHideTouchListener);
+        findViewById(R.id.search_button).setOnTouchListener(mDelayHideTouchListener);
 
     }
 

@@ -5,15 +5,17 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/edit_text"
+        android:id="@+id/search_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_message" />
+        android:hint="@string/searchbar" />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="addNewTitle"
-        android:text="@string/add_message" />
+        android:onClick="searchItems"
+        android:text="@string/search_items"
+        android:background="#336B87"
+        android:textColor="#2A3132"/>
 
     <ExpandableListView
         android:id="@+id/lvExp"
