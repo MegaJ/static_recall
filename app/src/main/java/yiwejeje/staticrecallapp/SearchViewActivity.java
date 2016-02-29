@@ -1,23 +1,27 @@
 package yiwejeje.staticrecallapp;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class SearchView extends AppCompatActivity {
+public class SearchViewActivity extends AppCompatActivity {
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
+    List<String> itemCategories = new ArrayList<String>();
+    HashMap<String, List<String>> itemNames = new HashMap<String, List<String>>();;
     List<String> medical = new ArrayList<String>();
     List<String> docs = new ArrayList<String>();
     List<String> travel = new ArrayList<String>();
@@ -25,52 +29,37 @@ public class SearchView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_expandable_list_view);
+        setContentView(R.layout.activity_search_view);
 
-        // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
-
-        // preparing list data
         prepareListData();
 
-        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
-
-        // setting list adapter
+        listAdapter = new ExpandableListAdapter(this, itemCategories, itemNames);
         expListView.setAdapter(listAdapter);
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
+                                        int childPosition, long id) {
                 Toast.makeText(
                         getApplicationContext(),
-                        listDataHeader.get(groupPosition)
+                        itemCategories.get(groupPosition)
                                 + " : "
-                                + listDataChild.get(
-                                listDataHeader.get(groupPosition)).get(
+                                + itemNames.get(
+                                itemCategories.get(groupPosition)).get(
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
                 return false;
             }
         });
-
     }
 
     public void refreshList() {
         // TODO: implement this, after user adds something, they should see it
     }
 
-    /*
-     * Preparing the list data
-     */
+
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
-
-        // Adding child data
-        listDataHeader.add("Travel");
-        listDataHeader.add("Important Documents");
-        listDataHeader.add("Medical");
-
-        // Adding child data
+        // TODO: Cannot leave this hardcoded. Must load the categories dynamically.
 
         travel.add("Passport");
         travel.add("Suitcase");
@@ -80,7 +69,6 @@ public class SearchView extends AppCompatActivity {
         travel.add("iPod");
         travel.add("Jacket");
 
-
         docs.add("Birth Certificate");
         docs.add("Social Security Card");
         docs.add("Academic Transcript");
@@ -88,15 +76,32 @@ public class SearchView extends AppCompatActivity {
         docs.add("Job Application");
         docs.add("Groupon for Pilates");
 
-
         medical.add("Shot Record");
         medical.add("Antibiotics");
         medical.add("Birth Control");
         medical.add("Pamphlet about the Flu Shot");
         medical.add("Doctor's Business Card");
 
-        listDataChild.put(listDataHeader.get(0), travel); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), docs);
-        listDataChild.put(listDataHeader.get(2), medical);
+        addAndFillNewCategory("Important Documents", docs);
+        addAndFillNewCategory("Medical", medical);
+        addAndFillNewCategory("Travel", travel);
+    }
+
+    private void loadArraysIntoCategories(int categoryIndex, List<String> arrayOfItems) {
+        itemNames.put(itemCategories.get(categoryIndex), arrayOfItems);
+    }
+
+    private void addAndFillNewCategory(String categoryName, List<String> arrayOfItems) {
+        if(arrayOfItems == null) {
+            throw new IllegalArgumentException("arrayOfItems is null");
+        }
+        int nextCategoryIndex = itemCategories.size();
+        itemCategories.add(categoryName);
+        loadArraysIntoCategories(nextCategoryIndex, arrayOfItems);
+
+    }
+
+    public void searchItems (View view) {
+
     }
 }

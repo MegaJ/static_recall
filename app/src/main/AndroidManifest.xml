@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchView"></activity>
+        <activity android:name=".SearchViewActivity"></activity>
         <activity
             android:name=".StoreLocationActivity"
             android:label="@string/title_activity_store_location"
