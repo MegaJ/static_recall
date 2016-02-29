@@ -60,7 +60,8 @@ public class MyExpandableListView extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.edit_text);
         String message = editText.getText().toString();
         comingSoon.add(message);
-        Collections.sort(comingSoon);
+        Collections.sort(comingSoon,String.CASE_INSENSITIVE_ORDER);
+
         // somehow update the view of Coming Soon.
     }
 
