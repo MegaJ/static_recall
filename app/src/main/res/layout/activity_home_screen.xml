@@ -44,7 +44,8 @@
             android:layout_width="188dp"
             android:layout_height="181dp"
             android:layout_gravity="left|top"
-            android:src="@drawable/magnifying2"/>
+            android:src="@drawable/magnifying2"
+            />
         <!--The magnifying glass image was found here:
         http://www.officialpsds.com/Magnifying-Glass-PSD24080.html-->
 
@@ -62,26 +63,43 @@
             style="?metaButtonBarButtonStyle"
             android:layout_width="175dp"
             android:layout_height="165dp"
-            android:layout_weight="2"
             android:text="@string/store_button"
             android:onClick="storeLocation"
             android:layout_gravity="bottom|left"
             android:textColor="#2a3432"
             android:textSize="30sp"
-            android:backgroundTint="@android:color/transparent" />
+            android:background="@android:color/transparent" />
 
         <Button
             android:id="@+id/search_button"
             style="?metaButtonBarButtonStyle"
             android:layout_width="175dp"
             android:layout_height="165dp"
-            android:layout_weight="2"
             android:layout_gravity="right|top"
             android:text="@string/search_button"
             android:onClick="showItemsList"
-            android:backgroundTint="@android:color/transparent"
+            android:background="@android:color/transparent"
             android:textColor="#2a3132"
             android:textSize="30sp" />
+
+        <!--This button overlays the magnifying glass.-->
+        <Button
+            android:id="@+id/icon_search_button"
+            android:layout_width="200dp"
+            android:layout_height="185dp"
+            android:layout_gravity="left|top"
+            android:onClick="showItemsList"
+            android:background="@android:color/transparent"
+            />
+
+        <!--This button overlays the open box for the Store activity-->
+        <Button
+            android:id="@+id/icon_store_button"
+            android:layout_width="200dp"
+            android:layout_height="185dp"
+            android:layout_gravity="right|bottom"
+            android:onClick="storeLocation"
+            android:background="@android:color/transparent"/>
 
     </FrameLayout>
 
