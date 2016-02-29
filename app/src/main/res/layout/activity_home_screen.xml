@@ -2,8 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d1b8e7"
+    android:background="@drawable/appback"
     tools:context="yiwejeje.staticrecallapp.HomeScreenActivity">
+    <!--The background image was found here: http://www.wallpapersonweb.com/image-3102.html-->
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -12,11 +13,11 @@
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:keepScreenOn="true"
         android:text="@string/title_content"
-        android:textColor="#7d669e"
-        android:textSize="50sp"
+        android:textColor="#336b87"
+        android:textSize="60sp"
         android:textStyle="bold" />
 
     <!-- This FrameLayout insets its children based on system windows using
@@ -36,30 +37,51 @@
             android:orientation="horizontal"
             tools:ignore="UselessParent">
 
-            <Button
-                android:id="@+id/begin_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/begin_button"
-                android:onClick="showItemsList"/>
-
         </LinearLayout>
 
         <ImageView
             android:id="@+id/magnifyingglass_icon"
             android:layout_width="188dp"
             android:layout_height="181dp"
-            android:layout_gravity="left|center_vertical"
+            android:layout_gravity="left|top"
             android:src="@drawable/magnifying2"/>
+        <!--The magnifying glass image was found here:
+        http://www.officialpsds.com/Magnifying-Glass-PSD24080.html-->
 
         <ImageView
             android:id="@+id/openbox_icon"
             android:layout_width="198dp"
             android:layout_height="182dp"
-            android:layout_gravity="right|center_vertical"
+            android:layout_gravity="right|bottom"
             android:src="@drawable/box"/>
+        <!--The box icon image was found here:
+        http://www.clipartpanda.com/clipart_images/brown-box-clip-art-7533842 -->
+
+        <Button
+            android:id="@+id/store_button"
+            style="?metaButtonBarButtonStyle"
+            android:layout_width="175dp"
+            android:layout_height="165dp"
+            android:layout_weight="2"
+            android:text="@string/store_button"
+            android:onClick="storeLocation"
+            android:layout_gravity="bottom|left"
+            android:textColor="#2a3432"
+            android:textSize="30sp"
+            android:backgroundTint="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/search_button"
+            style="?metaButtonBarButtonStyle"
+            android:layout_width="175dp"
+            android:layout_height="165dp"
+            android:layout_weight="2"
+            android:layout_gravity="right|top"
+            android:text="@string/search_button"
+            android:onClick="showItemsList"
+            android:backgroundTint="@android:color/transparent"
+            android:textColor="#2a3132"
+            android:textSize="30sp" />
 
     </FrameLayout>
 

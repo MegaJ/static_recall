@@ -1,13 +1,16 @@
 <resources>
     <string name="app_name">Static Recall App</string>
 
-    <string name="begin_button">Begin</string>
+    <string name="search_button">Search</string>
     <string name="store_button">Store</string>
-    <string name="title_content">Static Recall</string>
+    <string name="title_content">Static\nRecall</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="edit_message">Enter a message</string>
+    <string name="searchbar">Search for...</string>
+    <string name="search_items">Search for Item</string>
     <string name="add_message">Add To Coming Soon</string>
+    <string name="title_activity_store_location">StoreLocationActivity</string>
 </resources>
