@@ -2,6 +2,7 @@ package yiwejeje.staticrecallapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.ActionBar;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 /**
@@ -21,6 +23,7 @@ public class HomeScreenActivity extends AppCompatActivity {
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
+
     private static final boolean AUTO_HIDE = true;
 
     /**
@@ -119,6 +122,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         findViewById(R.id.search_button).setOnTouchListener(mDelayHideTouchListener);
 
     }
+
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
