@@ -15,5 +15,5 @@
     <string name="title_activity_store_location">StoreLocationActivity</string>
 
     <string name="search_title">StoreLocationActivity</string>
-    <string name="search_hint">Search for...</string>
+    <string name="search_hint">Search stored items</string>
 </resources>

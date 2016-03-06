@@ -2,6 +2,7 @@ package yiwejeje.staticrecallapp;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -51,6 +52,42 @@ public class SearchViewActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        android.widget.SearchView searchView =
+                (android.widget.SearchView) menu.findItem(R.id.search).getActionView();
+        System.out.println("search view ------------------------> " + searchView);
+        System.out.println("------------------------> " + getComponentName());
+        System.out.println("------------------------>" + searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setIconifiedByDefault(false);
+        return true;
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+        System.out.println("-------------> NEW INTENT FIRED WITHIN SEARCHVIEW");
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            System.out.println("-------------> query:" + query);
+            //use the query to search your data somehow
+        }
     }
 
     public void refreshList() {

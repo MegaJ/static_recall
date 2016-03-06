@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by el-swug on 2/20/16.
+ * Code taken from
+ * http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/.
  */
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
