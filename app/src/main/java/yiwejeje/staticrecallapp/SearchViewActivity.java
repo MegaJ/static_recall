@@ -9,6 +9,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 
@@ -29,22 +30,16 @@ public class SearchViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_view);
 
         itemCategories = ItemManager.INSTANCE.getAllCategories();
-        expListView = (ExpandableListView) findViewById(R.id.lvExp);
         listAdapter = new CategoryListAdapter(this, itemCategories);
-//        prepareListData();
+
+        expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setAdapter(listAdapter);
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                         int childPosition, long id) {
-//                Toast.makeText(
-//                        getApplicationContext(),
-//                        itemCategories.get(groupPosition).getName()
-//                                + " : "
-//                                + itemCategories.get(groupPosition)
-//                                .getItems().get(childPosition).getName(), Toast.LENGTH_SHORT)
-//                        .show();
 
+                // TODO: Do UI things to show information on the clicked item.
                 return false;
             }
         });
@@ -84,12 +79,11 @@ public class SearchViewActivity extends AppCompatActivity {
     }
 
     public void refreshList() {
-        // TODO: implement this, after user adds something, they should see it
+        listAdapter.notifyDataSetChanged();
     }
 
     public void searchItems (String query) {
         // TODO: actually search for items
-        itemCategories = ItemManager.INSTANCE.getAllCategories();
         for (ItemCategory category : itemCategories) {
             System.out.println("Category: " + category);
         }

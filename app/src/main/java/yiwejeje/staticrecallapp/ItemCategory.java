@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class ItemCategory {
     private String name;
-    private ArrayList<Item> items;
+    private List<Item> items;
 
     public ItemCategory (String name, List<Item> items) {
         if (name == null) {

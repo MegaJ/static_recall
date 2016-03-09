@@ -42,6 +42,10 @@ public enum ItemManager {
         return allCategories.remove(aCategory);
     }
 
+    public Item removeByGroupAndChildIndex(int groupIndex, int childIndex) {
+        return allCategories.get(groupIndex).getItems().remove(childIndex);
+    }
+
     public Set<Item> getAllItems() {
         return allItems;
     }
