@@ -7,20 +7,20 @@ import java.io.File;
  */
 public class Item {
     private String name;
-    private String description;
+    private String locationDescription;
     private File picture;
     private File audioRecording;
 
-    public Item (String name, String description) {
+    public Item (String name, String locationDescription) {
         if (name == null) {
             throw new IllegalArgumentException("Item name cannot be null");
         }
         this.name = name;
 
-        if (description == null) {
-            description = "";
+        if (locationDescription == null) {
+            locationDescription = "";
         }
-        this.description = description;
+        this.locationDescription = locationDescription;
     }
 
     public String getName() {
@@ -31,12 +31,12 @@ public class Item {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getLocationDescription() {
+        return locationDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setLocationDescription(String locationDescription) {
+        this.locationDescription = locationDescription;
     }
 
     public File getPicture() {
@@ -53,5 +53,9 @@ public class Item {
 
     public void setAudioRecording(File audioRecording) {
         this.audioRecording = audioRecording;
+    }
+
+    public String toString() {
+        return name;
     }
 }

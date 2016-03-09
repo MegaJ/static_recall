@@ -40,10 +40,16 @@ public class ItemCategory {
     }
 
     public void setCategoryName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Category name cannot be null");
+        }
         this.name = name;
     }
 
     public void add (Item item) {
+        if (item == null) {
+            throw new IllegalArgumentException("Cannot add a null item to an category");
+        }
         items.add(item);
     }
 
@@ -56,6 +62,8 @@ public class ItemCategory {
         this.add(itemName, "");
     }
 
-
+    public String toString() {
+        return name;
+    }
 
 }

@@ -21,32 +21,30 @@ import java.util.List;
 public class SearchViewActivity extends AppCompatActivity {
     CategoryListAdapter listAdapter;
     ExpandableListView expListView;
-    List<ItemCategory> itemCategories = new ArrayList<ItemCategory>();
-
-    ItemCategory medical = new ItemCategory("Medical");
-    ItemCategory docs = new ItemCategory("Important Documents");
-    ItemCategory travel = new ItemCategory("Travel");
+    List<ItemCategory> itemCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_view);
 
+        itemCategories = ItemManager.INSTANCE.getAllCategories();
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         listAdapter = new CategoryListAdapter(this, itemCategories);
-        prepareListData();
+//        prepareListData();
         expListView.setAdapter(listAdapter);
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                         int childPosition, long id) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        itemCategories.get(groupPosition).getName()
-                                + " : "
-                                + itemCategories.get(groupPosition)
-                                .getItems().get(childPosition).getName(), Toast.LENGTH_SHORT)
-                        .show();
+//                Toast.makeText(
+//                        getApplicationContext(),
+//                        itemCategories.get(groupPosition).getName()
+//                                + " : "
+//                                + itemCategories.get(groupPosition)
+//                                .getItems().get(childPosition).getName(), Toast.LENGTH_SHORT)
+//                        .show();
+
                 return false;
             }
         });
@@ -61,15 +59,11 @@ public class SearchViewActivity extends AppCompatActivity {
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         android.widget.SearchView searchView =
                 (android.widget.SearchView) menu.findItem(R.id.search).getActionView();
-        System.out.println("search view ------------------------> " + searchView);
-        System.out.println("------------------------> " + getComponentName());
-        System.out.println("------------------------>" + searchManager.getSearchableInfo(getComponentName()));
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
         searchView.setIconifiedByDefault(false);
         return true;
-
     }
 
     @Override
@@ -93,45 +87,18 @@ public class SearchViewActivity extends AppCompatActivity {
         // TODO: implement this, after user adds something, they should see it
     }
 
-    private void prepareListData() {
-        // TODO: Cannot leave this hardcoded. Must load the categories dynamically.
-
-        travel.add("Passport");
-        travel.add("Suitcase");
-        travel.add("Toothbrush");
-        travel.add("Books");
-        travel.add("Flight Ticket");
-        travel.add("iPod");
-        travel.add("Jacket");
-
-        docs.add("Birth Certificate");
-        docs.add("Social Security Card");
-        docs.add("Academic Transcript");
-        docs.add("W2 Forms");
-        docs.add("Job Application");
-        docs.add("Groupon for Pilates");
-
-        medical.add("Shot Record");
-        medical.add("Antibiotics");
-        medical.add("Birth Control");
-        medical.add("Pamphlet about the Flu Shot");
-        medical.add("Doctor's Business Card");
-
-        listAdapter.addItemCategoriesWithACategory(travel);
-        listAdapter.addItemCategoriesWithACategory(travel);
-        listAdapter.addItemCategoriesWithACategory(travel);
-
-        // or should I use fillItemCategoriesWithACategory instead()?
-    }
-
-    private void fillItemCategoriesWithACategory(ItemCategory aCategory) {
-        if(aCategory == null) {
-            throw new IllegalArgumentException("aCategory is null");
-        }
-        itemCategories.add(aCategory);
-    }
-
     public void searchItems (String query) {
-        System.out.println("------------> itemManager stuff!: " + ItemManager.INSTANCE.getitemInt());
+        // TODO: actually search for items
+        itemCategories = ItemManager.INSTANCE.getAllCategories();
+        for (ItemCategory category : itemCategories) {
+            System.out.println("Category: " + category);
+        }
     }
+
+    public void searchItems (View view) {
+        // this is for clicking the button only. I'm not sure which version of searchItems
+        // we want to use.
+    }
+
+
 }
