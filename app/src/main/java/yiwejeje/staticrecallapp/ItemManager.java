@@ -87,6 +87,7 @@ public enum ItemManager {
         medical.add("Pamphlet about the Flu Shot");
         medical.add("Doctor's Business Card");
 
+        this.addCategory(uncategorized);
         this.addCategory(docs);
         this.addCategory(medical);
         this.addCategory(travel);
