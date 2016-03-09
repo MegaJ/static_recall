@@ -19,13 +19,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SearchViewActivity extends AppCompatActivity {
-    ExpandableListAdapter listAdapter;
+    CategoryListAdapter listAdapter;
     ExpandableListView expListView;
-    List<String> itemCategories = new ArrayList<String>();
-    HashMap<String, List<String>> itemNames = new HashMap<String, List<String>>();;
-    List<String> medical = new ArrayList<String>();
-    List<String> docs = new ArrayList<String>();
-    List<String> travel = new ArrayList<String>();
+    List<ItemCategory> itemCategories = new ArrayList<ItemCategory>();
+
+    ItemCategory medical = new ItemCategory("Medical");
+    ItemCategory docs = new ItemCategory("Important Documents");
+    ItemCategory travel = new ItemCategory("Travel");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class SearchViewActivity extends AppCompatActivity {
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         prepareListData();
 
-        listAdapter = new ExpandableListAdapter(this, itemCategories, itemNames);
+        listAdapter = new CategoryListAdapter(this, itemCategories);
         expListView.setAdapter(listAdapter);
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
@@ -43,11 +43,10 @@ public class SearchViewActivity extends AppCompatActivity {
                                         int childPosition, long id) {
                 Toast.makeText(
                         getApplicationContext(),
-                        itemCategories.get(groupPosition)
+                        itemCategories.get(groupPosition).getName()
                                 + " : "
-                                + itemNames.get(
-                                itemCategories.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT)
+                                + itemCategories.get(groupPosition)
+                                .getItems().get(childPosition).getName(), Toast.LENGTH_SHORT)
                         .show();
                 return false;
             }
@@ -119,24 +118,27 @@ public class SearchViewActivity extends AppCompatActivity {
         medical.add("Pamphlet about the Flu Shot");
         medical.add("Doctor's Business Card");
 
-        addAndFillNewCategory("Important Documents", docs);
-        addAndFillNewCategory("Medical", medical);
-        addAndFillNewCategory("Travel", travel);
+        fillItemCategoriesWithACategory(travel);
+        fillItemCategoriesWithACategory(docs);
+        fillItemCategoriesWithACategory(medical);
     }
 
-    private void loadArraysIntoCategories(int categoryIndex, List<String> arrayOfItems) {
-        itemNames.put(itemCategories.get(categoryIndex), arrayOfItems);
-    }
-
-    private void addAndFillNewCategory(String categoryName, List<String> arrayOfItems) {
-        if(arrayOfItems == null) {
-            throw new IllegalArgumentException("arrayOfItems is null");
+    private void fillItemCategoriesWithACategory(ItemCategory aCategory) {
+        if(aCategory == null) {
+            throw new IllegalArgumentException("aCategory is null");
         }
-        int nextCategoryIndex = itemCategories.size();
-        itemCategories.add(categoryName);
-        loadArraysIntoCategories(nextCategoryIndex, arrayOfItems);
-
+        itemCategories.add(aCategory);
     }
+//
+//    private void addAndFillNewCategory(String categoryName, List<String> arrayOfItems) {
+//        if(arrayOfItems == null) {
+//            throw new IllegalArgumentException("arrayOfItems is null");
+//        }
+//        int nextCategoryIndex = itemCategories.size();
+//        itemCategories.add(categoryName);
+//        loadArraysIntoCategories(nextCategoryIndex, arrayOfItems);
+//
+//    }
 
     public void searchItems (View view) {
 

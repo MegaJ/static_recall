@@ -17,37 +17,34 @@ import java.util.Map;
  * http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/.
  */
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+public class CategoryListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
-    private List<String> _listDataHeader; // header titles
-    // Category names are unique
-    private Map<String, List<String>> _listDataChild;
+    private List<ItemCategory>  itemCategories;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 Map<String, List<String>> listChildData) {
+    public CategoryListAdapter(Context context, List<ItemCategory> itemCategories) {
         this._context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;
+        this.itemCategories = itemCategories;
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild
-                .get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+    public Object getChild(int categoryPosition, int itemPosition) {
+        ItemCategory itemCategory = itemCategories.get(categoryPosition);
+        Item item = itemCategory.getItems().get(itemPosition);
+        return item;
     }
 
     @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
+    public long getChildId(int categoryPosition, int itemPosition) {
+        return itemPosition;
     }
 
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = (String) getChild(groupPosition, childPosition);
+        Item item = (Item) getChild(groupPosition, childPosition);
+        final String childText = item.getName();
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -63,19 +60,19 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .size();
+    public int getChildrenCount(int categoryPosition) {
+        ItemCategory itemCategory = itemCategories.get(categoryPosition);
+        return itemCategory.getItems().size();
     }
 
     @Override
-    public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+    public Object getGroup(int categoryPosition) {
+        return this.itemCategories.get(categoryPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+        return this.itemCategories.size();
     }
 
     @Override
@@ -86,7 +83,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String headerTitle = (String) getGroup(groupPosition);
+        ItemCategory itemCategory = (ItemCategory) this.getGroup(groupPosition);
+        String headerTitle = itemCategory.getName();
+
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

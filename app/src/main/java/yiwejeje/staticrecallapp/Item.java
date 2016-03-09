@@ -12,7 +12,14 @@ public class Item {
     private File audioRecording;
 
     public Item (String name, String description) {
+        if (name == null) {
+            throw new IllegalArgumentException("Item name cannot be null");
+        }
         this.name = name;
+
+        if (description == null) {
+            description = "";
+        }
         this.description = description;
     }
 
