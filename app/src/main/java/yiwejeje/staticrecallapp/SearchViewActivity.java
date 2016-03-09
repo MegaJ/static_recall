@@ -33,9 +33,8 @@ public class SearchViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_view);
 
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
-        prepareListData();
-
         listAdapter = new CategoryListAdapter(this, itemCategories);
+        prepareListData();
         expListView.setAdapter(listAdapter);
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
@@ -86,13 +85,13 @@ public class SearchViewActivity extends AppCompatActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             System.out.println("-------------> query:" + query);
             //use the query to search your data somehow
+            searchItems(query);
         }
     }
 
     public void refreshList() {
         // TODO: implement this, after user adds something, they should see it
     }
-
 
     private void prepareListData() {
         // TODO: Cannot leave this hardcoded. Must load the categories dynamically.
@@ -118,9 +117,11 @@ public class SearchViewActivity extends AppCompatActivity {
         medical.add("Pamphlet about the Flu Shot");
         medical.add("Doctor's Business Card");
 
-        fillItemCategoriesWithACategory(travel);
-        fillItemCategoriesWithACategory(docs);
-        fillItemCategoriesWithACategory(medical);
+        listAdapter.addItemCategoriesWithACategory(travel);
+        listAdapter.addItemCategoriesWithACategory(travel);
+        listAdapter.addItemCategoriesWithACategory(travel);
+
+        // or should I use fillItemCategoriesWithACategory instead()?
     }
 
     private void fillItemCategoriesWithACategory(ItemCategory aCategory) {
@@ -129,18 +130,8 @@ public class SearchViewActivity extends AppCompatActivity {
         }
         itemCategories.add(aCategory);
     }
-//
-//    private void addAndFillNewCategory(String categoryName, List<String> arrayOfItems) {
-//        if(arrayOfItems == null) {
-//            throw new IllegalArgumentException("arrayOfItems is null");
-//        }
-//        int nextCategoryIndex = itemCategories.size();
-//        itemCategories.add(categoryName);
-//        loadArraysIntoCategories(nextCategoryIndex, arrayOfItems);
-//
-//    }
 
-    public void searchItems (View view) {
-
+    public void searchItems (String query) {
+        System.out.println("------------> itemManager stuff!: " + ItemManager.INSTANCE.getitemInt());
     }
 }

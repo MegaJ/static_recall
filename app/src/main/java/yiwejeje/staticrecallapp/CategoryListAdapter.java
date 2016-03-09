@@ -24,6 +24,9 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
 
     public CategoryListAdapter(Context context, List<ItemCategory> itemCategories) {
         this._context = context;
+        if (itemCategories == null) {
+            throw new IllegalArgumentException("itemCategories cannot be null");
+        }
         this.itemCategories = itemCategories;
     }
 
@@ -98,6 +101,17 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
         lblListHeader.setText(headerTitle);
 
         return convertView;
+    }
+
+    public boolean addItemCategoriesWithACategory(ItemCategory aCategory) {
+        if(aCategory == null) {
+            throw new IllegalArgumentException("aCategory is null");
+        }
+        return itemCategories.add(aCategory);
+    }
+
+    public boolean removeAnItemCategory(ItemCategory itemCategory) {
+        return itemCategories.remove(itemCategory);
     }
 
     @Override

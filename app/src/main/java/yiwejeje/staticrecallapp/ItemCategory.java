@@ -24,6 +24,9 @@ public class ItemCategory {
     }
 
     public ItemCategory(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("ItemCategory cannot be null");
+        }
         this.name = name;
         items = new ArrayList<Item>();
     }
@@ -36,7 +39,7 @@ public class ItemCategory {
         return name;
     }
 
-    public void setName(String name) {
+    public void setCategoryName(String name) {
         this.name = name;
     }
 
