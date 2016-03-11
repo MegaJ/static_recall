@@ -40,6 +40,30 @@ public enum ItemManager {
         return added;
     }
 
+    public boolean addCategory(String categoryName) {
+        if (categoryName == null) {
+            throw new IllegalArgumentException("A category cannot have a null name");
+        }
+
+        if (this.hasCategoryWithName(categoryName)) {
+            return false;
+        } else {
+            ItemCategory newCategory = new ItemCategory(categoryName);
+            return addCategory(newCategory);
+        }
+    }
+
+    private boolean hasCategoryWithName(String categoryName) {
+
+        for (ItemCategory itemCategory : allCategories) {
+            if (itemCategory.getName().equals(categoryName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean removeCategory(ItemCategory aCategory) {
         // TODO: ask the user if they are sure they want to remove all the items
         // TODO: remove from the set of items as well
