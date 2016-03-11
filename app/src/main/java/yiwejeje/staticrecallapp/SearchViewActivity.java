@@ -23,6 +23,7 @@ public class SearchViewActivity extends AppCompatActivity {
     CategoryListAdapter listAdapter;
     ExpandableListView expListView;
     List<ItemCategory> itemCategories;
+    ItemManager itemManager = ItemManager.INSTANCE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

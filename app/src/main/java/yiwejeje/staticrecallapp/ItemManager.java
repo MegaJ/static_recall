@@ -1,6 +1,8 @@
 package yiwejeje.staticrecallapp;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +18,7 @@ public enum ItemManager {
 
     private ItemManager() {
 
-        allCategories = new ArrayList<ItemCategory>();
+        allCategories = new ArrayList<ItemCategory>();;
         allItems = new HashSet<Item>();
         initializePresetData();
     }
@@ -33,13 +35,17 @@ public enum ItemManager {
         if (aCategory == null) {
             throw new IllegalArgumentException("Cannot add null category in ItemManager");
         }
-        return allCategories.add(aCategory);
+        boolean added = allCategories.add(aCategory);
+        Collections.sort(allCategories, new CategoryComparator());
+        return added;
     }
 
     public boolean removeCategory(ItemCategory aCategory) {
         // TODO: ask the user if they are sure they want to remove all the items
         // TODO: remove from the set of items as well
-        return allCategories.remove(aCategory);
+        boolean removed = allCategories.remove(aCategory);
+        Collections.sort(allCategories, new CategoryComparator());
+        return removed;
     }
 
     public Item removeByGroupAndChildIndex(int groupIndex, int childIndex) {
@@ -54,12 +60,46 @@ public enum ItemManager {
         this.allItems = allItems;
     }
 
-    public boolean addItem() {
+    // add item to a category
+    public boolean addItemToCategory(Item item, ItemCategory aCategory) {
+        addToSetOfItems(item);
+        // if allCategories contains aCategory, add the item in that category
+        allCategories.add(aCategory);
         return true;
     }
 
-    public boolean removeItem() {
+    public boolean addItem(Item item) {
+        //adds item into default category
+        addToSetOfItems(item);
+        boolean hasUncategorized = false;
+        for(int i=0; i < allCategories.size(); i++) {
+            if (allCategories.get(i).getName().equals("Uncategorized")) {
+                hasUncategorized = true;
+                allCategories.get(i).add(item);
+            }
+        }
+
+        if (!hasUncategorized) {
+            ItemCategory uncategorized = new ItemCategory("Uncategorized");
+            allCategories.add(uncategorized);
+        }
+
         return true;
+    }
+
+    private boolean addToSetOfItems(Item item) {
+        return allItems.add(item);
+    }
+
+    public boolean removeItem(Item item) {
+        boolean removedFromSet = removeItemFromSet(item);
+        boolean removedFromAllCategories;
+
+        return true;
+    }
+
+    private boolean removeItemFromSet(Item item) {
+        return allItems.remove(item);
     }
 
     private void initializePresetData() {
