@@ -1,6 +1,9 @@
 package yiwejeje.staticrecallapp;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Static Recall Heroes
@@ -10,6 +13,8 @@ public class Item {
     private String locationDescription;
     private File picture;
     private File audioRecording;
+
+    private Set<ItemCategory> categories = new HashSet<ItemCategory>();
 
     public Item (String name, String locationDescription) {
         if (name == null) {
@@ -21,6 +26,13 @@ public class Item {
             locationDescription = "";
         }
         this.locationDescription = locationDescription;
+    }
+
+    public Item (String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Item name cannot be null");
+        }
+        this.name = name;
     }
 
     public String getName() {
@@ -53,6 +65,14 @@ public class Item {
 
     public void setAudioRecording(File audioRecording) {
         this.audioRecording = audioRecording;
+    }
+
+    public Set<ItemCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<ItemCategory> categories) {
+        this.categories = categories;
     }
 
     public String toString() {

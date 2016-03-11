@@ -25,7 +25,7 @@ public class ItemCategory {
 
     public ItemCategory(String name) {
         if (name == null) {
-            throw new IllegalArgumentException("ItemCategory cannot be null");
+            throw new IllegalArgumentException("ItemCategory's name cannot be null");
         }
         this.name = name;
         items = new ArrayList<Item>();
