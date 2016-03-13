@@ -84,7 +84,7 @@ public class Item {
             throw new IllegalArgumentException("Cannot add an item to a null category");
         }
 
-        if (!this.belongsToCategory(aCategory)) {
+        if (!this.belongsToCategory(aCategory) || !aCategory.hasItem(this)) {
             this.categories.add(aCategory);
             aCategory.addItem(this);
         }
@@ -93,7 +93,14 @@ public class Item {
     }
 
     public boolean removeCategory(ItemCategory aCategory) {
-        return categories.remove(aCategory);
+
+        if (this.belongsToCategory(aCategory) || aCategory.hasItem(this)) {
+            this.categories.remove(aCategory);
+            aCategory.removeItem(this);
+        } else {
+            return false;
+        }
+        return true;
     }
 
     public String toString() {

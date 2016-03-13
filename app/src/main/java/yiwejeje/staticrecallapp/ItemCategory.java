@@ -78,7 +78,7 @@ public class ItemCategory {
             return false;
         }
 
-        if (!item.belongsToCategory(this)) {
+        if (!item.belongsToCategory(this) || !this.hasItem(item)) {
             this.items.add(item);
             item.addCategory(this);
         }
@@ -98,9 +98,17 @@ public class ItemCategory {
 
     // ------ Removing ------
 
-    public boolean remove(Item item) {
-        item.removeCategory(this);
-        return this.items.remove(item);
+    public boolean removeItem(Item item) {
+
+        if (item.belongsToCategory(this) || this.hasItem(item)) {
+            this.items.remove(item);
+            item.removeCategory(this);
+        } else {
+            return false;
+        }
+
+        Collections.sort(items, new ItemComparator());
+        return true;
     }
 
     public String toString() {

@@ -195,13 +195,13 @@ public enum ItemManager {
         uncategorized.addItem("Birthday present for mom");
         uncategorized.addItem("Birthday present for mom");
 
-//        travel.addItem("Passport");
-//        travel.addItem("Suitcase");
-//        travel.addItem("Toothbrush");
-//        travel.addItem("Books");
-//        travel.addItem("Flight Ticket");
-//        travel.addItem("iPod");
-//        travel.addItem("Jacket");
+        travel.addItem("Passport");
+        travel.addItem("Suitcase");
+        travel.addItem("Toothbrush");
+        travel.addItem("Books");
+        travel.addItem("Flight Ticket");
+        travel.addItem("iPod");
+        travel.addItem("Jacket");
 
         docs.addItem("Birth Certificate");
         docs.addItem("Social Security Card");
@@ -216,10 +216,20 @@ public enum ItemManager {
         medical.addItem("Pamphlet about the Flu Shot");
         medical.addItem("Doctor's Business Card");
 
+        Item raisinBread = new Item("Raisin Bread");
+        travel.addItem(raisinBread);
+        medical.addItem(raisinBread);
+        medical.removeItem(raisinBread);
+        raisinBread.removeCategory(travel);
+
+        raisinBread.addCategory(medical);
+
         this.addCategory(uncategorized);
         this.addCategory(docs);
         this.addCategory(medical);
         this.addCategory(travel);
+
+
 
         for (Item item : allItems) {
             System.out.println("----------> TEST: " + item + ": categories: " + item.getCategories());
