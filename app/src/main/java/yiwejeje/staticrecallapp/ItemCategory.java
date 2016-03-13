@@ -46,20 +46,40 @@ public class ItemCategory {
         this.name = name;
     }
 
-    public void add (Item item) {
+    public boolean hasItem(Item item) {
+        System.out.println("------> category has item?: " + item + items.contains(item));
+        return items.contains(item);
+    }
+
+    // ------ Adding ------
+
+    public boolean addItem (Item item) {
         if (item == null) {
-            throw new IllegalArgumentException("Cannot add a null item to an category");
+            throw new IllegalArgumentException("Cannot add a null item to a category");
         }
-        items.add(item);
+
+        if (!item.belongsToCategory(this)) {
+            this.items.add(item);
+            item.addCategory(this);
+        }
+
+        return true;
     }
 
-    public void add (String itemName, String locationDescription) {
+    public void addItem (String itemName, String locationDescription) {
         Item item = new Item(itemName, locationDescription);
-        this.add(item);
+        this.addItem(item);
     }
 
-    public void add (String itemName) {
-        this.add(itemName, "");
+    public void addItem (String itemName) {
+        this.addItem(itemName, "");
+    }
+
+    // ------ Removing ------
+
+    public boolean remove(Item item) {
+        item.removeCategory(this);
+        return this.items.remove(item);
     }
 
     public String toString() {

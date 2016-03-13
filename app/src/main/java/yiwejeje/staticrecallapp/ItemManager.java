@@ -14,6 +14,7 @@ public enum ItemManager {
     INSTANCE;
     List<ItemCategory> allCategories;
     Set<Item> allItems;
+    public static final String DEFAULT_CATEGORY = "Uncategorized";
 
     private ItemManager() {
 
@@ -68,16 +69,18 @@ public enum ItemManager {
 
         boolean added = allCategories.add(aCategory);
         Collections.sort(allCategories, new CategoryComparator());
+        addItemsFromCategoryToSetOfItems(aCategory);
         return added;
     }
 
     public boolean addCategory(String categoryName) {
+        ItemCategory newCategory = new ItemCategory(categoryName);
+        return addCategory(newCategory);
+    }
 
-        if (this.hasCategoryWithName(categoryName)) {
-            return false;
-        } else {
-            ItemCategory newCategory = new ItemCategory(categoryName);
-            return addCategory(newCategory);
+    private void addItemsFromCategoryToSetOfItems (ItemCategory aCategory) {
+        for (Item item : aCategory.getItems()) {
+            allItems.add(item);
         }
     }
 
@@ -92,7 +95,7 @@ public enum ItemManager {
         }
 
         addToSetOfItems(item);
-        aCategory.add(item);
+        aCategory.addItem(item);
         return true;
     }
 
@@ -117,7 +120,7 @@ public enum ItemManager {
         ItemCategory defaultCategory = getCategoryByName("Uncategorized");
 
         if (defaultCategory != null) {
-            defaultCategory.add(item);
+            defaultCategory.addItem(item);
         } else {
             ItemCategory uncategorized = new ItemCategory("Uncategorized");
             allCategories.add(uncategorized);
@@ -168,6 +171,19 @@ public enum ItemManager {
         return allItems.remove(item);
     }
 
+    // Remove an item from allItems if it no longer belongs to any categories
+    // TODO: must test
+    public void removeItemsInCategoryFromSetOfItems (ItemCategory aCategory) {
+        // Items may belong to multiple categories
+        for (Item item : aCategory.getItems()) {
+            Set<ItemCategory> belongsToCategories = item.getCategories();
+            belongsToCategories.remove(aCategory);
+            if (belongsToCategories.isEmpty()) {
+                removeItemFromSet(item);
+            }
+        }
+    }
+
     // ------ Setup ------
 
     private void initializePresetData() {
@@ -176,32 +192,40 @@ public enum ItemManager {
         ItemCategory docs = new ItemCategory("Important Documents");
         ItemCategory travel = new ItemCategory("Travel");
 
-        uncategorized.add("Birthday present for mom");
+        uncategorized.addItem("Birthday present for mom");
 
-        travel.add("Passport");
-        travel.add("Suitcase");
-        travel.add("Toothbrush");
-        travel.add("Books");
-        travel.add("Flight Ticket");
-        travel.add("iPod");
-        travel.add("Jacket");
-
-        docs.add("Birth Certificate");
-        docs.add("Social Security Card");
-        docs.add("Academic Transcript");
-        docs.add("W2 Forms");
-        docs.add("Job Application");
-        docs.add("Groupon for Pilates");
-
-        medical.add("Shot Record");
-        medical.add("Antibiotics");
-        medical.add("Birth Control");
-        medical.add("Pamphlet about the Flu Shot");
-        medical.add("Doctor's Business Card");
+//        travel.addItem("Passport");
+//        travel.addItem("Suitcase");
+//        travel.addItem("Toothbrush");
+//        travel.addItem("Books");
+//        travel.addItem("Flight Ticket");
+//        travel.addItem("iPod");
+//        travel.addItem("Jacket");
+//
+//        docs.addItem("Birth Certificate");
+//        docs.addItem("Social Security Card");
+//        docs.addItem("Academic Transcript");
+//        docs.addItem("W2 Forms");
+//        docs.addItem("Job Application");
+//        docs.addItem("Groupon for Pilates");
+//
+//        medical.addItem("Shot Record");
+//        medical.addItem("Antibiotics");
+//        medical.addItem("Birth Control");
+//        medical.addItem("Pamphlet about the Flu Shot");
+//        medical.addItem("Doctor's Business Card");
 
         this.addCategory(uncategorized);
-        this.addCategory(docs);
-        this.addCategory(medical);
-        this.addCategory(travel);
+//        this.addCategory(docs);
+//        this.addCategory(medical);
+//        this.addCategory(travel);
+
+        for (Item item : allItems) {
+            System.out.println("----------> TEST: " + item + ": categories: " + item.getCategories());
+        }
+
+        for (ItemCategory aCategory : allCategories) {
+            System.out.println("----------> TEST: " + aCategory + ": items: " + aCategory.getItems());
+        }
     }
 }

@@ -75,6 +75,27 @@ public class Item {
         this.categories = categories;
     }
 
+    public boolean belongsToCategory(ItemCategory aCategory) {
+        System.out.println("------> item belongs to this category?: " + aCategory + categories.contains(aCategory));
+        return categories.contains(aCategory);
+    }
+
+    public boolean addCategory(ItemCategory aCategory) {
+        if (aCategory == null) {
+            throw new IllegalArgumentException("Cannot add an item to a null category");
+        }
+
+        if (!this.belongsToCategory(aCategory)) {
+            this.categories.add(aCategory);
+            aCategory.addItem(this);
+        }
+        return true;
+    }
+
+    public boolean removeCategory(ItemCategory aCategory) {
+        return categories.remove(aCategory);
+    }
+
     public String toString() {
         return name;
     }
