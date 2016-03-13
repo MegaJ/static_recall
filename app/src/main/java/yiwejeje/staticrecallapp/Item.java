@@ -76,7 +76,6 @@ public class Item {
     }
 
     public boolean belongsToCategory(ItemCategory aCategory) {
-        System.out.println("------> item belongs to this category?: " + aCategory + categories.contains(aCategory));
         return categories.contains(aCategory);
     }
 
@@ -89,6 +88,7 @@ public class Item {
             this.categories.add(aCategory);
             aCategory.addItem(this);
         }
+
         return true;
     }
 

@@ -1,6 +1,7 @@
 package yiwejeje.staticrecallapp;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -47,15 +48,34 @@ public class ItemCategory {
     }
 
     public boolean hasItem(Item item) {
-        System.out.println("------> category has item?: " + item + items.contains(item));
         return items.contains(item);
+    }
+
+    private boolean isItemUniqueByName (Item item) {
+        for (Item existingItem : items) {
+            boolean notUniqeItemName = existingItem.getName().equals(item.getName());
+            if (notUniqeItemName) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     // ------ Adding ------
 
+    /**
+     * Enforces uniqueness of item names. Not using a list since it's convenient for the
+     * adapter to access a list of items.
+     *
+     */
     public boolean addItem (Item item) {
         if (item == null) {
             throw new IllegalArgumentException("Cannot add a null item to a category");
+        }
+
+        if (!isItemUniqueByName(item)) {
+            return false;
         }
 
         if (!item.belongsToCategory(this)) {
@@ -63,6 +83,7 @@ public class ItemCategory {
             item.addCategory(this);
         }
 
+        Collections.sort(items, new ItemComparator());
         return true;
     }
 

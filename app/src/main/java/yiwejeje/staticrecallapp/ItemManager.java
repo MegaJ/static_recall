@@ -193,6 +193,7 @@ public enum ItemManager {
         ItemCategory travel = new ItemCategory("Travel");
 
         uncategorized.addItem("Birthday present for mom");
+        uncategorized.addItem("Birthday present for mom");
 
 //        travel.addItem("Passport");
 //        travel.addItem("Suitcase");
@@ -201,24 +202,24 @@ public enum ItemManager {
 //        travel.addItem("Flight Ticket");
 //        travel.addItem("iPod");
 //        travel.addItem("Jacket");
-//
-//        docs.addItem("Birth Certificate");
-//        docs.addItem("Social Security Card");
-//        docs.addItem("Academic Transcript");
-//        docs.addItem("W2 Forms");
-//        docs.addItem("Job Application");
-//        docs.addItem("Groupon for Pilates");
-//
-//        medical.addItem("Shot Record");
-//        medical.addItem("Antibiotics");
-//        medical.addItem("Birth Control");
-//        medical.addItem("Pamphlet about the Flu Shot");
-//        medical.addItem("Doctor's Business Card");
+
+        docs.addItem("Birth Certificate");
+        docs.addItem("Social Security Card");
+        docs.addItem("Academic Transcript");
+        docs.addItem("W2 Forms");
+        docs.addItem("Job Application");
+        docs.addItem("Groupon for Pilates");
+
+        medical.addItem("Shot Record");
+        medical.addItem("Antibiotics");
+        medical.addItem("Birth Control");
+        medical.addItem("Pamphlet about the Flu Shot");
+        medical.addItem("Doctor's Business Card");
 
         this.addCategory(uncategorized);
-//        this.addCategory(docs);
-//        this.addCategory(medical);
-//        this.addCategory(travel);
+        this.addCategory(docs);
+        this.addCategory(medical);
+        this.addCategory(travel);
 
         for (Item item : allItems) {
             System.out.println("----------> TEST: " + item + ": categories: " + item.getCategories());
