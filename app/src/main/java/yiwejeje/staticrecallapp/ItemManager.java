@@ -202,6 +202,7 @@ public enum ItemManager {
         travel.addItem("Flight Ticket");
         travel.addItem("iPod");
         travel.addItem("Jacket");
+        travel.addItem("Mom's goodluck charm");
 
         docs.addItem("Birth Certificate");
         docs.addItem("Social Security Card");
@@ -222,6 +223,8 @@ public enum ItemManager {
         medical.removeItem(raisinBread);
         raisinBread.removeCategory(travel);
 
+        raisinBread.addCategory(medical);
+        raisinBread.addCategory(medical);
         raisinBread.addCategory(medical);
 
         this.addCategory(uncategorized);

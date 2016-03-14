@@ -18,6 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class SearchViewActivity extends AppCompatActivity {
     CategoryListAdapter listAdapter;
@@ -84,10 +85,22 @@ public class SearchViewActivity extends AppCompatActivity {
     }
 
     public void searchItems (String query) {
-        // TODO: actually search for items
-        for (ItemCategory category : itemCategories) {
-            System.out.println("Category: " + category);
+        String regexQuery = "(.*)" + query.toLowerCase() + "(.*)";
+
+        List<Item> results = new ArrayList<Item>();
+        boolean foundMatch = false;
+        for (Item item : itemManager.allItems) {
+            foundMatch = Pattern.matches(regexQuery, item.getName().toLowerCase());
+            if (foundMatch) {
+                results.add(item);
+            }
         }
+
+        System.out.println("------> Results: " + results);
+
+        // find all items matching query in ItemManager.
+
+        // then refill the CategoryListAdapter.
     }
 
     public void searchItems (View view) {

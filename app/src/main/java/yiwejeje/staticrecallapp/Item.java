@@ -84,6 +84,8 @@ public class Item {
             throw new IllegalArgumentException("Cannot add an item to a null category");
         }
 
+        // TODO: implement requirement for uniqueness category's name or use a hashmap
+
         if (!this.belongsToCategory(aCategory) || !aCategory.hasItem(this)) {
             this.categories.add(aCategory);
             aCategory.addItem(this);
