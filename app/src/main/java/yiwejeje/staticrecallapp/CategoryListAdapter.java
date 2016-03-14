@@ -33,6 +33,7 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
     public void setSingleCategory(ItemCategory aCategory) {
         itemCategories.clear();
         itemCategories.add(aCategory);
+        this.notifyDataSetChanged();
     }
 
     @Override

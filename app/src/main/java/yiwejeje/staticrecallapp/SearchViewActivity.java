@@ -93,7 +93,7 @@ public class SearchViewActivity extends AppCompatActivity {
                 this.itemsResultsList.add(item);
             }
         }
-
+        System.out.println("------> Results: " + this.itemsResultsList);
         this.resultsCategory.setItems(itemsResultsList);
         listAdapter.setSingleCategory(resultsCategory);
 
