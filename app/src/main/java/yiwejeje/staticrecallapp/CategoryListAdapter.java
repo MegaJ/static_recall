@@ -30,6 +30,11 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
         this.itemCategories = itemCategories;
     }
 
+    public void setSingleCategory(ItemCategory aCategory) {
+        itemCategories.clear();
+        itemCategories.add(aCategory);
+    }
+
     @Override
     public Object getChild(int categoryPosition, int itemPosition) {
         ItemCategory itemCategory = itemCategories.get(categoryPosition);

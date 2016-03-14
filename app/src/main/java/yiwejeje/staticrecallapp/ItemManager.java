@@ -217,6 +217,9 @@ public enum ItemManager {
         medical.addItem("Pamphlet about the Flu Shot");
         medical.addItem("Doctor's Business Card");
 
+        Item momsSpaghettiRecipe = new Item("Mom's Spaghetti Recipe");
+        momsSpaghettiRecipe.addCategory(docs);
+
         Item raisinBread = new Item("Raisin Bread");
         travel.addItem(raisinBread);
         medical.addItem(raisinBread);

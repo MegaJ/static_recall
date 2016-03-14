@@ -36,6 +36,10 @@ public class ItemCategory {
         return items;
     }
 
+    public void setItems(List<Item> listOfItems) {
+        items = listOfItems;
+    }
+
     public String getName() {
         return name;
     }

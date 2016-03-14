@@ -5,26 +5,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 
-import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class SearchViewActivity extends AppCompatActivity {
     CategoryListAdapter listAdapter;
     ExpandableListView expListView;
+
     List<ItemCategory> itemCategories;
     ItemManager itemManager = ItemManager.INSTANCE;
+
+    List<Item> itemsResultsList = new ArrayList<Item>();
+    ItemCategory resultsCategory = new ItemCategory("Results");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,20 +85,19 @@ public class SearchViewActivity extends AppCompatActivity {
     public void searchItems (String query) {
         String regexQuery = "(.*)" + query.toLowerCase() + "(.*)";
 
-        List<Item> results = new ArrayList<Item>();
+        this.itemsResultsList.clear();
         boolean foundMatch = false;
         for (Item item : itemManager.allItems) {
             foundMatch = Pattern.matches(regexQuery, item.getName().toLowerCase());
             if (foundMatch) {
-                results.add(item);
+                this.itemsResultsList.add(item);
             }
         }
 
-        System.out.println("------> Results: " + results);
+        this.resultsCategory.setItems(itemsResultsList);
+        listAdapter.setSingleCategory(resultsCategory);
 
-        // find all items matching query in ItemManager.
-
-        // then refill the CategoryListAdapter.
+        System.out.println("------> Results: " + this.itemsResultsList);
     }
 
     public void searchItems (View view) {
