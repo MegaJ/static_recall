@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/toggleCategory"
+        android:title="@string/category_view"
+        app:showAsAction="always|withText"
+        android:onClick="loadCategories" />
+
     <item android:id="@+id/search"
         android:title="@string/search_title"
         android:icon="@drawable/magnifying_glass"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView" />
 
     <item android:id="@+id/store"

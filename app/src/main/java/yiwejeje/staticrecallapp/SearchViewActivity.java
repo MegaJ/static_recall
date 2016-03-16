@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,10 +59,25 @@ public class SearchViewActivity extends AppCompatActivity {
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
+        autoExpandSearchWidget(menu, searchView);
+        // I needed more room to add a button to the Action Bar
+        // My preferences for the device I'm working on may not apply to other devices
+        disableAppNameOnActionBar();
+        return true;
+    }
+
+    public void loadCategories (MenuItem menuItem) {
+        System.out.println("------> MENU!!!!");
+    }
+
+    private void autoExpandSearchWidget(Menu menu, SearchView searchView) {
         MenuItem searchMenuItem = menu.findItem( R.id.search ); // get my MenuItem with placeholder submenu
         searchMenuItem.expandActionView(); // Expand the search menu item in order to show by default the query
         searchView.setIconifiedByDefault(false);
-        return true;
+    }
+
+    private void disableAppNameOnActionBar () {
+        this.getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override

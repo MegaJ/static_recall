@@ -14,6 +14,8 @@
     <string name="add_message">Add To Coming Soon</string>
     <string name="title_activity_store_location">StoreLocationActivity</string>
 
+    <string name="category_view">View Categories</string>
+
     <string name="search_title">SearchLocationActivity</string>
     <string name="search_hint">Search stored items</string>
 

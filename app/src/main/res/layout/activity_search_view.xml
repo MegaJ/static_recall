@@ -4,19 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/search_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/searchbar" />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="searchItems"
-        android:text="@string/search_items"
-        android:background="#336B87"
-        android:textColor="#2A3132"/>
-
     <ExpandableListView
         android:id="@+id/lvExp"
         android:layout_height="match_parent"
