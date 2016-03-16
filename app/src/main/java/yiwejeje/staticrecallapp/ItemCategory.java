@@ -37,6 +37,7 @@ public class ItemCategory {
     }
 
     public void setItems(List<Item> listOfItems) {
+        // TODO: Somehow set the items in a defensive programming way
         items = listOfItems;
     }
 

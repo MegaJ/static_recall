@@ -94,8 +94,17 @@ public enum ItemManager {
             throw new IllegalArgumentException("Item category cannot be null");
         }
 
+        // TODO: Test this function
+        ItemCategory possiblyExistingCategory = getCategoryByName(aCategory.getName());
+
+        if (possiblyExistingCategory == null) {
+            this.addCategory(aCategory);
+            aCategory.addItem(item);
+        } else {
+            possiblyExistingCategory.addItem(item);
+        }
+
         addToSetOfItems(item);
-        aCategory.addItem(item);
         return true;
     }
 
@@ -105,7 +114,6 @@ public enum ItemManager {
     }
 
     public boolean addItemToCategory(Item item, String categoryName) {
-        addToSetOfItems(item);
         ItemCategory candidateCategory = this.getCategoryByName(categoryName);
         return addItemToCategory(item, candidateCategory);
     }

@@ -75,6 +75,7 @@ public class SearchViewActivity extends AppCompatActivity {
             System.out.println("-------------> query:" + query);
             //use the query to search your data somehow
             searchItems(query);
+            showResults();
         }
     }
 
@@ -94,10 +95,14 @@ public class SearchViewActivity extends AppCompatActivity {
             }
         }
         System.out.println("------> Results: " + this.itemsResultsList);
+    }
+
+    private void showResults() {
         this.resultsCategory.setItems(itemsResultsList);
         listAdapter.setSingleCategory(resultsCategory);
 
-        System.out.println("------> Results: " + this.itemsResultsList);
+        // We want the list of found items expanded by default
+        expListView.expandGroup(0);
     }
 
     public void searchItems (View view) {
