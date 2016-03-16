@@ -66,8 +66,12 @@ public class SearchViewActivity extends AppCompatActivity {
         return true;
     }
 
-    public void loadCategories (MenuItem menuItem) {
-        System.out.println("------> MENU!!!!");
+    public boolean loadCategories (MenuItem menuItem) {
+        System.out.println("------> Attempt to reload categories!");
+        listAdapter.setItemCategories(itemManager.getAllCategories());
+        System.out.println("------> Item Categories: " + itemManager.getAllCategories());
+        expListView.collapseGroup(0);
+        return true;
     }
 
     private void autoExpandSearchWidget(Menu menu, SearchView searchView) {
@@ -82,9 +86,9 @@ public class SearchViewActivity extends AppCompatActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
+        System.out.println("-------------> NEW INTENT FIRED WITHIN SEARCHVIEW");
         setIntent(intent);
         handleIntent(intent);
-        System.out.println("-------------> NEW INTENT FIRED WITHIN SEARCHVIEW");
     }
 
     private void handleIntent(Intent intent) {
@@ -123,11 +127,4 @@ public class SearchViewActivity extends AppCompatActivity {
         // We want the list of found items expanded by default
         expListView.expandGroup(0);
     }
-
-    public void searchItems (View view) {
-        // this is for clicking the button only. I'm not sure which version of searchItems
-        // we want to use.
-    }
-
-
 }

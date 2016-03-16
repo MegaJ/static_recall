@@ -1,5 +1,6 @@
 package yiwejeje.staticrecallapp;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +33,13 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
     }
 
     public void setSingleCategory(ItemCategory aCategory) {
-        itemCategories.clear();
+        itemCategories = new ArrayList<>(1);
         itemCategories.add(aCategory);
+        this.notifyDataSetChanged();
+    }
+
+    public void setItemCategories (List<ItemCategory> itemCategories) {
+        this.itemCategories = itemCategories;
         this.notifyDataSetChanged();
     }
 
