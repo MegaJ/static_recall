@@ -17,13 +17,13 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Item Title"
+        android:hint="Item Title"
+        android:text=""
         android:textColor="#d00d0c0c"
         android:ems="10"
         android:textSize="40sp"
         android:textStyle="bold"
-        android:id="@+id/editText"
+        android:id="@+id/editCategories"
         android:layout_marginTop="108dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -35,23 +35,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Location:"
+
+        android:text="Location"
         android:textSize="35sp"
         android:textColor="#354950"
         android:textStyle="bold"
         android:id="@+id/textView"
-        android:layout_below="@+id/editText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="39dp" />
-    <!--android:textColor="#FE938C"-->
-
-    <!--<ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
-        android:layout_below="@+id/imageButton2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />-->
+        android:layout_marginTop="147dp"
+        android:layout_below="@+id/editCategories"
+        android:layout_alignRight="@+id/imageButton4"
+        android:layout_alignEnd="@+id/imageButton4" />
 
     <ImageButton
         android:layout_width="100dp"
@@ -59,7 +52,6 @@
         android:id="@+id/imageButton2"
         android:src="@drawable/camera"
         android:scaleType="fitXY"
-
         android:layout_alignTop="@+id/imageButton4"
         android:layout_toLeftOf="@+id/textView"
         android:layout_toStartOf="@+id/textView" />
@@ -71,8 +63,8 @@
         android:id="@+id/imageButton3"
         android:src="@drawable/soundwave"
         android:layout_alignTop="@+id/imageButton4"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
+        android:layout_alignRight="@+id/editText"
+        android:layout_alignEnd="@+id/editText" />
 
     <ImageButton
         android:layout_width="110dp"
@@ -80,22 +72,50 @@
         android:scaleType="fitXY"
         android:id="@+id/imageButton4"
         android:src="@drawable/text"
-        android:layout_below="@+id/textView"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
     <EditText
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/editText2"
-        android:text="Enter text here"
+        android:hint="Type in Location Here"
+        android:text=""
         android:textSize="35sp"
         android:textColor="#d00e0e0e"
         android:textStyle="bold"
         android:layout_below="@+id/imageButton2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp" />
-    <!--android:textColor="#4281A4"-->
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:hint="Add Category Tags "
+        android:text=""
+        android:ems="10"
+        android:textSize="40sp"
+        android:layout_below="@+id/editCategories"
+        android:layout_alignParentLeft="true"
+        android:textColor="#d00e0e0e"
+        android:textStyle="bold"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:textSize="40sp"
+        android:background="#fb5a5a"
+        android:textColor="#dddddf"
+        android:textStyle="bold"
+        android:id="@+id/button"
+        android:layout_marginTop="57dp"
+        android:layout_below="@+id/editText2"
+        android:layout_alignLeft="@+id/imageButton4"
+        android:layout_alignStart="@+id/imageButton4" />
+
 
 </RelativeLayout>
