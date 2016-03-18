@@ -10,21 +10,19 @@ import java.util.Set;
  * Created by Static Recall Heroes on 3/8/16.
  */
 
-public enum ItemManager {
+public enum CategoryManager {
     INSTANCE;
     List<ItemCategory> allCategories;
-    Set<Item> allItems;
     public static final String DEFAULT_CATEGORY = "Uncategorized";
 
-    private ItemManager() {
+    private CategoryManager() {
 
         allCategories = new ArrayList<ItemCategory>();
-        allItems = new HashSet<Item>();
         initializePresetData();
     }
 
     public List<ItemCategory> getAllCategories() {
-        return allCategories;
+        return Collections.unmodifiableList(allCategories);
     }
 
     public void setAllCategories(List<ItemCategory> allCategories) {
@@ -32,11 +30,11 @@ public enum ItemManager {
     }
 
     public Set<Item> getAllItems() {
+        Set<Item> allItems = new HashSet<Item>();
+        for (ItemCategory category : allCategories) {
+            allItems.addAll(category.getItems());
+        }
         return allItems;
-    }
-
-    public void setAllItems(Set<Item> allItems) {
-        this.allItems = allItems;
     }
 
     public ItemCategory getCategoryByName(String categoryName) {
@@ -60,90 +58,24 @@ public enum ItemManager {
 
     public boolean addCategory(ItemCategory aCategory) {
         if (aCategory == null) {
-            throw new IllegalArgumentException("Cannot add null category in ItemManager");
+            throw new IllegalArgumentException("Cannot add null category in CategoryManager");
         }
 
+        // Exception instead of returning false because I want
+        // Buttons and widgets to be greyed out if adding can't happen.
+        // This function shouldn't be used for doing that, so throw exception instead.
         if (this.hasCategoryWithName(aCategory.getName())) {
             throw new IllegalArgumentException("Cannot add an existing category");
         }
 
         boolean added = allCategories.add(aCategory);
         Collections.sort(allCategories, new CategoryComparator());
-        addItemsFromCategoryToSetOfItems(aCategory);
         return added;
     }
 
     public boolean addCategory(String categoryName) {
         ItemCategory newCategory = new ItemCategory(categoryName);
         return addCategory(newCategory);
-    }
-
-    private void addItemsFromCategoryToSetOfItems (ItemCategory aCategory) {
-        for (Item item : aCategory.getItems()) {
-            allItems.add(item);
-        }
-    }
-
-    // ItemCategory must already be held inside ItemManager
-    public boolean addItemToCategory(Item item, ItemCategory aCategory) {
-        if (item == null) {
-            throw new IllegalArgumentException("Item cannot be null");
-        }
-
-        if (aCategory == null) {
-            throw new IllegalArgumentException("Item category cannot be null");
-        }
-
-        // TODO: Test this function
-        ItemCategory possiblyExistingCategory = getCategoryByName(aCategory.getName());
-
-        if (possiblyExistingCategory == null) {
-            this.addCategory(aCategory);
-            aCategory.addItem(item);
-        } else {
-            possiblyExistingCategory.addItem(item);
-        }
-
-        addToSetOfItems(item);
-        return true;
-    }
-
-    public boolean addItemToCategory(String itemName, ItemCategory aCategory) {
-        Item item = new Item(itemName);
-        return addItemToCategory(item, aCategory);
-    }
-
-    public boolean addItemToCategory(Item item, String categoryName) {
-        ItemCategory candidateCategory = this.getCategoryByName(categoryName);
-        return addItemToCategory(item, candidateCategory);
-    }
-
-    public boolean addItemToCategory(String itemName, String categoryName) {
-        Item item = new Item(itemName);
-        return addItemToCategory(item, categoryName);
-    }
-
-    public boolean addItem(Item item) {
-        addToSetOfItems(item);
-        ItemCategory defaultCategory = getCategoryByName("Uncategorized");
-
-        if (defaultCategory != null) {
-            defaultCategory.addItem(item);
-        } else {
-            ItemCategory uncategorized = new ItemCategory("Uncategorized");
-            allCategories.add(uncategorized);
-        }
-
-        return true;
-    }
-
-    public boolean addItem(String string) {
-        Item item = new Item(string);
-        return addItem(item);
-    }
-
-    private boolean addToSetOfItems(Item item) {
-        return allItems.add(item);
     }
 
     // ------ Removal ------
@@ -155,41 +87,13 @@ public enum ItemManager {
     // Items can belong to multiple categories so just remove
     // the copy of the item from that category
     public boolean removeCategory(ItemCategory aCategory) {
-        // TODO: finish implementing
-        removeItemsInCategory(aCategory);
         boolean removed = allCategories.remove(aCategory);
         Collections.sort(allCategories, new CategoryComparator());
-        return removed && removeItemsInCategory(aCategory);
+        return removed;
     }
 
-    private boolean removeItemsInCategory(ItemCategory aCategory) {
-        //TODO: implement removal in this.allItems
-        return true;
-    }
-
-    public boolean removeItem(Item item) {
-        // TODO: implement
-        boolean removedFromSet = removeItemFromSet(item);
-        boolean removedFromAllCategories;
-
-        return true;
-    }
-
-    private boolean removeItemFromSet(Item item) {
-        return allItems.remove(item);
-    }
-
-    // Remove an item from allItems if it no longer belongs to any categories
-    // TODO: must test
-    public void removeItemsInCategoryFromSetOfItems (ItemCategory aCategory) {
-        // Items may belong to multiple categories
-        for (Item item : aCategory.getItems()) {
-            Set<ItemCategory> belongsToCategories = item.getCategories();
-            belongsToCategories.remove(aCategory);
-            if (belongsToCategories.isEmpty()) {
-                removeItemFromSet(item);
-            }
-        }
+    public boolean removeCategory(String categoryName) {
+        return removeCategory(getCategoryByName(categoryName));
     }
 
     // ------ Setup ------
@@ -243,9 +147,9 @@ public enum ItemManager {
         this.addCategory(medical);
         this.addCategory(travel);
 
+        getCategoryByName("Travel").setCategoryName("Travole");
 
-
-        for (Item item : allItems) {
+        for (Item item : this.getAllItems()) {
             System.out.println("----------> TEST: " + item + ": categories: " + item.getCategories());
         }
 

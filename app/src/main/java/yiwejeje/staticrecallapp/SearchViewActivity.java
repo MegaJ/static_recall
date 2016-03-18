@@ -21,7 +21,7 @@ public class SearchViewActivity extends AppCompatActivity {
     ExpandableListView expListView;
 
     List<ItemCategory> itemCategories;
-    ItemManager itemManager = ItemManager.INSTANCE;
+    CategoryManager categoryManager = CategoryManager.INSTANCE;
 
     List<Item> itemsResultsList = new ArrayList<Item>();
     ItemCategory resultsCategory = new ItemCategory("Results");
@@ -31,7 +31,7 @@ public class SearchViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_view);
 
-        itemCategories = ItemManager.INSTANCE.getAllCategories();
+        itemCategories = categoryManager.getAllCategories();
         listAdapter = new CategoryListAdapter(this, itemCategories);
 
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
@@ -68,8 +68,8 @@ public class SearchViewActivity extends AppCompatActivity {
 
     public boolean loadCategories (MenuItem menuItem) {
         System.out.println("------> Attempt to reload categories!");
-        listAdapter.setItemCategories(itemManager.getAllCategories());
-        System.out.println("------> Item Categories: " + itemManager.getAllCategories());
+        listAdapter.setItemCategories(categoryManager.getAllCategories());
+        System.out.println("------> Item Categories: " + categoryManager.getAllCategories());
         expListView.collapseGroup(0);
         return true;
     }
@@ -111,7 +111,7 @@ public class SearchViewActivity extends AppCompatActivity {
 
         this.itemsResultsList.clear();
         boolean foundMatch = false;
-        for (Item item : itemManager.allItems) {
+        for (Item item : categoryManager.getAllItems()) {
             foundMatch = Pattern.matches(regexQuery, item.getName().toLowerCase());
             if (foundMatch) {
                 this.itemsResultsList.add(item);
