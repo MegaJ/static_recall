@@ -20,4 +20,5 @@
     <string name="search_hint">Search stored items</string>
 
     <string name="store_title">StoreLocationActivity</string>
+    <string name="title_activity_search_location_screen">SearchLocationScreen</string>
 </resources>
