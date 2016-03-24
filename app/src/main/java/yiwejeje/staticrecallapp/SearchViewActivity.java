@@ -49,8 +49,8 @@ public class SearchViewActivity extends AppCompatActivity {
 
         try {
             System.out.println("-----> SearchView Activity");
-            //categoryManager.dataToJson(this);
-            categoryManager.retrieve(this);
+            categoryManager.dataToJson(this);
+//            categoryManager.retrieve(this);
         } catch (IOException e) {
             e.printStackTrace();
         }

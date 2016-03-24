@@ -38,11 +38,25 @@ public enum CategoryManager {
     private CategoryManager() {
 
         allCategories = new ArrayList<ItemCategory>();
-        gson = new GsonBuilder().create();
+        configureGson();
         initializePresetData();
 //        System.out.print("---------> GSON PRINTING");
 //        gson.toJson("Hello gson", System.out);
 //        gson.toJson(123, System.out);
+    }
+
+    private void configureGson () {
+        final GsonBuilder gsonBuilder = new GsonBuilder();
+//        gsonBuilder.registerTypeAdapter(ItemCategory.class, new ItemCategorySerializer());
+//        gsonBuilder.registerTypeAdapter(Item.class, new ItemSerializer());
+        new GraphAdapterBuilder()
+                .addType(ItemCategory.class)
+                .addType(Item.class)
+                .registerOn(gsonBuilder);
+        gsonBuilder
+                .serializeNulls()
+                .setPrettyPrinting();
+        gson = gsonBuilder.create();
     }
 
     public List<ItemCategory> getAllCategories() {
@@ -134,31 +148,33 @@ public enum CategoryManager {
     }
 
     public void dataToJson(Context context) throws IOException {
-
-        Writer writer = new FileWriter(context.getFilesDir() + "/" + SAVED_DATA);
-
-        Gson gson = new GsonBuilder().create();
-
-        for (ItemCategory aCategory : allCategories) {
-            gson.toJson(aCategory, writer);
-        }
-        writer.close();
-
-        System.out.println("-----> Attempted to save file");
-
-
-        File file = new File(context.getFilesDir(), SAVED_DATA);
-        InputStream inFileStream = new FileInputStream(file);
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inFileStream));
-        String capturedString = bufferedReader.readLine();
-
-        while (capturedString != null) {
-            System.out.println("-------> Line of JSON: " + capturedString);
-            capturedString = bufferedReader.readLine();
-        }
-
-        bufferedReader.close();
-        inFileStream.close();
+        System.out.println("------> data to json being called!");
+        final String allCategoriesJson = gson.toJson(allCategories);
+        System.out.println(allCategoriesJson);
+//        Writer writer = new FileWriter(context.getFilesDir() + "/" + SAVED_DATA);
+//
+//        Gson gson = new GsonBuilder().create();
+//
+//        for (ItemCategory aCategory : allCategories) {
+//            gson.toJson(aCategory, writer);
+//        }
+//        writer.close();
+//
+//        System.out.println("-----> Attempted to save file");
+//
+//
+//        File file = new File(context.getFilesDir(), SAVED_DATA);
+//        InputStream inFileStream = new FileInputStream(file);
+//        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inFileStream));
+//        String capturedString = bufferedReader.readLine();
+//
+//        while (capturedString != null) {
+//            System.out.println("-------> Line of JSON: " + capturedString);
+//            capturedString = bufferedReader.readLine();
+//        }
+//
+//        bufferedReader.close();
+//        inFileStream.close();
     }
 
     // no syntaex errors.
@@ -177,6 +193,7 @@ public enum CategoryManager {
 
         // the deserializer needs info on type
         Type listOfItemCategories = new TypeToken<List<ItemCategory>>(){}.getType();
+        System.out.println("-----> input stream made from file");
         // s will be text stored in a text file with .json extension
         String s = gson.toJson(allCategories, listOfItemCategories);
         System.out.println("------> allCategories to JSON: " + s);

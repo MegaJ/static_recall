@@ -1,6 +1,7 @@
 package yiwejeje.staticrecallapp;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Static Recall Heroes
  */
-public class Item {
+public class Item implements Serializable {
     private String name;
     private String locationDescription;
     private File picture;

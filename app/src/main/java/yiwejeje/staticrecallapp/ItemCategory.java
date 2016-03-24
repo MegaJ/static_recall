@@ -1,5 +1,6 @@
 package yiwejeje.staticrecallapp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 /**
  * Created by Static Recall Heroes on 3/8/16
  */
-public class ItemCategory {
+public class ItemCategory implements Serializable {
     private String name;
     private List<Item> items;
 
