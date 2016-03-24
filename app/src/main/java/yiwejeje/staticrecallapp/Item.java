@@ -27,8 +27,9 @@ public class Item implements Serializable {
 
         if (locationDescription == null) {
             locationDescription = "";
+        } else {
+            this.locationDescription = locationDescription;
         }
-        this.locationDescription = locationDescription;
     }
 
     public Item (String name) {
@@ -36,6 +37,7 @@ public class Item implements Serializable {
             throw new IllegalArgumentException("Item name cannot be null");
         }
         this.name = name;
+        this.locationDescription = "";
     }
 
     public String getName() {
