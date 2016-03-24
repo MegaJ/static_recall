@@ -19,9 +19,12 @@ public class ItemCategory implements Serializable {
         this.name = name;
 
         if (items == null) {
-            items = new ArrayList<Item>();
+            this.items = new ArrayList<Item>();
         } else {
-            items = this.items;
+            this.items = items;
+            for (Item item : items) {
+                item.addCategory(this);
+            }
         }
     }
 

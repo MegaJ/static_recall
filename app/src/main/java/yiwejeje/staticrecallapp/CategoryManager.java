@@ -40,23 +40,18 @@ public enum CategoryManager {
         allCategories = new ArrayList<ItemCategory>();
         configureGson();
         initializePresetData();
-//        System.out.print("---------> GSON PRINTING");
-//        gson.toJson("Hello gson", System.out);
-//        gson.toJson(123, System.out);
     }
 
     private void configureGson () {
         final GsonBuilder gsonBuilder = new GsonBuilder();
-//        gsonBuilder.registerTypeAdapter(ItemCategory.class, new ItemCategorySerializer());
-//        gsonBuilder.registerTypeAdapter(Item.class, new ItemSerializer());
         new GraphAdapterBuilder()
                 .addType(ItemCategory.class)
                 .addType(Item.class)
                 .registerOn(gsonBuilder);
-        gsonBuilder
+        gson = gsonBuilder
                 .serializeNulls()
-                .setPrettyPrinting();
-        gson = gsonBuilder.create();
+                .setPrettyPrinting()
+                .create();
     }
 
     public List<ItemCategory> getAllCategories() {
@@ -147,10 +142,13 @@ public enum CategoryManager {
 
     }
 
-    public void dataToJson(Context context) throws IOException {
+    public void testJsonFunctionality(Context context) throws IOException {
         System.out.println("------> data to json being called!");
         final String allCategoriesJson = gson.toJson(allCategories);
         System.out.println(allCategoriesJson);
+
+        System.out.println("------> Now calling Retrieve!");
+        retrieve(context, allCategoriesJson);
 //        Writer writer = new FileWriter(context.getFilesDir() + "/" + SAVED_DATA);
 //
 //        Gson gson = new GsonBuilder().create();
@@ -178,30 +176,36 @@ public enum CategoryManager {
     }
 
     // no syntaex errors.
-    public void retrieve(Context context) throws IOException {
-        System.out.println("-----> Attempting to retrieve file!");
-        File file = new File(context.getFilesDir(), SAVED_DATA);
-        System.out.println("-----> file created");
-        InputStream source = new FileInputStream(file);
-        System.out.println("-----> input stream made from file");
-        Reader reader = new InputStreamReader(source);
-
-        // do stuff here
-
-        source.close();
-        reader.close();
+    public void retrieve(Context context, String allCategoriesJson) throws IOException {
+//        System.out.println("-----> Attempting to retrieve file!");
+//        File file = new File(context.getFilesDir(), SAVED_DATA);
+//        System.out.println("-----> file created");
+//        InputStream source = new FileInputStream(file);
+//        System.out.println("-----> input stream made from file");
+//        Reader reader = new InputStreamReader(source);
+//
+//        // do stuff here
+//
+//        source.close();
+//        reader.close();
 
         // the deserializer needs info on type
         Type listOfItemCategories = new TypeToken<List<ItemCategory>>(){}.getType();
-        System.out.println("-----> input stream made from file");
-        // s will be text stored in a text file with .json extension
-        String s = gson.toJson(allCategories, listOfItemCategories);
-        System.out.println("------> allCategories to JSON: " + s);
-        List<ItemCategory> list2 = gson.fromJson(s, listOfItemCategories);
+        System.out.println("-----> Made a TypeToken thing!");
+
+        List<ItemCategory> list2 = gson.fromJson(allCategoriesJson, listOfItemCategories);
 //        ItemCategory aCategory = gson.fromJson(reader, ItemCategory.class);
-
+        System.out.println("-----> Now Printing a Java list!");
         System.out.println(list2);
-
+        allCategories = list2;
+        System.out.println("-----> Now verifying items in categories!");
+        for (ItemCategory category : allCategories) {
+            System.out.println("-------> Printing category's items: " + category.getName() );
+            for (Item item : category.getItems()) {
+                System.out.println("Item Name:" + item.getName());
+                System.out.println("Item Location:" + item.getLocationDescription());
+            }
+        }
 
     }
 
@@ -255,6 +259,13 @@ public enum CategoryManager {
         this.addCategory(travel);
 
         getCategoryByName("Travel").setCategoryName("Travole");
+
+        Item testItem = new Item("testItem");
+        List<Item> itemList = new ArrayList<Item>();
+        itemList.add(raisinBread);
+        itemList.add(testItem);
+        ItemCategory testCategory = new ItemCategory("TestCat", itemList);
+        this.addCategory(testCategory);
 
         for (Item item : this.getAllItems()) {
             System.out.println("----------> TEST: " + item + ": categories: " + item.getCategories());
