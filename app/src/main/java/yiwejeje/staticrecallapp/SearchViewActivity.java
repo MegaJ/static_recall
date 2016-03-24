@@ -12,6 +12,7 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.SearchView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -45,6 +46,14 @@ public class SearchViewActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        try {
+            System.out.println("-----> SearchView Activity");
+            //categoryManager.dataToJson(this);
+            categoryManager.retrieve(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
