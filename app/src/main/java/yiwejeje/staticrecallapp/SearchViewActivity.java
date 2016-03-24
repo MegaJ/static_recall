@@ -12,6 +12,7 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.SearchView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -21,7 +22,7 @@ public class SearchViewActivity extends AppCompatActivity {
     ExpandableListView expListView;
 
     List<ItemCategory> itemCategories;
-    ItemManager itemManager = ItemManager.INSTANCE;
+    CategoryManager categoryManager = CategoryManager.INSTANCE;
 
     List<Item> itemsResultsList = new ArrayList<Item>();
     ItemCategory resultsCategory = new ItemCategory("Results");
@@ -31,7 +32,7 @@ public class SearchViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_view);
 
-        itemCategories = ItemManager.INSTANCE.getAllCategories();
+        itemCategories = categoryManager.getAllCategories();
         listAdapter = new CategoryListAdapter(this, itemCategories);
 
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
@@ -45,6 +46,14 @@ public class SearchViewActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        try {
+            System.out.println("-----> SearchView Activity");
+            categoryManager.testJsonFunctionality(this);
+//            categoryManager.retrieve(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -68,8 +77,8 @@ public class SearchViewActivity extends AppCompatActivity {
 
     public boolean loadCategories (MenuItem menuItem) {
         System.out.println("------> Attempt to reload categories!");
-        listAdapter.setItemCategories(itemManager.getAllCategories());
-        System.out.println("------> Item Categories: " + itemManager.getAllCategories());
+        listAdapter.setItemCategories(categoryManager.getAllCategories());
+        System.out.println("------> Item Categories: " + categoryManager.getAllCategories());
         expListView.collapseGroup(0);
         return true;
     }
@@ -111,7 +120,7 @@ public class SearchViewActivity extends AppCompatActivity {
 
         this.itemsResultsList.clear();
         boolean foundMatch = false;
-        for (Item item : itemManager.allItems) {
+        for (Item item : categoryManager.getAllItems()) {
             foundMatch = Pattern.matches(regexQuery, item.getName().toLowerCase());
             if (foundMatch) {
                 this.itemsResultsList.add(item);

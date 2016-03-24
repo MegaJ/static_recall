@@ -1,14 +1,17 @@
 package yiwejeje.staticrecallapp;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Static Recall Heroes
  */
-public class Item {
+public class Item implements Serializable {
     private String name;
     private String locationDescription;
     private File picture;
@@ -24,8 +27,9 @@ public class Item {
 
         if (locationDescription == null) {
             locationDescription = "";
+        } else {
+            this.locationDescription = locationDescription;
         }
-        this.locationDescription = locationDescription;
     }
 
     public Item (String name) {
@@ -33,6 +37,7 @@ public class Item {
             throw new IllegalArgumentException("Item name cannot be null");
         }
         this.name = name;
+        this.locationDescription = "";
     }
 
     public String getName() {
