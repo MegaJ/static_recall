@@ -18,12 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Item Title"
-        android:text=""
         android:textColor="#d00d0c0c"
         android:ems="10"
         android:textSize="40sp"
         android:textStyle="bold"
-        android:id="@+id/editCategories"
+        android:id="@+id/ItemText"
         android:layout_marginTop="108dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -42,17 +41,18 @@
         android:textStyle="bold"
         android:id="@+id/textView"
         android:layout_marginTop="147dp"
-        android:layout_below="@+id/editCategories"
-        android:layout_alignRight="@+id/imageButton4"
-        android:layout_alignEnd="@+id/imageButton4" />
+        android:layout_below="@+id/ItemText"
+        android:layout_alignRight="@+id/TextButton"
+        android:layout_alignEnd="@+id/TextButton" />
 
     <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:id="@+id/imageButton2"
+        android:id="@+id/CameraButton"
         android:src="@drawable/camera"
         android:scaleType="fitXY"
-        android:layout_alignTop="@+id/imageButton4"
+        android:layout_below="@+id/textView"
+        android:layout_alignTop="@+id/TextButton"
         android:layout_toLeftOf="@+id/textView"
         android:layout_toStartOf="@+id/textView" />
 
@@ -60,44 +60,44 @@
         android:layout_width="110dp"
         android:layout_height="100dp"
         android:scaleType="fitXY"
-        android:id="@+id/imageButton3"
+        android:id="@+id/AudioButton"
         android:src="@drawable/soundwave"
-        android:layout_alignTop="@+id/imageButton4"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText" />
+        android:layout_alignTop="@+id/TextButton"
+        android:layout_alignRight="@+id/CatText"
+        android:layout_below="@+id/textView"
+        android:layout_alignEnd="@+id/CatText" />
 
     <ImageButton
         android:layout_width="110dp"
         android:layout_height="100dp"
         android:scaleType="fitXY"
-        android:id="@+id/imageButton4"
+        android:id="@+id/TextButton"
         android:src="@drawable/text"
         android:layout_centerVertical="true"
+        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/LocationText"
         android:hint="Type in Location Here"
-        android:text=""
         android:textSize="35sp"
         android:textColor="#d00e0e0e"
         android:textStyle="bold"
-        android:layout_below="@+id/imageButton2"
+        android:layout_below="@+id/CameraButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="36dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/CatText"
         android:hint="Add Category Tags "
-        android:text=""
         android:ems="10"
         android:textSize="40sp"
-        android:layout_below="@+id/editCategories"
+        android:layout_below="@+id/ItemText"
         android:layout_alignParentLeft="true"
         android:textColor="#d00e0e0e"
         android:textStyle="bold"
@@ -111,11 +111,11 @@
         android:background="#fb5a5a"
         android:textColor="#dddddf"
         android:textStyle="bold"
-        android:id="@+id/button"
+        android:id="@+id/AddButton"
         android:layout_marginTop="57dp"
-        android:layout_below="@+id/editText2"
-        android:layout_alignLeft="@+id/imageButton4"
-        android:layout_alignStart="@+id/imageButton4" />
+        android:layout_below="@+id/LocationText"
+        android:layout_alignLeft="@+id/TextButton"
+        android:layout_alignStart="@+id/TextButton" />
 
 
 </RelativeLayout>
