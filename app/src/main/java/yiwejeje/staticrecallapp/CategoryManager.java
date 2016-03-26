@@ -1,6 +1,7 @@
 package yiwejeje.staticrecallapp;
 
 import android.content.Context;
+import android.os.Environment;
 import android.provider.MediaStore;
 
 import java.io.BufferedReader;
@@ -13,10 +14,12 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import com.google.gson.Gson;
@@ -31,7 +34,7 @@ import com.google.gson.reflect.TypeToken;
 
 public enum CategoryManager {
     INSTANCE;
-    List<ItemCategory> allCategories;
+    private List<ItemCategory> allCategories;
     public static final String DEFAULT_CATEGORY = "Uncategorized";
     private Gson gson;
 
@@ -136,77 +139,66 @@ public enum CategoryManager {
     // ------ Setup ------
     public static final String SAVED_DATA = "saved_data.json";
 
-    public void save(Context context) {
-
+    public boolean deleteSavedData(Context context) {
         File file = new File(context.getFilesDir(), SAVED_DATA);
-
+        return file.delete();
     }
 
-    public void testJsonFunctionality(Context context) throws IOException {
-        System.out.println("------> data to json being called!");
-        final String allCategoriesJson = gson.toJson(allCategories);
-        System.out.println(allCategoriesJson);
-
-        System.out.println("------> Now calling Retrieve!");
-        retrieve(context, allCategoriesJson);
-//        Writer writer = new FileWriter(context.getFilesDir() + "/" + SAVED_DATA);
-//
-//        Gson gson = new GsonBuilder().create();
-//
-//        for (ItemCategory aCategory : allCategories) {
-//            gson.toJson(aCategory, writer);
-//        }
-//        writer.close();
-//
-//        System.out.println("-----> Attempted to save file");
-//
-//
-//        File file = new File(context.getFilesDir(), SAVED_DATA);
-//        InputStream inFileStream = new FileInputStream(file);
-//        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inFileStream));
-//        String capturedString = bufferedReader.readLine();
-//
-//        while (capturedString != null) {
-//            System.out.println("-------> Line of JSON: " + capturedString);
-//            capturedString = bufferedReader.readLine();
-//        }
-//
-//        bufferedReader.close();
-//        inFileStream.close();
+    public void save(Context context) throws IOException {
+        Writer writer = new FileWriter(context.getFilesDir() + "/" + SAVED_DATA);
+        gson.toJson(allCategories, writer);
+        writer.close();
     }
 
-    // no syntaex errors.
-    public void retrieve(Context context, String allCategoriesJson) throws IOException {
-//        System.out.println("-----> Attempting to retrieve file!");
-//        File file = new File(context.getFilesDir(), SAVED_DATA);
-//        System.out.println("-----> file created");
-//        InputStream source = new FileInputStream(file);
-//        System.out.println("-----> input stream made from file");
-//        Reader reader = new InputStreamReader(source);
-//
-//        // do stuff here
-//
-//        source.close();
-//        reader.close();
+    public boolean load(Context context) throws IOException {
+        final String jsonFileLocation = context.getFilesDir() + "/" + SAVED_DATA;
+        File jsonFile = new File(jsonFileLocation);
 
-        // the deserializer needs info on type
-        Type listOfItemCategories = new TypeToken<List<ItemCategory>>(){}.getType();
-        System.out.println("-----> Made a TypeToken thing!");
+        if (jsonFile.exists()) {
+            System.out.println("------> Json file exists");
+            InputStream jsonStream = new FileInputStream(jsonFile);
+            Reader jsonReader = new InputStreamReader(jsonStream, "UTF-8");
 
-        List<ItemCategory> list2 = gson.fromJson(allCategoriesJson, listOfItemCategories);
-//        ItemCategory aCategory = gson.fromJson(reader, ItemCategory.class);
-        System.out.println("-----> Now Printing a Java list!");
-        System.out.println(list2);
-        allCategories = list2;
-        System.out.println("-----> Now verifying items in categories!");
-        for (ItemCategory category : allCategories) {
-            System.out.println("-------> Printing category's items: " + category.getName() );
-            for (Item item : category.getItems()) {
-                System.out.println("Item Name:" + item.getName());
-                System.out.println("Item Location:" + item.getLocationDescription());
-            }
+            Type listOfItemCategories = new TypeToken<List<ItemCategory>>(){}.getType();
+            this.allCategories = gson.fromJson(jsonReader, listOfItemCategories);
+
+            jsonStream.close();
+            return true;
         }
+        return false;
+    }
 
+    public void printSavedData(Context context) {
+        final String jsonFileLocation = context.getFilesDir() + "/" + SAVED_DATA;
+        String text = null;
+        try {
+            text = getStringFromFile(jsonFileLocation);
+            System.out.println(text);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // http://stackoverflow.com/questions/12910503/read-file-as-string
+    public static String convertStreamToString(InputStream is) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        reader.close();
+        return sb.toString();
+    }
+
+    // http://stackoverflow.com/questions/12910503/read-file-as-string
+    public static String getStringFromFile (String filePath) throws Exception {
+        File fl = new File(filePath);
+        FileInputStream fin = new FileInputStream(fl);
+        String ret = convertStreamToString(fin);
+        //Make sure you close all streams.
+        fin.close();
+        return ret;
     }
 
     private void initializePresetData() {

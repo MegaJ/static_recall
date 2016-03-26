@@ -14,16 +14,19 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.IOException;
+
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class HomeScreenActivity extends AppCompatActivity {
+    CategoryManager categoryManager = CategoryManager.INSTANCE;
+
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
-
     private static final boolean AUTO_HIDE = true;
 
     /**
@@ -101,6 +104,12 @@ public class HomeScreenActivity extends AppCompatActivity {
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
+
+        try {
+            categoryManager.load(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         TextView textView = (TextView) mContentView;
         Context context = this;
