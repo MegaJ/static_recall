@@ -38,16 +38,18 @@ public class StoreLocationActivity extends AppCompatActivity {
                 String strCategory=itemCategory.getText().toString();
                 String strLocation=itemLocation.getText().toString();
                 Item newItem= new Item(strItemTitle,strLocation);
-                ItemCategory newCategory=new ItemCategory(strCategory);
-                ItemManager myItemManager=ItemManager.INSTANCE;
-                List<ItemCategory> allCategories=myItemManager.getAllCategories();
-                if (!(allCategories.contains(newCategory))){
+                CategoryManager myCategoryManager=CategoryManager.INSTANCE;
+                List<ItemCategory> allCategories=myCategoryManager.getAllCategories();
+                ItemCategory existedCategory=myCategoryManager.getCategoryByName(strCategory);
+                if (existedCategory==null){
+                    ItemCategory newCategory=new ItemCategory(strCategory);
                     newCategory.addItem(newItem);
-                    myItemManager.addCategory(newCategory);
+                    boolean ifadded=myCategoryManager.addCategory(newCategory);
                 }
                 else{
-                    myItemManager.getCategoryByName(strCategory).addItem(newItem);
+                    boolean ifadded=existedCategory.addItem(newItem);
                 }
+
 
             }
         });
@@ -56,16 +58,5 @@ public class StoreLocationActivity extends AppCompatActivity {
     }
 
 
-
-//itemManager.getAll
-    //
-
-
-
-    //use intent and category manager
-    //a new method to store location
-    //first an item, then a category, then category manager
-    // ? if only showing existing categories?
-    // *****making sure data is saved
 
 }
