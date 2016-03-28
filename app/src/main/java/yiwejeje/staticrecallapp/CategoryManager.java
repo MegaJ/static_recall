@@ -39,7 +39,6 @@ public enum CategoryManager {
     private Gson gson;
 
     private CategoryManager() {
-
         allCategories = new ArrayList<ItemCategory>();
         configureGson();
         initializePresetData();
