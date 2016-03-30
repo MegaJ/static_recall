@@ -8,14 +8,19 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ImageView;
 import android.widget.SearchView;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -30,7 +35,7 @@ public class SearchViewActivity extends AppCompatActivity {
     List<Item> itemsResultsList = new ArrayList<Item>();
     ItemCategory resultsCategory = new ItemCategory("Results");
 
-    final MediaPlayer mp = new MediaPlayer();
+    MediaPlayer mp = new MediaPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,27 +51,10 @@ public class SearchViewActivity extends AppCompatActivity {
         expListView.setAdapter(listAdapter);
 
         // play a sound when a category is touched
-        // http://stackoverflow.com/questions/19464782/android-how-to-make-a-button-click-play-a-sound-file-every-time-it-been-presse
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                if (mp.isPlaying()) {
-                    mp.stop();
-                }
-
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("sounds/onCategoryClick.wav");
-                    mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+                playSound("sounds/onCategoryClick.wav");
                 return false;
             }
         });
@@ -77,24 +65,8 @@ public class SearchViewActivity extends AppCompatActivity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                         int childPosition, long id) {
 
+                playSound("sounds/onItemClick.wav");
                 // TODO: Do UI things to show information on the clicked item.
-
-                if (mp.isPlaying()) {
-                    mp.stop();
-                }
-
-                try {
-                    mp.reset();
-                    AssetFileDescriptor afd;
-                    afd = getAssets().openFd("sounds/onItemClick.wav");
-                    mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                    mp.prepare();
-                    mp.start();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
                 return false;
             }
@@ -104,7 +76,15 @@ public class SearchViewActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        System.out.println("-----> I have stopped!");
         mp.release();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        mp = new MediaPlayer();
+        System.out.println("-----> I have restarted!");
     }
 
     @Override
@@ -114,10 +94,41 @@ public class SearchViewActivity extends AppCompatActivity {
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        android.widget.SearchView searchView =
-                (android.widget.SearchView) menu.findItem(R.id.search).getActionView();
+
+        // these are declared final because they are used in an inner class
+        // Android Studio said so.
+        final MenuItem searchMenu = menu.findItem(R.id.search);
+        final android.widget.SearchView searchView =
+                (android.widget.SearchView) searchMenu.getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+
+        // Getting the little x button in the search widget is hard
+        // http://stackoverflow.com/questions/25930380/android-search-widgethow-to-hide-the-close-button-in-search-view-by-default
+        // http://stackoverflow.com/questions/24794377/android-capture-searchview-text-clear-by-clicking-x-button
+        ImageView searchCloseButton;
+        try {
+            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
+            searchField.setAccessible(true);
+            searchCloseButton = (ImageView) searchField.get(searchView);
+
+            searchCloseButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    System.out.println("-----> Search closed");
+                    searchView.setQuery("", false);
+                    //Collapse the action view
+                    searchView.onActionViewCollapsed();
+                    //Collapse the search widget
+                    searchMenu.collapseActionView();
+                    loadCategories();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // autoExpandSearchWidget(menu, searchView);
         // I needed more room to add a button to the Action Bar
@@ -126,7 +137,12 @@ public class SearchViewActivity extends AppCompatActivity {
         return true;
     }
 
+    // This is so the xml's android:onClick can link with loadCategories
     public boolean loadCategories (MenuItem menuItem) {
+        return loadCategories();
+    }
+
+    public boolean loadCategories () {
         System.out.println("------> Attempt to reload categories!");
         listAdapter.setItemCategories(categoryManager.getAllCategories());
         System.out.println("------> Item Categories: " + categoryManager.getAllCategories());
@@ -186,5 +202,24 @@ public class SearchViewActivity extends AppCompatActivity {
 
         // We want the list of found items expanded by default
         expListView.expandGroup(0);
+    }
+    // http://stackoverflow.com/questions/19464782/android-how-to-make-a-button-click-play-a-sound-file-every-time-it-been-presse
+    private void playSound(String soundLocation) {
+        if (mp.isPlaying()) {
+            mp.stop();
+        }
+
+        try {
+            mp.reset();
+            AssetFileDescriptor afd;
+            afd = getAssets().openFd(soundLocation);
+            mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            mp.prepare();
+            mp.start();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
