@@ -3,6 +3,9 @@ package yiwejeje.staticrecallapp;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -27,25 +30,83 @@ public class SearchViewActivity extends AppCompatActivity {
     List<Item> itemsResultsList = new ArrayList<Item>();
     ItemCategory resultsCategory = new ItemCategory("Results");
 
+    final MediaPlayer mp = new MediaPlayer();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_view);
+
+        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         itemCategories = categoryManager.getAllCategories();
         listAdapter = new CategoryListAdapter(this, itemCategories);
 
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setAdapter(listAdapter);
+
+        // http://stackoverflow.com/questions/19464782/android-how-to-make-a-button-click-play-a-sound-file-every-time-it-been-presse
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if (mp.isPlaying()) {
+                    mp.stop();
+                }
+
+                try {
+                    mp.reset();
+                    AssetFileDescriptor afd;
+                    afd = getAssets().openFd("sounds/onCategoryClick.wav");
+                    mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                    mp.prepare();
+                    mp.start();
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return false;
+            }
+        });
+
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                         int childPosition, long id) {
 
                 // TODO: Do UI things to show information on the clicked item.
+
+                if (mp.isPlaying()) {
+                    mp.stop();
+                }
+
+                try {
+                    mp.reset();
+                    AssetFileDescriptor afd;
+                    afd = getAssets().openFd("sounds/onItemClick.wav");
+                    mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                    mp.prepare();
+                    mp.start();
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
