@@ -45,6 +45,7 @@ public class SearchViewActivity extends AppCompatActivity {
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setAdapter(listAdapter);
 
+        // play a sound when a category is touched
         // http://stackoverflow.com/questions/19464782/android-how-to-make-a-button-click-play-a-sound-file-every-time-it-been-presse
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -70,6 +71,7 @@ public class SearchViewActivity extends AppCompatActivity {
             }
         });
 
+        // play a sound when an item is touched
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
@@ -102,11 +104,13 @@ public class SearchViewActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        mp.release();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mp.release();
     }
 
     @Override

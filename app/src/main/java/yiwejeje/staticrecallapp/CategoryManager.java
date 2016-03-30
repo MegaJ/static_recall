@@ -202,7 +202,6 @@ public enum CategoryManager {
 
     private void initializePresetData() {
         ItemCategory uncategorized = new ItemCategory("Uncategorized");
-        ItemCategory medical = new ItemCategory("Medical");
         ItemCategory docs = new ItemCategory("Important Documents");
         ItemCategory travel = new ItemCategory("Travel");
 
@@ -225,38 +224,17 @@ public enum CategoryManager {
         docs.addItem("Job Application");
         docs.addItem("Groupon for Pilates");
 
-        medical.addItem("Shot Record");
-        medical.addItem("Antibiotics");
-        medical.addItem("Birth Control");
-        medical.addItem("Pamphlet about the Flu Shot");
-        medical.addItem("Doctor's Business Card");
-
         Item momsSpaghettiRecipe = new Item("Mom's Spaghetti Recipe");
         momsSpaghettiRecipe.addCategory(docs);
 
         Item raisinBread = new Item("Raisin Bread");
         travel.addItem(raisinBread);
-        medical.addItem(raisinBread);
-        medical.removeItem(raisinBread);
-        raisinBread.removeCategory(travel);
 
-        raisinBread.addCategory(medical);
-        raisinBread.addCategory(medical);
-        raisinBread.addCategory(medical);
+        raisinBread.removeCategory(travel);
 
         this.addCategory(uncategorized);
         this.addCategory(docs);
-        this.addCategory(medical);
         this.addCategory(travel);
-
-        getCategoryByName("Travel").setCategoryName("Travole");
-
-        Item testItem = new Item("testItem");
-        List<Item> itemList = new ArrayList<Item>();
-        itemList.add(raisinBread);
-        itemList.add(testItem);
-        ItemCategory testCategory = new ItemCategory("TestCat", itemList);
-        this.addCategory(testCategory);
 
         for (Item item : this.getAllItems()) {
             System.out.println("----------> TEST: " + item + ": categories: " + item.getCategories());
