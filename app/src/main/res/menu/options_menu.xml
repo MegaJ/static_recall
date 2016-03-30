@@ -10,11 +10,11 @@
     <item android:id="@+id/search"
         android:title="@string/search_title"
         android:icon="@drawable/magnifying_glass"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         app:actionViewClass="android.widget.SearchView" />
 
     <item android:id="@+id/store"
         android:title="@string/store_title"
         android:icon="@drawable/plussign"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

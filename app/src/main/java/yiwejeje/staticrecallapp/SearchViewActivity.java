@@ -108,12 +108,6 @@ public class SearchViewActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        mp.release();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.options_menu, menu);
@@ -125,7 +119,7 @@ public class SearchViewActivity extends AppCompatActivity {
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
-        autoExpandSearchWidget(menu, searchView);
+        // autoExpandSearchWidget(menu, searchView);
         // I needed more room to add a button to the Action Bar
         // My preferences for the device I'm working on may not apply to other devices
         disableAppNameOnActionBar();
