@@ -65,6 +65,12 @@ public class SearchViewActivity extends AppCompatActivity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                         int childPosition, long id) {
 
+                System.out.println("-------> group " + groupPosition + " child " + childPosition);
+                Intent intent = new Intent(SearchViewActivity.this, SearchLocationScreen.class);
+                //intent.putExtra("name", true);
+                startActivity(intent);
+
+
                 playSound("sounds/onItemClick.wav");
                 // TODO: Do UI things to show information on the clicked item.
 
