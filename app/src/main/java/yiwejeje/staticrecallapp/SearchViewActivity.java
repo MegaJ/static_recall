@@ -54,7 +54,8 @@ public class SearchViewActivity extends AppCompatActivity {
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                playSound("sounds/onCategoryClick.wav");
+                // we have annoying sounds currently
+                // playSound("sounds/onCategoryClick.wav");
                 return false;
             }
         });
@@ -64,8 +65,8 @@ public class SearchViewActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                         int childPosition, long id) {
-
-                playSound("sounds/onItemClick.wav");
+                // we have annoying sounds currently
+                // playSound("sounds/onItemClick.wav");
                 // TODO: Do UI things to show information on the clicked item.
 
                 return false;
