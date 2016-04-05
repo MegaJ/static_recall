@@ -35,4 +35,22 @@
         android:layout_marginTop="150dp"
         android:layout_below="@+id/text"/>
 
+    <android.inputmethodservice.ExtractEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New ExtractEditText"
+        android:id="@+id/extractEditText"
+        android:layout_below="@+id/text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <android.inputmethodservice.ExtractEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New ExtractEditText"
+        android:id="@+id/extractEditText2"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

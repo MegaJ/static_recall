@@ -67,8 +67,11 @@ public class SearchViewActivity extends AppCompatActivity {
                                         int childPosition, long id) {
                 // we have annoying sounds currently
                 // playSound("sounds/onItemClick.wav");
-                // TODO: Do UI things to show information on the clicked item.
 
+                System.out.println("-------> group " + groupPosition + " child " + childPosition);
+                Intent intent = new Intent(SearchViewActivity.this, SearchLocationScreen.class);
+                // intent.putExtra("name", true);
+                startActivity(intent);
                 return false;
             }
         });
