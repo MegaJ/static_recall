@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class StoreLocationActivity extends AppCompatActivity {
@@ -66,7 +67,7 @@ public class StoreLocationActivity extends AppCompatActivity {
                 String strLocation = itemLocation.getText().toString();
                 Item newItem = new Item(strItemTitle, strLocation);
                 CategoryManager myCategoryManager = CategoryManager.INSTANCE;
-                List<ItemCategory> allCategories = myCategoryManager.getAllCategories();
+                Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
                 ItemCategory existedCategory = myCategoryManager.getCategoryByName(strCategory);
                 if (existedCategory == null) {
                     ItemCategory newCategory = new ItemCategory(strCategory);
@@ -95,6 +96,8 @@ public class StoreLocationActivity extends AppCompatActivity {
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+
+        // TODO: What if no camera exists?
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

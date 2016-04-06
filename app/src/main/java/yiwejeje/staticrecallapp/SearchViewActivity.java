@@ -25,6 +25,8 @@ import android.widget.SearchView;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -32,7 +34,6 @@ public class SearchViewActivity extends AppCompatActivity {
     CategoryListAdapter listAdapter;
     ExpandableListView expListView;
 
-    List<ItemCategory> itemCategories;
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
     List<Item> itemsResultsList = new ArrayList<Item>();
@@ -47,8 +48,8 @@ public class SearchViewActivity extends AppCompatActivity {
 
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-        itemCategories = categoryManager.getAllCategories();
-        listAdapter = new CategoryListAdapter(this, itemCategories);
+        listAdapter = new CategoryListAdapter(
+                this, new ArrayList<>(categoryManager.getAllCategories()));
 
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setAdapter(listAdapter);
@@ -151,7 +152,7 @@ public class SearchViewActivity extends AppCompatActivity {
 
     public boolean loadCategories () {
         System.out.println("------> Attempt to reload categories!");
-        listAdapter.setItemCategories(categoryManager.getAllCategories());
+        listAdapter.setItemCategories(new ArrayList<>(categoryManager.getAllCategories()));
         System.out.println("------> Item Categories: " + categoryManager.getAllCategories());
         expListView.collapseGroup(0);
         return true;
