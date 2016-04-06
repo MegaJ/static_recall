@@ -141,13 +141,13 @@ public enum CategoryManager {
     }
 
     public void save(Context context) throws IOException {
-        Writer writer = new FileWriter(context.getFilesDir() + "/" + SAVED_DATA);
+        Writer writer = new FileWriter(context.getFilesDir() + File.separator + SAVED_DATA);
         gson.toJson(allCategories, writer);
         writer.close();
     }
 
     public boolean load(Context context) throws IOException {
-        final String jsonFileLocation = context.getFilesDir() + "/" + SAVED_DATA;
+        final String jsonFileLocation = context.getFilesDir() + File.separator + SAVED_DATA;
         File jsonFile = new File(jsonFileLocation);
 
         if (jsonFile.exists()) {
@@ -165,7 +165,7 @@ public enum CategoryManager {
     }
 
     public void printSavedData(Context context) {
-        final String jsonFileLocation = context.getFilesDir() + "/" + SAVED_DATA;
+        final String jsonFileLocation = context.getFilesDir() + File.separator + SAVED_DATA;
         String text = null;
         try {
             text = getStringFromFile(jsonFileLocation);
