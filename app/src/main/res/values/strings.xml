@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">Static Recall App</string>
 
+    <string name="title_content">Static Recall</string>
     <string name="search_button">Search</string>
     <string name="store_button">Store</string>
-    <string name="title_content">Static\nRecall</string>
+    <string name="edit_button">Edit</string>
+    <string name="about_button">About</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
