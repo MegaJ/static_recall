@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/galaxy_wallpaper"
     android:fitsSystemWindows="true"
-    tools:context="yiwejeje.staticrecallapp.HomeScreenActivity">
+    tools:context=".Activity.HomeScreenActivity">
     <!--The background image was found here: http://www.wallpapersonweb.com/image-3102.html-->
     <!--The background galaxy image was found here:
     http://freewallpaperdownloads.net/wp-content/uploads/2015/03/ipad-air-2-wallpaper-for-iphone-6-plus.jpg/-->

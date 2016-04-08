@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".HomeScreenActivity"
+            android:name=".Activity.HomeScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
@@ -20,8 +20,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SearchViewActivity"
-            android:parentActivityName=".HomeScreenActivity"
+            android:name=".Activity.SearchViewActivity"
+            android:parentActivityName=".Activity.HomeScreenActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -32,24 +32,24 @@
                 android:resource="@xml/searchable"/>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="yiwejeje.staticrecallapp.HomeScreenActivity" />
+                android:value=".Activity.HomeScreenActivity" />
         </activity>
         <activity
-            android:name=".StoreLocationActivity"
+            android:name=".Activity.StoreLocationActivity"
             android:label="@string/title_activity_store_location"
-            android:parentActivityName=".HomeScreenActivity"
+            android:parentActivityName=".Activity.HomeScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="yiwejeje.staticrecallapp.HomeScreenActivity" />
+                android:value=".Activity.HomeScreenActivity" />
         </activity>
         <activity
-            android:name=".SearchLocationScreen"
+            android:name=".Activity.SearchLocationScreen"
             android:label="@string/title_activity_search_location_screen"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="yiwejeje.staticrecallapp.SearchViewActivity" />
+            android:value=".Activity.SearchViewActivity" />
     </application>
 
 </manifest>
