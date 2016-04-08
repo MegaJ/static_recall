@@ -100,9 +100,7 @@ public enum CategoryManager {
             throw new IllegalArgumentException("Cannot add an existing category");
         }
 
-        boolean added = allCategories.add(aCategory);
-        //Collections.sort(allCategories, new CategoryComparator());
-        return added;
+        return allCategories.add(aCategory);
     }
 
     public boolean addCategory(String categoryName) {

@@ -43,7 +43,8 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     public void showItemsList(View view) {
-        Intent intent = new Intent(this, SearchViewActivity.class);
+        //Intent intent = new Intent(this, SearchViewActivity.class);
+        Intent intent = new Intent(this, ListViewSearchActivity.class);
         startActivity(intent);
     }
 

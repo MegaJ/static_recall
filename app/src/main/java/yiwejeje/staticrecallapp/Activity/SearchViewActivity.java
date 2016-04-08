@@ -41,55 +41,11 @@ public class SearchViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_search_view);
+        configureListView();
 
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-        listAdapter = new CategoryListAdapter(
-                this, new ArrayList<>(categoryManager.getAllCategories()));
-
-        expListView = (ExpandableListView) findViewById(R.id.lvExp);
-        expListView.setAdapter(listAdapter);
-
-        // play a sound when a category is touched
-        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                // we have annoying sounds currently
-                // playSound("sounds/onCategoryClick.wav");
-                return false;
-            }
-        });
-
-        // play a sound when an item is touched
-        expListView.setOnChildClickListener(new OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
-                                        int childPosition, long id) {
-                // we have annoying sounds currently
-                // playSound("sounds/onItemClick.wav");
-
-                System.out.println("-------> group " + groupPosition + " child " + childPosition);
-                Intent intent = new Intent(SearchViewActivity.this, SearchLocationScreen.class);
-
-                Item item = (Item) listAdapter.getChild(groupPosition, childPosition);
-                intent.putExtra("item", item.getLocationDescription());
-
-                startActivity(intent);
-
-                /*
-                final String locationText = item.getLocationDescription();
-
-                TextView locationChild = (TextView) v.findViewById(R.id.textView2);
-                System.out.println("---------------> location child" + locationChild);
-                System.out.println("---------> location" + v);
-
-                locationChild.setText(locationText);
-                */
-
-                return false;
-            }
-        });
     }
 
     @Override
@@ -154,6 +110,54 @@ public class SearchViewActivity extends AppCompatActivity {
         // My preferences for the device I'm working on may not apply to other devices
         disableAppNameOnActionBar();
         return true;
+    }
+
+    private void configureListView() {
+        listAdapter = new CategoryListAdapter(
+                this, new ArrayList<>(categoryManager.getAllCategories()));
+
+        expListView = (ExpandableListView) findViewById(R.id.lvExp);
+        expListView.setAdapter(listAdapter);
+
+        // play a sound when a category is touched
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                // we have annoying sounds currently
+                // playSound("sounds/onCategoryClick.wav");
+                return false;
+            }
+        });
+
+        // play a sound when an item is touched
+        expListView.setOnChildClickListener(new OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
+                                        int childPosition, long id) {
+                // we have annoying sounds currently
+                // playSound("sounds/onItemClick.wav");
+
+                System.out.println("-------> group " + groupPosition + " child " + childPosition);
+                Intent intent = new Intent(SearchViewActivity.this, SearchLocationScreen.class);
+
+                Item item = (Item) listAdapter.getChild(groupPosition, childPosition);
+                intent.putExtra("item", item.getLocationDescription());
+
+                startActivity(intent);
+
+                /*
+                final String locationText = item.getLocationDescription();
+
+                TextView locationChild = (TextView) v.findViewById(R.id.textView2);
+                System.out.println("---------------> location child" + locationChild);
+                System.out.println("---------> location" + v);
+
+                locationChild.setText(locationText);
+                */
+
+                return false;
+            }
+        });
     }
 
     // This is so the xml's android:onClick can link with loadCategories
