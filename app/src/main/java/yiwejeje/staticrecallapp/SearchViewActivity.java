@@ -1,5 +1,6 @@
 package yiwejeje.staticrecallapp;
 
+import android.app.ActionBar;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +8,9 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +26,8 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -30,7 +35,6 @@ public class SearchViewActivity extends AppCompatActivity {
     CategoryListAdapter listAdapter;
     ExpandableListView expListView;
 
-    List<ItemCategory> itemCategories;
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
     List<Item> itemsResultsList = new ArrayList<Item>();
@@ -45,8 +49,8 @@ public class SearchViewActivity extends AppCompatActivity {
 
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-        itemCategories = categoryManager.getAllCategories();
-        listAdapter = new CategoryListAdapter(this, itemCategories);
+        listAdapter = new CategoryListAdapter(
+                this, new ArrayList<>(categoryManager.getAllCategories()));
 
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setAdapter(listAdapter);
@@ -55,7 +59,8 @@ public class SearchViewActivity extends AppCompatActivity {
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                playSound("sounds/onCategoryClick.wav");
+                // we have annoying sounds currently
+                // playSound("sounds/onCategoryClick.wav");
                 return false;
             }
         });
@@ -65,6 +70,8 @@ public class SearchViewActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                         int childPosition, long id) {
+                // we have annoying sounds currently
+                // playSound("sounds/onItemClick.wav");
 
                 System.out.println("-------> group " + groupPosition + " child " + childPosition);
                 Intent intent = new Intent(SearchViewActivity.this, SearchLocationScreen.class);
@@ -164,7 +171,7 @@ public class SearchViewActivity extends AppCompatActivity {
 
     public boolean loadCategories () {
         System.out.println("------> Attempt to reload categories!");
-        listAdapter.setItemCategories(categoryManager.getAllCategories());
+        listAdapter.setItemCategories(new ArrayList<>(categoryManager.getAllCategories()));
         System.out.println("------> Item Categories: " + categoryManager.getAllCategories());
         expListView.collapseGroup(0);
         return true;

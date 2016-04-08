@@ -16,11 +16,13 @@ import java.io.Writer;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,12 +36,12 @@ import com.google.gson.reflect.TypeToken;
 
 public enum CategoryManager {
     INSTANCE;
-    private List<ItemCategory> allCategories;
+    private Collection<ItemCategory> allCategories;
     public static final String DEFAULT_CATEGORY = "Uncategorized";
     private Gson gson;
 
     private CategoryManager() {
-        allCategories = new ArrayList<ItemCategory>();
+        allCategories = new TreeSet<ItemCategory>(new CategoryComparator());
         configureGson();
         initializePresetData();
     }
@@ -56,8 +58,8 @@ public enum CategoryManager {
                 .create();
     }
 
-    public List<ItemCategory> getAllCategories() {
-        return Collections.unmodifiableList(allCategories);
+    public Collection<ItemCategory> getAllCategories() {
+        return Collections.unmodifiableCollection(allCategories);
     }
 
     public void setAllCategories(List<ItemCategory> allCategories) {
@@ -104,7 +106,7 @@ public enum CategoryManager {
         }
 
         boolean added = allCategories.add(aCategory);
-        Collections.sort(allCategories, new CategoryComparator());
+        //Collections.sort(allCategories, new CategoryComparator());
         return added;
     }
 
@@ -115,10 +117,6 @@ public enum CategoryManager {
 
     // ------ Removal ------
 
-    public Item removeByGroupAndChildIndex(int groupIndex, int childIndex) {
-        return allCategories.get(groupIndex).getItems().remove(childIndex);
-    }
-
     // Items can belong to multiple categories so just remove
     // the copy of the item from that category
     public boolean removeCategory(ItemCategory aCategory) {
@@ -127,7 +125,6 @@ public enum CategoryManager {
         }
 
         boolean removed = allCategories.remove(aCategory);
-        Collections.sort(allCategories, new CategoryComparator());
         return removed;
     }
 
@@ -144,13 +141,13 @@ public enum CategoryManager {
     }
 
     public void save(Context context) throws IOException {
-        Writer writer = new FileWriter(context.getFilesDir() + "/" + SAVED_DATA);
+        Writer writer = new FileWriter(context.getFilesDir() + File.separator + SAVED_DATA);
         gson.toJson(allCategories, writer);
         writer.close();
     }
 
     public boolean load(Context context) throws IOException {
-        final String jsonFileLocation = context.getFilesDir() + "/" + SAVED_DATA;
+        final String jsonFileLocation = context.getFilesDir() + File.separator + SAVED_DATA;
         File jsonFile = new File(jsonFileLocation);
 
         if (jsonFile.exists()) {
@@ -168,7 +165,7 @@ public enum CategoryManager {
     }
 
     public void printSavedData(Context context) {
-        final String jsonFileLocation = context.getFilesDir() + "/" + SAVED_DATA;
+        final String jsonFileLocation = context.getFilesDir() + File.separator + SAVED_DATA;
         String text = null;
         try {
             text = getStringFromFile(jsonFileLocation);
