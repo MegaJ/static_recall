@@ -26,7 +26,7 @@ public class Item implements Serializable {
         this.name = name;
 
         if (locationDescription == null) {
-            locationDescription = "";
+            this.locationDescription = "";
         } else {
             this.locationDescription = locationDescription;
         }

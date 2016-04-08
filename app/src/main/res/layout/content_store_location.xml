@@ -113,7 +113,7 @@
         android:textStyle="bold"
         android:id="@+id/AddButton"
         android:layout_marginTop="57dp"
-        android:layout_below="@+id/LocationText"
+        android:layout_below="@id/LocationText"
         android:layout_alignLeft="@+id/TextButton"
         android:layout_alignStart="@+id/TextButton" />
 

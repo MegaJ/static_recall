@@ -18,6 +18,7 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -67,8 +68,21 @@ public class SearchViewActivity extends AppCompatActivity {
 
                 System.out.println("-------> group " + groupPosition + " child " + childPosition);
                 Intent intent = new Intent(SearchViewActivity.this, SearchLocationScreen.class);
-                //intent.putExtra("name", true);
+
+                Item item = (Item) listAdapter.getChild(groupPosition, childPosition);
+                intent.putExtra("item", item.getLocationDescription());
+
                 startActivity(intent);
+
+                /*
+                final String locationText = item.getLocationDescription();
+
+                TextView locationChild = (TextView) v.findViewById(R.id.textView2);
+                System.out.println("---------------> location child" + locationChild);
+                System.out.println("---------> location" + v);
+
+                locationChild.setText(locationText);
+                */
 
 
                 playSound("sounds/onItemClick.wav");
