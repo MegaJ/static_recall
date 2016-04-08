@@ -41,8 +41,6 @@ public class SearchViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_search_view);
         configureListView();
 
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -113,6 +111,8 @@ public class SearchViewActivity extends AppCompatActivity {
     }
 
     private void configureListView() {
+        setContentView(R.layout.activity_search_view);
+
         listAdapter = new CategoryListAdapter(
                 this, new ArrayList<>(categoryManager.getAllCategories()));
 
