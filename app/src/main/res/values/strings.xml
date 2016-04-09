@@ -14,13 +14,14 @@
     <string name="searchbar">Search for...</string>
     <string name="search_items">Search for Item</string>
     <string name="add_message">Add To Coming Soon</string>
-    <string name="title_activity_store_location">StoreLocationActivity</string>
+    <string name="title_activity_store_location">Store Location</string>
+    <string name="title_activity_listview_search">Search Stored Items</string>
 
     <string name="category_view">View Categories</string>
 
-    <string name="search_title">SearchLocationActivity</string>
+    <string name="search_title">Item Location Information</string>
     <string name="search_hint">Search stored items</string>
 
     <string name="store_title">Store Location</string>
-    <string name="title_activity_search_location_screen">SearchLocationScreen</string>
+    <string name="title_activity_search_location_screen">Item Location Information</string>
 </resources>

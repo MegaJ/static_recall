@@ -8,6 +8,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- HOME SCREEN -->
         <activity
             android:name=".Activity.HomeScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -15,13 +17,17 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- SEARCH SCREENS -->
+
+        <!-- EXPANDABLE LIST VIEW -->
         <activity
             android:name=".Activity.SearchViewActivity"
             android:parentActivityName=".Activity.HomeScreenActivity"
+            android:theme="@style/AppTheme"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -34,10 +40,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activity.HomeScreenActivity" />
         </activity>
+
+        <!-- CLASSIC LIST VIEW -->
         <activity
             android:name=".Activity.ListViewSearchActivity"
             android:parentActivityName=".Activity.HomeScreenActivity"
-            android:theme="@android:style/Theme.Holo"
+            android:label="@string/title_activity_listview_search"
+            android:theme="@style/AppTheme2"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -50,6 +59,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activity.HomeScreenActivity" />
         </activity>
+
+        <!-- STORE LOCATION ACTIVITY -->
         <activity
             android:name=".Activity.StoreLocationActivity"
             android:label="@string/title_activity_store_location"
@@ -59,13 +70,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activity.HomeScreenActivity" />
         </activity>
+
+        <!-- VIEW ITEM INFORMATION ACTIVITY -->
         <activity
             android:name=".Activity.SearchLocationScreen"
             android:label="@string/title_activity_search_location_screen"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <meta-data
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value=".Activity.SearchViewActivity" />
+            android:value=".Activity.ListViewSearchActivity" />
+        </activity>
     </application>
 
 </manifest>
