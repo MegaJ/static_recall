@@ -1,5 +1,6 @@
 package yiwejeje.staticrecallapp.Activity;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -7,6 +8,8 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -62,6 +65,7 @@ public class ListViewSearchActivity extends ListActivity {
                 startActivity(intent);
             }
         });
+        // listView.setTextFilterEnabled(true);
     }
 
     @Override
@@ -70,50 +74,52 @@ public class ListViewSearchActivity extends ListActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.options_menu, menu);
         // Associate searchable configuration with the SearchView
-//        SearchManager searchManager =
-//                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//
-//        // these are declared final because they are used in an inner class
-//        // Android Studio said so.
-//        final MenuItem searchMenu = menu.findItem(R.id.search);
-//        final android.widget.SearchView searchView =
-//                (android.widget.SearchView) searchMenu.getActionView();
-//        searchView.setSearchableInfo(
-//                searchManager.getSearchableInfo(getComponentName()));
-//
-//        // Getting the little x button in the search widget is hard
-//        // http://stackoverflow.com/questions/25930380/android-search-widgethow-to-hide-the-close-button-in-search-view-by-default
-//        // http://stackoverflow.com/questions/24794377/android-capture-searchview-text-clear-by-clicking-x-button
-//        ImageView searchCloseButton;
-//        try {
-//            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
-//            searchField.setAccessible(true);
-//            searchCloseButton = (ImageView) searchField.get(searchView);
-//
-//            searchCloseButton.setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View v) {
-//
-//                    System.out.println("-----> Search closed");
-//                    searchView.setQuery("", false);
-//                    //Collapse the action view
-//                    searchView.onActionViewCollapsed();
-//                    //Collapse the search widget
-//                    searchMenu.collapseActionView();
-//                    loadCategories();
-//                }
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-        // autoExpandSearchWidget(menu, searchView);
-        // I needed more room to add a button to the Action Bar
-        // My preferences for the device I'm working on may not apply to other devices
-        //disableAppNameOnActionBar();
+        // these are declared final because they are used in an inner class
+        // Android Studio said so.
+        final MenuItem searchMenu = menu.findItem(R.id.search);
+        final SearchView searchView =
+                (SearchView) searchMenu.getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
 
+        // Getting the little x button in the search widget is hard
+        // http://stackoverflow.com/questions/25930380/android-search-widgethow-to-hide-the-close-button-in-search-view-by-default
+        // http://stackoverflow.com/questions/24794377/android-capture-searchview-text-clear-by-clicking-x-button
+        ImageView searchCloseButton;
+        try {
+            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
+            searchField.setAccessible(true);
+            searchCloseButton = (ImageView) searchField.get(searchView);
+
+            searchCloseButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    System.out.println("-----> Search closed");
+                    searchView.setQuery("", false);
+                    //Collapse the action view
+                    searchView.onActionViewCollapsed();
+                    //Collapse the search widget
+                    searchMenu.collapseActionView();
+                    loadCategories();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //autoExpandSearchWidget(menu, searchView);
         return true;
+    }
+
+    private void autoExpandSearchWidget(Menu menu, SearchView searchView) {
+        MenuItem searchMenuItem = menu.findItem(R.id.search); // get my MenuItem with placeholder submenu
+        searchMenuItem.expandActionView(); // Expand the search menu item in order to show by default the query
+        searchView.setIconifiedByDefault(false);
     }
 
     // This is so the xml's android:onClick can link with loadCategories

@@ -43,9 +43,12 @@ public class SearchViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configureListView();
+
+        // wait, do we need these 3 lines?
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
@@ -109,7 +112,7 @@ public class SearchViewActivity extends AppCompatActivity {
         // autoExpandSearchWidget(menu, searchView);
         // I needed more room to add a button to the Action Bar
         // My preferences for the device I'm working on may not apply to other devices
-        disableAppNameOnActionBar();
+        // disableAppNameOnActionBar();
         return true;
     }
 

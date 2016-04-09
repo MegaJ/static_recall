@@ -62,7 +62,7 @@ public enum CategoryManager {
     }
 
     public Set<Item> getAllItems() {
-        Set<Item> allItems = new HashSet<Item>();
+        Set<Item> allItems = new TreeSet<Item>(new ItemComparator());
         for (ItemCategory category : allCategories) {
             allItems.addAll(category.getItems());
         }

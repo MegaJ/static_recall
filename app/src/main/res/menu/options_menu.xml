@@ -2,19 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/toggleCategory"
-        android:title="@string/category_view"
-        app:showAsAction="always|withText"
-        android:onClick="loadCategories" />
+    <!--<item android:id="@+id/toggleCategory"-->
+        <!--android:title="@string/category_view"-->
+        <!--app:showAsAction="always|withText"-->
+        <!--android:onClick="loadCategories" />-->
 
     <item android:id="@+id/search"
         android:title="@string/search_title"
-        android:icon="@drawable/magnifying_glass"
+        android:showAsAction="always"
         app:showAsAction="always"
+        android:icon="@drawable/magnifying_glass"
+        android:actionViewClass="android.widget.SearchView"
         app:actionViewClass="android.widget.SearchView" />
+
 
     <item android:id="@+id/store"
         android:title="@string/store_title"
         android:icon="@drawable/plussign"
+        android:showAsAction="ifRoom"
         app:showAsAction="ifRoom" />
+
+
+
 </menu>
