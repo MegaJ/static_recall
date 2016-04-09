@@ -65,7 +65,6 @@ public class ListViewSearchActivity extends ListActivity {
                 startActivity(intent);
             }
         });
-        // listView.setTextFilterEnabled(true);
     }
 
     @Override
@@ -85,46 +84,29 @@ public class ListViewSearchActivity extends ListActivity {
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
-        // Getting the little x button in the search widget is hard
-        // http://stackoverflow.com/questions/25930380/android-search-widgethow-to-hide-the-close-button-in-search-view-by-default
-        // http://stackoverflow.com/questions/24794377/android-capture-searchview-text-clear-by-clicking-x-button
-        ImageView searchCloseButton;
-        try {
-            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
-            searchField.setAccessible(true);
-            searchCloseButton = (ImageView) searchField.get(searchView);
+        // http://www.androidhub4you.com/2014/04/android-action-bar-search-inside.html
+        SearchView.OnQueryTextListener textChangeListener = new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                // this is your adapter that will be filtered
+                listAdapter.getFilter().filter(newText);
+                System.out.println("on text chnge text: "+newText);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                // this is your adapter that will be filtered
+                listAdapter.getFilter().filter(query);
+                System.out.println("on query submit: "+query);
+                return true;
+            }
+        };
+        searchView.setOnQueryTextListener(textChangeListener);
 
-            searchCloseButton.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                    System.out.println("-----> Search closed");
-                    searchView.setQuery("", false);
-                    //Collapse the action view
-                    searchView.onActionViewCollapsed();
-                    //Collapse the search widget
-                    searchMenu.collapseActionView();
-                    loadCategories();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //autoExpandSearchWidget(menu, searchView);
         return true;
-    }
-
-    private void autoExpandSearchWidget(Menu menu, SearchView searchView) {
-        MenuItem searchMenuItem = menu.findItem(R.id.search); // get my MenuItem with placeholder submenu
-        searchMenuItem.expandActionView(); // Expand the search menu item in order to show by default the query
-        searchView.setIconifiedByDefault(false);
-    }
-
-    // This is so the xml's android:onClick can link with loadCategories
-    public boolean loadCategories (MenuItem menuItem) {
-        return loadCategories();
     }
 
     public boolean loadCategories () {
@@ -135,24 +117,6 @@ public class ListViewSearchActivity extends ListActivity {
         System.out.println("------> Item Categories: " + categoryManager.getAllCategories());
         //expListView.collapseGroup(0);
         return true;
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        System.out.println("-------------> NEW INTENT FIRED WITHIN SEARCHVIEW");
-        setIntent(intent);
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            System.out.println("-------------> query:" + query);
-            //use the query to search your data somehow
-            searchItems(query);
-            showResults();
-        }
     }
 
     private void showResults() {
@@ -167,6 +131,8 @@ public class ListViewSearchActivity extends ListActivity {
     }
 
     public void searchItems (String query) {
+        // TODO: should I have this?
+
         String regexQuery = "(.*)" + query.toLowerCase() + "(.*)";
 
         this.itemResultsList.clear();
