@@ -54,6 +54,7 @@ public class StoreLocationActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Store Item Location");
         changeBG();
         itemTitle=(EditText)findViewById(R.id.ItemText);
         itemCategory=(EditText)findViewById(R.id.CatText);
