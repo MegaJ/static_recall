@@ -32,7 +32,7 @@ import yiwejeje.staticrecallapp.R;
 /**
  * Created by Static Recall Heroes on 4/8/16.
  */
-public class ListViewSearchActivity extends ListActivity {
+public class ListViewSearchActivity extends AppCompatActivity {
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 

@@ -46,7 +46,6 @@
             android:name=".Activity.ListViewSearchActivity"
             android:parentActivityName=".Activity.HomeScreenActivity"
             android:label="@string/title_activity_listview_search"
-            android:theme="@style/AppTheme2"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
