@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,6 +22,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.content.Context;
 import android.view.ViewGroup;
 import android.graphics.drawable.Drawable;
+import android.view.WindowManager;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,14 +33,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoreLocationActivity extends AppCompatActivity {
+public class StoreLocationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Button addNewItem;
-    EditText itemTitle;
-    EditText itemCategory;  //right now only allow for one category for the simplicity
-    EditText itemLocation;
+    private Button addNewItem;
+    private EditText itemTitle;
+    private EditText itemCategory;  //right now only allow for one category for the simplicity
+    private EditText itemLocation;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView mImage;
+    private Spinner spinner;
+    private String selectedCategory;
+    private String finalCategory;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -53,32 +60,10 @@ public class StoreLocationActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        changeBG();
-        itemTitle=(EditText)findViewById(R.id.ItemText);
-        itemCategory=(EditText)findViewById(R.id.CatText);
-        itemLocation=(EditText)findViewById(R.id.LocationText);
-        addNewItem=(Button)findViewById(R.id.AddButton);
-        addNewItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String strItemTitle = itemTitle.getText().toString();
-                String strCategory = itemCategory.getText().toString();
-                String strLocation = itemLocation.getText().toString();
-                Item newItem = new Item(strItemTitle, strLocation);
-                CategoryManager myCategoryManager = CategoryManager.INSTANCE;
-                List<ItemCategory> allCategories = myCategoryManager.getAllCategories();
-                ItemCategory existedCategory = myCategoryManager.getCategoryByName(strCategory);
-                if (existedCategory == null) {
-                    ItemCategory newCategory = new ItemCategory(strCategory);
-                    newCategory.addItem(newItem);
-                    boolean ifAdded = myCategoryManager.addCategory(newCategory);
-                    displayResult(ifAdded);
-                } else {
-                    boolean ifAdded = existedCategory.addItem(newItem);
-                    displayResult(ifAdded);
-                }
-            }
-        });
+        //changeBG();
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
         final ImageButton camButton = (ImageButton) findViewById(R.id.CameraButton);
         camButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +71,72 @@ public class StoreLocationActivity extends AppCompatActivity {
                 dispatchTakePictureIntent();
             }
         });
+
+
+        itemTitle=(EditText)findViewById(R.id.ItemText);
+        itemCategory=(EditText)findViewById(R.id.CatText);
+        itemLocation=(EditText)findViewById(R.id.LocationText);
+        setDropDownMenu();
+        selectedCategory="";
+        finalCategory="";
+        addNewItem=(Button)findViewById(R.id.AddButton);
+        addNewItem.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                String strItemTitle = itemTitle.getText().toString();
+                String strCategory = itemCategory.getText().toString();
+                String strLocation = itemLocation.getText().toString();
+                Item newItem = new Item(strItemTitle, strLocation);
+                CategoryManager myCategoryManager = CategoryManager.INSTANCE;
+                if (selectedCategory != "(Select from existing categories)"){
+                    finalCategory=selectedCategory;
+                }else{
+                    finalCategory=strCategory;
+                }
+                //Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
+                ItemCategory existedCategory = myCategoryManager.getCategoryByName(finalCategory);
+                if (existedCategory == null) {
+                    ItemCategory newCategory = new ItemCategory(finalCategory);
+                    newCategory.addItem(newItem);
+                    boolean ifAdded = myCategoryManager.addCategory(newCategory);
+                    displayResult(ifAdded);
+                } else {
+                    boolean ifAdded = existedCategory.addItem(newItem);
+                    displayResult(ifAdded);
+
+        }
+            }
+    });
+
     }
+
+    private void setDropDownMenu(){
+        CategoryManager myCategoryManager = CategoryManager.INSTANCE;
+        List<ItemCategory> allCategories = myCategoryManager.getAllCategories();
+        List<String> categories = new ArrayList<String>();
+        categories.add("(Select from existing categories)");
+        for (ItemCategory c:allCategories){
+            categories.add(c.toString());
+        }
+        spinner=(Spinner) findViewById(R.id.spinner);
+
+        spinner.setOnItemSelectedListener(this);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                // do whatever you want with this text view
+                textView.setTextSize(25);
+                return view;
+            }
+        };
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+
+    //*******************new code
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -120,10 +170,11 @@ public class StoreLocationActivity extends AppCompatActivity {
         }
     }
 
-    public void displayResult(boolean addedResult){
+    private void displayResult(boolean addedResult){
         if (addedResult){
             itemTitle.setText("");
             itemCategory.setText("");
+            //TO DO: DO SOMETHING WITH THE SPINNER
             itemLocation.setText("");
             Toast message=Toast.makeText(getApplicationContext(),"Item Successfully Added",Toast.LENGTH_LONG);
             ViewGroup group = (ViewGroup) message.getView();
@@ -134,13 +185,21 @@ public class StoreLocationActivity extends AppCompatActivity {
 
     }
 
-    public void changeBG(){
+    private void changeBG(){
         View backgroundimage = findViewById(R.id.background);
         Drawable background = backgroundimage.getBackground();
         background.setAlpha(150);
-
     }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        selectedCategory = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
 }
+

@@ -11,17 +11,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="yiwejeje.staticrecallapp.StoreLocationActivity"
     tools:showIn="@layout/activity_store_location"
-    android:background="@drawable/bbb"
     android:id="@+id/background"
-
-
-
-
     >
     <!--android:background="#EAD2AC">-->
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:hint="Item Title"
         android:textColor="#d00d0c0c"
@@ -29,25 +24,38 @@
         android:textSize="40sp"
         android:textStyle="bold"
         android:id="@+id/ItemText"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="68dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
     <!--android:textColor="#4281A4"-->
+
+    <EditText
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/CatText"
+        android:hint="Or type in a new category"
+        android:ems="10"
+        android:textSize="30sp"
+        android:layout_below="@+id/spinner"
+        android:layout_alignParentLeft="true"
+        android:textColor="#d00e0e0e"
+        android:textStyle="bold"
+        android:layout_alignParentStart="true" />
+
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-
         android:text="Location"
-        android:textSize="35sp"
+        android:textSize="30sp"
         android:textColor="#354950"
         android:textStyle="bold"
         android:id="@+id/textView"
-        android:layout_marginTop="147dp"
-        android:layout_below="@+id/ItemText"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/CatText"
         android:layout_alignRight="@+id/TextButton"
         android:layout_alignEnd="@+id/TextButton" />
 
@@ -57,10 +65,9 @@
         android:id="@+id/CameraButton"
         android:src="@drawable/camera"
         android:scaleType="fitXY"
-        android:layout_below="@+id/textView"
         android:layout_alignTop="@+id/TextButton"
-        android:layout_toLeftOf="@+id/textView"
-        android:layout_toStartOf="@+id/textView" />
+        android:layout_alignLeft="@+id/LocationText"
+        android:layout_alignStart="@+id/LocationText" />
 
     <ImageButton
         android:layout_width="110dp"
@@ -68,10 +75,9 @@
         android:scaleType="fitXY"
         android:id="@+id/AudioButton"
         android:src="@drawable/soundwave"
-        android:layout_alignTop="@+id/TextButton"
-        android:layout_alignRight="@+id/CatText"
         android:layout_below="@+id/textView"
-        android:layout_alignEnd="@+id/CatText" />
+        android:layout_alignRight="@+id/LocationText"
+        android:layout_alignEnd="@+id/LocationText" />
 
     <ImageButton
         android:layout_width="110dp"
@@ -94,20 +100,9 @@
         android:textStyle="bold"
         android:layout_below="@+id/CameraButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp" />
+        android:layout_marginTop="46dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/CatText"
-        android:hint="Add Category Tags "
-        android:ems="10"
-        android:textSize="40sp"
-        android:layout_below="@+id/ItemText"
-        android:layout_alignParentLeft="true"
-        android:textColor="#d00e0e0e"
-        android:textStyle="bold"
-        android:layout_alignParentStart="true" />
+
 
     <Button
         android:layout_width="wrap_content"
@@ -122,6 +117,14 @@
         android:layout_below="@+id/LocationText"
         android:layout_alignLeft="@+id/TextButton"
         android:layout_alignStart="@+id/TextButton" />
+
+    <Spinner
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_below="@+id/ItemText"
+        android:layout_marginTop="45dp"
+        android:textSize="40sp"/>
 
 
 </RelativeLayout>
