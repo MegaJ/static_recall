@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package yiwejeje.staticrecallapp;
+package com.google.gson.graph;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

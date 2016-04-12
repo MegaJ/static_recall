@@ -1,6 +1,5 @@
-package yiwejeje.staticrecallapp;
+package yiwejeje.staticrecallapp.Activity;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -10,9 +9,11 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import yiwejeje.staticrecallapp.Model.Item;
+import yiwejeje.staticrecallapp.Model.ItemCategory;
+import yiwejeje.staticrecallapp.R;
 
 /**
  * Code taken from

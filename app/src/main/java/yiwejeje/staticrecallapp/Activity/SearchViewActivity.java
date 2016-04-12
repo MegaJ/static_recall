@@ -1,4 +1,4 @@
-package yiwejeje.staticrecallapp;
+package yiwejeje.staticrecallapp.Activity;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -8,12 +8,10 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
@@ -25,11 +23,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import yiwejeje.staticrecallapp.Model.CategoryManager;
+import yiwejeje.staticrecallapp.Model.Item;
+import yiwejeje.staticrecallapp.Model.ItemCategory;
+import yiwejeje.staticrecallapp.R;
+
 public class SearchViewActivity extends AppCompatActivity {
     CategoryListAdapter listAdapter;
     ExpandableListView expListView;
 
-    List<ItemCategory> itemCategories;
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
     List<Item> itemsResultsList = new ArrayList<Item>();
@@ -40,41 +42,14 @@ public class SearchViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_view);
+        configureListView();
+
+        // wait, do we need these 3 lines?
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-        itemCategories = categoryManager.getAllCategories();
-        listAdapter = new CategoryListAdapter(this, itemCategories);
-
-        expListView = (ExpandableListView) findViewById(R.id.lvExp);
-        expListView.setAdapter(listAdapter);
-
-        // play a sound when a category is touched
-        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                // we have annoying sounds currently
-                // playSound("sounds/onCategoryClick.wav");
-                return false;
-            }
-        });
-
-        // play a sound when an item is touched
-        expListView.setOnChildClickListener(new OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
-                                        int childPosition, long id) {
-                // we have annoying sounds currently
-                // playSound("sounds/onItemClick.wav");
-
-                System.out.println("-------> group " + groupPosition + " child " + childPosition);
-                Intent intent = new Intent(SearchViewActivity.this, SearchLocationScreen.class);
-                // intent.putExtra("name", true);
-                startActivity(intent);
-                return false;
-            }
-        });
     }
 
     @Override
@@ -137,8 +112,58 @@ public class SearchViewActivity extends AppCompatActivity {
         // autoExpandSearchWidget(menu, searchView);
         // I needed more room to add a button to the Action Bar
         // My preferences for the device I'm working on may not apply to other devices
-        disableAppNameOnActionBar();
+        // disableAppNameOnActionBar();
         return true;
+    }
+
+    private void configureListView() {
+        setContentView(R.layout.activity_search_view);
+
+        listAdapter = new CategoryListAdapter(
+                this, new ArrayList<>(categoryManager.getAllCategories()));
+
+        expListView = (ExpandableListView) findViewById(R.id.lvExp);
+        expListView.setAdapter(listAdapter);
+
+        // play a sound when a category is touched
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                // we have annoying sounds currently
+                // playSound("sounds/onCategoryClick.wav");
+                return false;
+            }
+        });
+
+        // play a sound when an item is touched
+        expListView.setOnChildClickListener(new OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
+                                        int childPosition, long id) {
+                // we have annoying sounds currently
+                // playSound("sounds/onItemClick.wav");
+
+                System.out.println("-------> group " + groupPosition + " child " + childPosition);
+                Intent intent = new Intent(SearchViewActivity.this, SearchLocationScreen.class);
+
+                Item item = (Item) listAdapter.getChild(groupPosition, childPosition);
+                intent.putExtra("item", item.getLocationDescription());
+
+                startActivity(intent);
+
+                /*
+                final String locationText = item.getLocationDescription();
+
+                TextView locationChild = (TextView) v.findViewById(R.id.textView2);
+                System.out.println("---------------> location child" + locationChild);
+                System.out.println("---------> location" + v);
+
+                locationChild.setText(locationText);
+                */
+
+                return false;
+            }
+        });
     }
 
     // This is so the xml's android:onClick can link with loadCategories
@@ -148,7 +173,7 @@ public class SearchViewActivity extends AppCompatActivity {
 
     public boolean loadCategories () {
         System.out.println("------> Attempt to reload categories!");
-        listAdapter.setItemCategories(categoryManager.getAllCategories());
+        listAdapter.setItemCategories(new ArrayList<>(categoryManager.getAllCategories()));
         System.out.println("------> Item Categories: " + categoryManager.getAllCategories());
         expListView.collapseGroup(0);
         return true;

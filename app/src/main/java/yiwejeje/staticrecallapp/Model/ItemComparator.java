@@ -1,6 +1,8 @@
-package yiwejeje.staticrecallapp;
+package yiwejeje.staticrecallapp.Model;
 
 import java.util.Comparator;
+
+import yiwejeje.staticrecallapp.Model.Item;
 
 /**
  * Created by el-swug on 3/13/16.

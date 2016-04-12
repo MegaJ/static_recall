@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">Static Recall App</string>
 
+    <string name="title_content">Static Recall</string>
     <string name="search_button">Search</string>
     <string name="store_button">Store</string>
-    <string name="title_content">Static\nRecall</string>
+    <string name="edit_button">Edit</string>
+    <string name="about_button">About</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
@@ -12,7 +14,8 @@
     <string name="searchbar">Search for...</string>
     <string name="search_items">Search for Item</string>
     <string name="add_message">Add To Coming Soon</string>
-    <string name="title_activity_store_location">StoreLocationActivity</string>
+    <string name="title_activity_store_location">Store Location</string>
+    <string name="title_activity_listview_search">Search Stored Items</string>
 
     <string-array name="category_list">
         <item>Uncategorized</item>
@@ -21,9 +24,9 @@
     
     <string name="category_view">View Categories</string>
 
-    <string name="search_title">SearchLocationActivity</string>
+    <string name="search_title">Item Location Information</string>
     <string name="search_hint">Search stored items</string>
 
-    <string name="store_title">StoreLocationActivity</string>
-    <string name="title_activity_search_location_screen">SearchLocationScreen</string>
+    <string name="store_title">Store Location</string>
+    <string name="title_activity_search_location_screen">Item Location Information</string>
 </resources>

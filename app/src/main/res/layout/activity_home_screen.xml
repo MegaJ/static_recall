@@ -1,14 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/appback"
-    tools:context="yiwejeje.staticrecallapp.HomeScreenActivity">
+    android:background="@drawable/galaxy_wallpaper"
+    android:fitsSystemWindows="true"
+    tools:context=".Activity.HomeScreenActivity">
     <!--The background image was found here: http://www.wallpapersonweb.com/image-3102.html-->
+    <!--The background galaxy image was found here:
+    http://freewallpaperdownloads.net/wp-content/uploads/2015/03/ipad-air-2-wallpaper-for-iphone-6-plus.jpg/-->
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
+
     <TextView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
@@ -16,16 +20,12 @@
         android:gravity="center"
         android:keepScreenOn="true"
         android:text="@string/title_content"
-        android:textColor="#336b87"
-        android:textSize="60sp"
+        android:textColor="#FFFFFF"
+        android:textSize="50sp"
         android:textStyle="bold" />
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
 
         <LinearLayout
             android:id="@+id/fullscreen_content_controls"
@@ -39,68 +39,106 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/magnifyingglass_icon"
-            android:layout_width="188dp"
-            android:layout_height="181dp"
-            android:layout_gravity="left|top"
-            android:src="@drawable/magnifying2"
-            />
+    <!-- SEARCH ICON AND BUTTON -->
+
+    <ImageView
+        android:id="@+id/magnifyingglass_icon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="left|top"
+        android:src="@drawable/magnifying2"
+        android:padding="5dp"/>
         <!--The magnifying glass image was found here:
         http://www.officialpsds.com/Magnifying-Glass-PSD24080.html-->
 
-        <ImageView
-            android:id="@+id/openbox_icon"
-            android:layout_width="198dp"
-            android:layout_height="182dp"
-            android:layout_gravity="right|bottom"
-            android:src="@drawable/box"/>
+    <Button
+        android:id="@+id/search_button"
+        style="?metaButtonBarButtonStyle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/magnifyingglass_icon"
+        android:layout_alignParentLeft="true"
+        android:text="@string/search_button"
+        android:onClick="showItemsList"
+        android:textColor="#2a3132"
+        android:textSize="20sp"
+        android:background="@drawable/my_shape"/>
+
+    <!-- EDIT ICON AND BUTTON -->
+
+    <ImageView
+        android:id="@+id/edit_icon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:padding="15dp"
+        android:layout_gravity="right|top"
+        android:src="@drawable/edit_icon"
+        android:layout_alignParentRight="true"/>
+    <!--The edit icon image was found here:
+    http://www.iconsdb.com/icons/preview/caribbean-blue/edit-property-xxl.png -->
+
+    <Button
+        android:id="@+id/edit_button"
+        style="?metaButtonBarButtonStyle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_icon"
+        android:layout_alignParentRight="true"
+        android:text="@string/edit_button"
+        android:textColor="#2a3132"
+        android:textSize="20sp"
+        android:background="@drawable/my_shape"/>
+
+    <!-- STORE ICON AND BUTTON -->
+
+    <ImageView
+        android:id="@+id/openbox_icon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="right|bottom"
+        android:src="@drawable/box"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
         <!--The box icon image was found here:
         http://www.clipartpanda.com/clipart_images/brown-box-clip-art-7533842 -->
 
         <Button
             android:id="@+id/store_button"
             style="?metaButtonBarButtonStyle"
-            android:layout_width="175dp"
-            android:layout_height="165dp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/openbox_icon"
+            android:layout_alignParentRight="true"
             android:text="@string/store_button"
             android:onClick="storeLocation"
-            android:layout_gravity="bottom|left"
             android:textColor="#2a3432"
-            android:textSize="30sp"
-            android:background="@android:color/transparent" />
+            android:textSize="20sp"
+            android:background="@drawable/my_shape"/>
 
-        <Button
-            android:id="@+id/search_button"
-            style="?metaButtonBarButtonStyle"
-            android:layout_width="175dp"
-            android:layout_height="165dp"
-            android:layout_gravity="right|top"
-            android:text="@string/search_button"
-            android:onClick="showItemsList"
-            android:background="@android:color/transparent"
-            android:textColor="#2a3132"
-            android:textSize="30sp" />
+    <!-- ABOUT ICON AND BUTTON -->
 
-        <!--This button overlays the magnifying glass.-->
-        <Button
-            android:id="@+id/icon_search_button"
-            android:layout_width="200dp"
-            android:layout_height="185dp"
-            android:layout_gravity="left|top"
-            android:onClick="showItemsList"
-            android:background="@android:color/transparent"
-            />
+    <ImageView
+        android:id="@+id/about_icon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="right|bottom"
+        android:src="@drawable/info_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"/>
+    <!--The info icon image was found here:
+    http://vignette2.wikia.nocookie.net/gravityfalls/images/5/55/More_info_icon.png/revision/20131229000053 -->
 
-        <!--This button overlays the open box for the Store activity-->
-        <Button
-            android:id="@+id/icon_store_button"
-            android:layout_width="200dp"
-            android:layout_height="185dp"
-            android:layout_gravity="right|bottom"
-            android:onClick="storeLocation"
-            android:background="@android:color/transparent"/>
+    <Button
+        android:id="@+id/about_button"
+        style="?metaButtonBarButtonStyle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/about_icon"
+        android:layout_alignParentLeft="true"
+        android:text="@string/about_button"
+        android:textColor="#2a3432"
+        android:textSize="20sp"
+        android:background="@drawable/my_shape"/>
 
-    </FrameLayout>
-
-</FrameLayout>
+</RelativeLayout>

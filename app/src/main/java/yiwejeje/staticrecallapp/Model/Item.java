@@ -1,12 +1,9 @@
-package yiwejeje.staticrecallapp;
+package yiwejeje.staticrecallapp.Model;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Static Recall Heroes
@@ -26,7 +23,7 @@ public class Item implements Serializable {
         this.name = name;
 
         if (locationDescription == null) {
-            locationDescription = "";
+            this.locationDescription = "";
         } else {
             this.locationDescription = locationDescription;
         }

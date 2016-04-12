@@ -1,4 +1,4 @@
-package yiwejeje.staticrecallapp;
+package yiwejeje.staticrecallapp.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,12 +1,9 @@
-package yiwejeje.staticrecallapp;
+package yiwejeje.staticrecallapp.Activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -30,8 +27,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+
+import yiwejeje.staticrecallapp.Model.CategoryManager;
+import yiwejeje.staticrecallapp.Model.Item;
+import yiwejeje.staticrecallapp.Model.ItemCategory;
+import yiwejeje.staticrecallapp.R;
 
 public class StoreLocationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -49,7 +50,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     public boolean onTouchEvent(MotionEvent event) {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.
                 INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(new View(this).getWindowToken(), 0);
         return true;
     }
 
@@ -88,6 +89,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strLocation = itemLocation.getText().toString();
                 Item newItem = new Item(strItemTitle, strLocation);
                 CategoryManager myCategoryManager = CategoryManager.INSTANCE;
+<<<<<<< HEAD:app/src/main/java/yiwejeje/staticrecallapp/StoreLocationActivity.java
                 if (selectedCategory != "(Select from existing categories)"){
                     finalCategory=selectedCategory;
                 }else{
@@ -95,6 +97,10 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 }
                 //Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
                 ItemCategory existedCategory = myCategoryManager.getCategoryByName(finalCategory);
+=======
+                Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
+                ItemCategory existedCategory = myCategoryManager.getCategoryByName(strCategory);
+>>>>>>> 9c5f037fc9b49cc6bfdc7261f857e0d3046a45a4:app/src/main/java/yiwejeje/staticrecallapp/Activity/StoreLocationActivity.java
                 if (existedCategory == null) {
                     ItemCategory newCategory = new ItemCategory(finalCategory);
                     newCategory.addItem(newItem);
@@ -145,6 +151,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+
+        // TODO: What if no camera exists?
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -156,7 +164,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
             //4
-            File file = new File(Environment.getExternalStorageDirectory() + File.separator + "image.jpg");
+            File file = new File(this.getFilesDir() + File.separator + "image.jpg");
             try {
                 file.createNewFile();
                 FileOutputStream fo = new FileOutputStream(file);
