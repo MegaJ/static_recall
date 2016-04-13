@@ -27,7 +27,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import yiwejeje.staticrecallapp.Model.CategoryManager;
 import yiwejeje.staticrecallapp.Model.Item;
@@ -89,7 +91,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strLocation = itemLocation.getText().toString();
                 Item newItem = new Item(strItemTitle, strLocation);
                 CategoryManager myCategoryManager = CategoryManager.INSTANCE;
-<<<<<<< HEAD:app/src/main/java/yiwejeje/staticrecallapp/StoreLocationActivity.java
+
                 if (selectedCategory != "(Select from existing categories)"){
                     finalCategory=selectedCategory;
                 }else{
@@ -97,10 +99,10 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 }
                 //Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
                 ItemCategory existedCategory = myCategoryManager.getCategoryByName(finalCategory);
-=======
-                Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
-                ItemCategory existedCategory = myCategoryManager.getCategoryByName(strCategory);
->>>>>>> 9c5f037fc9b49cc6bfdc7261f857e0d3046a45a4:app/src/main/java/yiwejeje/staticrecallapp/Activity/StoreLocationActivity.java
+
+                //Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
+                //ItemCategory existedCategory = myCategoryManager.getCategoryByName(strCategory);
+
                 if (existedCategory == null) {
                     ItemCategory newCategory = new ItemCategory(finalCategory);
                     newCategory.addItem(newItem);
@@ -118,7 +120,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     private void setDropDownMenu(){
         CategoryManager myCategoryManager = CategoryManager.INSTANCE;
-        List<ItemCategory> allCategories = myCategoryManager.getAllCategories();
+        Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
         List<String> categories = new ArrayList<String>();
         categories.add("(Select from existing categories)");
         for (ItemCategory c:allCategories){
