@@ -39,55 +39,31 @@
 
         </LinearLayout>
 
-    <!-- SEARCH ICON AND BUTTON -->
+    <!-- ABOUT ICON AND BUTTON -->
 
     <ImageView
-        android:id="@+id/magnifyingglass_icon"
-        android:layout_width="150dp"
+        android:id="@+id/about_icon"
+        android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_gravity="left|top"
-        android:src="@drawable/magnifying2"
-        android:padding="5dp"/>
-        <!--The magnifying glass image was found here:
-        http://www.officialpsds.com/Magnifying-Glass-PSD24080.html-->
+        android:src="@drawable/info_icon"
+        android:padding="5dp" />
+    <!--The info icon image was found here:
+http://vignette2.wikia.nocookie.net/gravityfalls/images/5/55/More_info_icon.png/revision/20131229000053 -->
 
-    <Button
-        android:id="@+id/search_button"
+
+    <TextView
+        android:id="@+id/about_button"
         style="?metaButtonBarButtonStyle"
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/magnifyingglass_icon"
+        android:layout_below="@id/about_icon"
         android:layout_alignParentLeft="true"
-        android:text="@string/search_button"
+        android:text="@string/about_button"
+        android:textAlignment="center"
         android:onClick="showItemsList"
         android:textColor="#2a3132"
-        android:textSize="20sp"
-        android:background="@drawable/my_shape"/>
-
-    <!-- EDIT ICON AND BUTTON -->
-
-    <ImageView
-        android:id="@+id/edit_icon"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:padding="15dp"
-        android:layout_gravity="right|top"
-        android:src="@drawable/edit_icon"
-        android:layout_alignParentRight="true"/>
-    <!--The edit icon image was found here:
-    http://www.iconsdb.com/icons/preview/caribbean-blue/edit-property-xxl.png -->
-
-    <Button
-        android:id="@+id/edit_button"
-        style="?metaButtonBarButtonStyle"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/edit_icon"
-        android:layout_alignParentRight="true"
-        android:text="@string/edit_button"
-        android:textColor="#2a3132"
-        android:textSize="20sp"
-        android:background="@drawable/my_shape"/>
+        android:textSize="30sp"/>
 
     <!-- STORE ICON AND BUTTON -->
 
@@ -99,46 +75,46 @@
         android:src="@drawable/box"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="storeLocation" />
         <!--The box icon image was found here:
         http://www.clipartpanda.com/clipart_images/brown-box-clip-art-7533842 -->
 
-        <Button
+        <TextView
             android:id="@+id/store_button"
-            style="?metaButtonBarButtonStyle"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_above="@id/openbox_icon"
             android:layout_alignParentRight="true"
             android:text="@string/store_button"
-            android:onClick="storeLocation"
+            android:textAlignment="center"
             android:textColor="#2a3432"
-            android:textSize="20sp"
-            android:background="@drawable/my_shape"/>
+            android:textSize="30sp"/>
 
-    <!-- ABOUT ICON AND BUTTON -->
+    <!-- SEARCH ICON AND BUTTON -->
 
     <ImageView
-        android:id="@+id/about_icon"
+        android:id="@+id/search_icon"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="right|bottom"
-        android:src="@drawable/info_icon"
+        android:src="@drawable/magnifying2"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"/>
-    <!--The info icon image was found here:
-    http://vignette2.wikia.nocookie.net/gravityfalls/images/5/55/More_info_icon.png/revision/20131229000053 -->
+        android:layout_alignParentLeft="true"
+        android:onClick="showItemsList"/>
+    <!--The magnifying glass image was found here:
+    http://www.officialpsds.com/Magnifying-Glass-PSD24080.html-->
 
-    <Button
-        android:id="@+id/about_button"
-        style="?metaButtonBarButtonStyle"
+
+    <TextView
+        android:id="@+id/search_button"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_above="@id/about_icon"
+        android:layout_above="@id/search_icon"
         android:layout_alignParentLeft="true"
-        android:text="@string/about_button"
+        android:textAlignment="center"
+        android:text="@string/search_button"
         android:textColor="#2a3432"
-        android:textSize="20sp"
-        android:background="@drawable/my_shape"/>
+        android:textSize="30sp"/>
 
 </RelativeLayout>
