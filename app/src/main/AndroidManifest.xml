@@ -10,7 +10,8 @@
         android:theme="@style/AppTheme">
 
         <!-- This line indicates that our app uses the android camera hardware -->
-        <uses-feature android:name="android.hardware.camera" />
+        <uses-feature android:name="android.hardware.camera"
+            android:required="false"/>
 
         <!-- HOME SCREEN -->
         <activity
