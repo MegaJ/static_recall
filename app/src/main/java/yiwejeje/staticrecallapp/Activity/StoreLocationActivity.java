@@ -1,6 +1,7 @@
 package yiwejeje.staticrecallapp.Activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -66,12 +67,18 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         //changeBG();
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-
+        final PackageManager pm = this.getPackageManager();
         final ImageButton camButton = (ImageButton) findViewById(R.id.CameraButton);
         camButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dispatchTakePictureIntent();
+                if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "No camera installed", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else {
+                    dispatchTakePictureIntent();
+                }
             }
         });
 
@@ -83,7 +90,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         selectedCategory="";
         finalCategory="";
         addNewItem=(Button)findViewById(R.id.AddButton);
-        addNewItem.setOnClickListener(new View.OnClickListener(){
+        addNewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String strItemTitle = itemTitle.getText().toString();
@@ -92,10 +99,10 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 Item newItem = new Item(strItemTitle, strLocation);
                 CategoryManager myCategoryManager = CategoryManager.INSTANCE;
 
-                if (selectedCategory != "(Select from existing categories)"){
-                    finalCategory=selectedCategory;
-                }else{
-                    finalCategory=strCategory;
+                if (selectedCategory != "(Select from existing categories)") {
+                    finalCategory = selectedCategory;
+                } else {
+                    finalCategory = strCategory;
                 }
                 //Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
                 ItemCategory existedCategory = myCategoryManager.getCategoryByName(finalCategory);
@@ -112,9 +119,9 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                     boolean ifAdded = existedCategory.addItem(newItem);
                     displayResult(ifAdded);
 
-        }
+                }
             }
-    });
+        });
 
     }
 
@@ -150,11 +157,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         setContentView(R.layout.camera_content);
         mImage = (ImageView) findViewById(R.id.camera_image);
+
+        //Disables camera function if the device does not support the camera hardware
+        //If camera installed, dispatches the picture intent.
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
-
-        // TODO: What if no camera exists?
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
