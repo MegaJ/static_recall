@@ -183,6 +183,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             }
             //4
             File file = new File(this.getFilesDir() + File.separator + "image.jpg");
+            System.out.println("-----> Filepath = " + file.getAbsolutePath());
             try {
                 //file.createNewFile();
                 FileOutputStream fo = new FileOutputStream(file);
