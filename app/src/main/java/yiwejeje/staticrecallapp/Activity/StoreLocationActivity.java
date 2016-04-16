@@ -72,7 +72,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         camButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+                if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
                     Toast toast = Toast.makeText(getApplicationContext(), "No camera installed", Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -178,11 +178,13 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             mImage.setImageBitmap(thumbnail);
             //3
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            if (thumbnail != null) {
+                thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            }
             //4
             File file = new File(this.getFilesDir() + File.separator + "image.jpg");
             try {
-                file.createNewFile();
+                //file.createNewFile();
                 FileOutputStream fo = new FileOutputStream(file);
                 //5
                 fo.write(bytes.toByteArray());
