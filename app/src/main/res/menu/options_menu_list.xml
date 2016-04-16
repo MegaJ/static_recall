@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/search"
+        android:title="@string/search_title"
+        app:showAsAction="always"
+        android:icon="@drawable/magnifying_glass"
+        app:actionViewClass="android.widget.SearchView" />
+
+    <item android:id="@+id/store"
+        android:title="@string/store_title"
+        android:icon="@drawable/plussign"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/view_items"
+        android:title="@string/view_items"
+        app:showAsAction="never" />
+</menu>

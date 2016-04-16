@@ -1,7 +1,5 @@
 package yiwejeje.staticrecallapp.Activity;
 
-import android.app.ActionBar;
-import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -9,19 +7,14 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -73,9 +66,9 @@ public class ListViewSearchActivity extends AppCompatActivity {
                 //itemInfo.putString("item location",listAdapter.getItem(position).getLocationDescription());
 
 
-                intent.putExtra("item title",listAdapter.getItem(position).toString());
-                intent.putExtra("item category",listAdapter.getItem(position).getCategories().toString());
-                intent.putExtra("item location",listAdapter.getItem(position).getLocationDescription());
+                intent.putExtra("item title", listAdapter.getItem(position).toString());
+                intent.putExtra("item category", listAdapter.getItem(position).getCategories().toString());
+                intent.putExtra("item location", listAdapter.getItem(position).getLocationDescription());
                 startActivity(intent);
             }
         });
@@ -85,7 +78,7 @@ public class ListViewSearchActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.options_menu, menu);
+        getMenuInflater().inflate(R.menu.options_menu_list, menu);
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -121,6 +114,25 @@ public class ListViewSearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(textChangeListener);
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.search:
+                // TODO:
+                return true;
+            case R.id.store:
+                // TODO:
+                return true;
+
+            case R.id.view_items:
+                Intent intent = new Intent(this, SearchViewActivity.class);
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public boolean loadCategories () {

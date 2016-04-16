@@ -29,4 +29,7 @@
 
     <string name="store_title">Store Location</string>
     <string name="title_activity_search_location_screen">Item Location Information</string>
+
+    <string name="view_categories">View Categories</string>
+    <string name="view_items">View Items</string>
 </resources>
