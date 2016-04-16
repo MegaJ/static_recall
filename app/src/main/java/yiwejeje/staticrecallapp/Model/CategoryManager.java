@@ -38,7 +38,7 @@ public enum CategoryManager {
     private CategoryManager() {
         allCategories = new TreeSet<ItemCategory>(new CategoryComparator());
         configureGson();
-        initializePresetData();
+        // initializePresetData();
     }
 
     private void configureGson () {

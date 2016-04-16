@@ -98,6 +98,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strLocation = itemLocation.getText().toString();
                 Item newItem = new Item(strItemTitle, strLocation);
                 CategoryManager myCategoryManager = CategoryManager.INSTANCE;
+                try {
+                    System.out.println("-----> Attempt at saving!");
+                    myCategoryManager.save(StoreLocationActivity.this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 if (selectedCategory != "(Select from existing categories)") {
                     finalCategory = selectedCategory;
