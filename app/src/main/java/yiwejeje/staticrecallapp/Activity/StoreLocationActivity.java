@@ -40,11 +40,12 @@ import yiwejeje.staticrecallapp.R;
 public class StoreLocationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Button addNewItem;
+    private Item newItem;
     private EditText itemTitle;
     private EditText itemCategory;  //right now only allow for one category for the simplicity
     private EditText itemLocation;
+    private File imageFile;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private ImageView mImage;
     private Spinner spinner;
     private String selectedCategory;
     private String finalCategory;
@@ -96,7 +97,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strItemTitle = itemTitle.getText().toString();
                 String strCategory = itemCategory.getText().toString();
                 String strLocation = itemLocation.getText().toString();
-                Item newItem = new Item(strItemTitle, strLocation);
+                newItem = new Item(strItemTitle, strLocation);
+                if (imageFile != null){
+                    newItem.setPicture(imageFile);
+                    System.out.println("---> My image file is " + imageFile.getAbsolutePath());
+                }
+
                 CategoryManager myCategoryManager = CategoryManager.INSTANCE;
                 try {
                     System.out.println("-----> Attempt at saving!");
@@ -161,8 +167,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        setContentView(R.layout.camera_content);
-        mImage = (ImageView) findViewById(R.id.camera_image);
+        //setContentView(R.layout.camera_content);
+        //mImage = (ImageView) findViewById(R.id.camera_image);
 
         //Disables camera function if the device does not support the camera hardware
         //If camera installed, dispatches the picture intent.
@@ -174,19 +180,19 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             //2
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            mImage.setImageBitmap(thumbnail);
+            //Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            //mImage.setImageBitmap(thumbnail);
             //3
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            if (thumbnail != null) {
-                thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            }
+            //if (thumbnail != null) {
+                //thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            //}
             //4
-            File file = new File(this.getFilesDir() + File.separator + "image.jpg");
-            System.out.println("-----> Filepath = " + file.getAbsolutePath());
+            imageFile = new File(this.getFilesDir() + File.separator + "image.jpg");
+            //System.out.println("-----> Filepath = " + file.getAbsolutePath());
             try {
                 //file.createNewFile();
-                FileOutputStream fo = new FileOutputStream(file);
+                FileOutputStream fo = new FileOutputStream(imageFile);
                 //5
                 fo.write(bytes.toByteArray());
                 fo.close();
@@ -196,6 +202,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             }
         }
     }
+
 
     private void displayResult(boolean addedResult){
         if (addedResult){
@@ -216,6 +223,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         View backgroundimage = findViewById(R.id.background);
         Drawable background = backgroundimage.getBackground();
         background.setAlpha(150);
+
     }
 
 
