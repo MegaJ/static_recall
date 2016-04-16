@@ -17,6 +17,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Button;
 
+import java.io.IOException;
+
+import yiwejeje.staticrecallapp.Model.CategoryManager;
 import yiwejeje.staticrecallapp.R;
 
 public class SearchLocationScreen extends AppCompatActivity {
@@ -26,12 +29,21 @@ public class SearchLocationScreen extends AppCompatActivity {
     private Button saveBtn;
     private Switch switch1;
 
+    CategoryManager categoryManager = CategoryManager.INSTANCE;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
-                INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(new View(this).getWindowToken(), 0);
+        hideTouchPad();
         return true;
+    }
+
+    private void hideTouchPad() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+
     }
 
     @Override
@@ -109,9 +121,16 @@ public class SearchLocationScreen extends AppCompatActivity {
         }
     }
 
-
-
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println("------> Save called from Item Location Activity!");
+        try {
+            categoryManager.save(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
