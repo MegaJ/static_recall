@@ -19,4 +19,5 @@
         android:textColor="@color/colorPrimaryDark"
         android:text="No data"/>
     <!--android:background="#FF0000"-->
+
 </LinearLayout>

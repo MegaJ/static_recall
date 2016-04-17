@@ -160,16 +160,6 @@ public class SearchViewActivity extends AppCompatActivity {
 
                 startActivity(intent);
 
-                /*
-                final String locationText = item.getLocationDescription();
-
-                TextView locationChild = (TextView) v.findViewById(R.id.textView2);
-                System.out.println("---------------> location child" + locationChild);
-                System.out.println("---------> location" + v);
-
-                locationChild.setText(locationText);
-                */
-
                 return false;
             }
         });
