@@ -71,28 +71,23 @@
         android:scaleType="fitXY"
 
 
-        android:layout_alignLeft="@+id/LocationText"
-        android:layout_alignStart="@+id/LocationText"
-
-        android:layout_marginLeft="10dp"
-        android:layout_below="@+id/textView"
         android:layout_alignTop="@+id/TextButton"
-        android:layout_alignParentLeft="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignLeft="@+id/LocationText"
+        android:layout_alignStart="@+id/LocationText" />
 
 
-    <!--<ImageButton
+    <ImageButton
         android:layout_width="110dp"
         android:layout_height="100dp"
         android:scaleType="fitXY"
         android:id="@+id/AudioButton"
         android:src="@drawable/soundwave"
+
         android:layout_below="@+id/textView"
+        android:layout_alignRight="@+id/CatText"
+        android:layout_alignEnd="@+id/CatText" />
 
-        android:layout_alignRight="@+id/LocationText"
-        android:layout_alignEnd="@+id/LocationText" />
 
-        android:layout_alignEnd="@+id/CatText" />-->
 
 
     <ImageButton
@@ -101,10 +96,9 @@
         android:scaleType="fitXY"
         android:id="@+id/TextButton"
         android:src="@drawable/text"
-        android:layout_marginRight="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignTop="@+id/AudioButton"
+        android:layout_alignRight="@+id/textView"
+        android:layout_alignEnd="@+id/textView" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -130,10 +124,9 @@
         android:textColor="#dddddf"
         android:textStyle="bold"
         android:id="@+id/AddButton"
-        android:layout_marginTop="57dp"
-        android:layout_below="@id/LocationText"
-        android:layout_alignLeft="@+id/TextButton"
-        android:layout_alignStart="@+id/TextButton" />
+        android:layout_below="@+id/LocationText"
+        android:layout_alignRight="@+id/LocationText"
+        android:layout_alignEnd="@+id/LocationText" />
 
     <Spinner
         android:layout_width="450dp"
@@ -142,6 +135,38 @@
         android:layout_below="@+id/ItemText"
         android:layout_marginTop="45dp"
         android:textSize="40sp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:id="@+id/playButton"
+        android:onClick="playAudio"
+
+        android:layout_alignLeft="@+id/CameraButton"
+
+        android:layout_alignStart="@id/CameraButton"
+        android:layout_below="@id/CameraButton"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Record"
+        android:id="@+id/recordButton"
+        android:onClick="recordAudio"
+        android:layout_alignTop="@+id/playButton"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:id="@+id/stopButton"
+        android:onClick="stopAudio"
+        android:layout_below="@+id/AudioButton"
+        android:layout_alignRight="@+id/AudioButton"
+        android:layout_alignEnd="@+id/AudioButton" />
 
 
 </RelativeLayout>

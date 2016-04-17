@@ -3,7 +3,10 @@ package yiwejeje.staticrecallapp.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,6 +35,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+
+
+
 import yiwejeje.staticrecallapp.Model.CategoryManager;
 import yiwejeje.staticrecallapp.Model.Item;
 import yiwejeje.staticrecallapp.Model.ItemCategory;
@@ -49,6 +55,20 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private Spinner spinner;
     private String selectedCategory;
     private String finalCategory;
+    private ImageButton typeIn;
+    private ImageButton makeRecording;
+
+
+
+    private static MediaRecorder mediaRecorder;
+    private static MediaPlayer mediaPlayer;
+
+    private static String audioFilePath;
+    private static Button stopButton;
+    private static Button playButton;
+    private static Button recordButton;
+    private boolean isRecording = false;
+
 
 
 
@@ -77,11 +97,36 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             }
         });
 
+        recordButton = (Button) findViewById(R.id.recordButton);
+        playButton = (Button) findViewById(R.id.playButton);
+        stopButton = (Button) findViewById(R.id.stopButton);
+
+        if (!hasMicrophone()) {
+            stopButton.setEnabled(false);
+            playButton.setEnabled(false);
+            recordButton.setEnabled(false);
+        } else {
+            playButton.setEnabled(false);
+            stopButton.setEnabled(false);
+        }
+
+        audioFilePath =
+                Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + "/myaudio.3gp";
+
+
 
         itemTitle = (EditText) findViewById(R.id.ItemText);
         itemCategory = (EditText) findViewById(R.id.CatText);
         itemLocation = (EditText) findViewById(R.id.LocationText);
+        typeIn = (ImageButton) findViewById(R.id.TextButton);
+        makeRecording=(ImageButton) findViewById(R.id.AudioButton);
+
         setDropDownMenu();
+
+        setUpLocation();
+
+
         selectedCategory = "";
         finalCategory = "";
         addNewItem = (Button) findViewById(R.id.AddButton);
@@ -220,8 +265,91 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     }
 
+    /////////////////////new code to implement the audio recording
+
+    private void setUpLocation(){
+        itemLocation.setVisibility(View.INVISIBLE);
+        recordButton.setVisibility(View.INVISIBLE);
+        stopButton.setVisibility(View.INVISIBLE);
+        playButton.setVisibility(View.INVISIBLE);
+
+        typeIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemLocation.setVisibility(View.VISIBLE);
+            }
+        });
+
+        makeRecording.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                recordButton.setVisibility(View.VISIBLE);
+                stopButton.setVisibility(View.VISIBLE);
+                playButton.setVisibility(View.VISIBLE);
+            }
+        });
 
 
+
+    }
+    protected boolean hasMicrophone() {
+        PackageManager pmanager = this.getPackageManager();
+        return pmanager.hasSystemFeature(
+                PackageManager.FEATURE_MICROPHONE);
+    }
+
+
+
+    public void recordAudio (View view) throws IOException {
+        isRecording = true;
+        stopButton.setEnabled(true);
+        playButton.setEnabled(false);
+        recordButton.setEnabled(false);
+
+        try {
+            mediaRecorder = new MediaRecorder();
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mediaRecorder.setOutputFile(audioFilePath);
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+            mediaRecorder.prepare();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mediaRecorder.start();
+    }
+
+    public void stopAudio (View view) {
+        stopButton.setEnabled(false);
+        playButton.setEnabled(true);
+
+        if (isRecording) {
+            recordButton.setEnabled(false);
+            mediaRecorder.stop();
+            mediaRecorder.release();
+            mediaRecorder = null;
+            isRecording = false;
+        } else {
+            mediaPlayer.release();
+            mediaPlayer = null;
+            recordButton.setEnabled(true);
+        }
+    }
+
+    public void playAudio (View view) throws IOException {
+        playButton.setEnabled(false);
+        recordButton.setEnabled(false);
+        stopButton.setEnabled(true);
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setDataSource(audioFilePath);
+        mediaPlayer.prepare();
+        mediaPlayer.start();
+    }
+
+
+    ///////END OF NEW CODE
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
