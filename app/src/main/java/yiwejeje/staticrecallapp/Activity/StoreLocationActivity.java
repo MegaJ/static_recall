@@ -50,13 +50,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private String selectedCategory;
     private String finalCategory;
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
-                INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(new View(this).getWindowToken(), 0);
-        return true;
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +62,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         //changeBG();
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+
         final PackageManager pm = this.getPackageManager();
         final ImageButton camButton = (ImageButton) findViewById(R.id.CameraButton);
         camButton.setOnClickListener(new View.OnClickListener() {
@@ -76,21 +71,20 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
                     Toast toast = Toast.makeText(getApplicationContext(), "No camera installed", Toast.LENGTH_SHORT);
                     toast.show();
-                }
-                else {
+                } else {
                     dispatchTakePictureIntent();
                 }
             }
         });
 
 
-        itemTitle=(EditText)findViewById(R.id.ItemText);
-        itemCategory=(EditText)findViewById(R.id.CatText);
-        itemLocation=(EditText)findViewById(R.id.LocationText);
+        itemTitle = (EditText) findViewById(R.id.ItemText);
+        itemCategory = (EditText) findViewById(R.id.CatText);
+        itemLocation = (EditText) findViewById(R.id.LocationText);
         setDropDownMenu();
-        selectedCategory="";
-        finalCategory="";
-        addNewItem=(Button)findViewById(R.id.AddButton);
+        selectedCategory = "";
+        finalCategory = "";
+        addNewItem = (Button) findViewById(R.id.AddButton);
         addNewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +92,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strCategory = itemCategory.getText().toString();
                 String strLocation = itemLocation.getText().toString();
                 newItem = new Item(strItemTitle, strLocation);
-                if (imageFile != null){
+                if (imageFile != null) {
                     newItem.setPicture(imageFile);
                     System.out.println("---> My image file is " + imageFile.getAbsolutePath());
                 }
@@ -227,6 +221,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
 
+
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         selectedCategory = parent.getItemAtPosition(position).toString();
@@ -235,6 +231,30 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+
+//to hide the keyboard everytime the user touches anywhere on screen
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        View v = getCurrentFocus();
+        boolean ret = super.dispatchTouchEvent(event);
+
+        if (v instanceof EditText) {
+            View w = getCurrentFocus();
+            int scrcoords[] = new int[2];
+            w.getLocationOnScreen(scrcoords);
+            float x = event.getRawX() + w.getLeft() - scrcoords[0];
+            float y = event.getRawY() + w.getTop() - scrcoords[1];
+
+            //Log.d("Activity", "Touch event "+event.getRawX()+","+event.getRawY()+" "+x+","+y+" rect "+w.getLeft()+","+w.getTop()+","+w.getRight() +","+w.getBottom()+" coords "+ scrcoords[0]+","+scrcoords[1]);
+            if (event.getAction() == MotionEvent.ACTION_UP && (x < w.getLeft() || x >= w.getRight() || y < w.getTop() || y > w.getBottom()) ) {
+
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+            }
+        }
+        return ret;
     }
 }
 

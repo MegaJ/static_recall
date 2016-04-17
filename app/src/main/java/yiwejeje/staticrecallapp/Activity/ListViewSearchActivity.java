@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,7 @@ public class ListViewSearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v("-----------> value is ", "aaaa  ");
         configureView();
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
@@ -57,9 +59,9 @@ public class ListViewSearchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ListViewSearchActivity.this, SearchLocationScreen.class);
                 //Bundle itemInfo=new Bundle();
-                //Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).toString());
-                //Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).getCategories().toString());
-                //Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).getLocationDescription());
+                Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).toString());
+                Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).getCategories().toString());
+                Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).getLocationDescription());
 
                 //itemInfo.putString("item title",listAdapter.getItem(position).toString());
                 //itemInfo.putString("item category",listAdapter.getItem(position).getCategories().toString());

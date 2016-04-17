@@ -80,10 +80,10 @@ public class SearchLocationScreen extends AppCompatActivity {
         //how to pass an object
 
 
-//        if (extras.getString("item location")!= null){
-//            String location=extras.getString("item location");
-//            locationDisplay.setText(location);
-//        }
+        if (extras.getString("item location")!= null){
+            String location=extras.getString("item location");
+            locationDisplay.setText(location);
+        }
 
         //set the switch to ON
         //switch1.setChecked(true);
@@ -99,6 +99,8 @@ public class SearchLocationScreen extends AppCompatActivity {
                     catDisplay.setEnabled(true);
                     locationDisplay.setEnabled(true);
                     saveBtn.setVisibility(View.VISIBLE);
+                    //catch the intent
+                    //delete the item first, then save it again
                 }else{
                     titleDisplay.setEnabled(false);
                     catDisplay.setEnabled(false);
