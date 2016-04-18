@@ -26,7 +26,6 @@ import android.graphics.drawable.Drawable;
 import android.view.WindowManager;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,10 +33,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-
-
-
 import yiwejeje.staticrecallapp.Model.CategoryManager;
 import yiwejeje.staticrecallapp.Model.Item;
 import yiwejeje.staticrecallapp.Model.ItemCategory;
@@ -57,12 +52,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private String finalCategory;
     private ImageButton typeIn;
     private ImageButton makeRecording;
-
-
-
     private static MediaRecorder mediaRecorder;
     private static MediaPlayer mediaPlayer;
-
     private static String audioFilePath;
     private static Button stopButton;
     private static Button playButton;
@@ -79,10 +70,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //changeBG();
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-
         final PackageManager pm = this.getPackageManager();
         final ImageButton camButton = (ImageButton) findViewById(R.id.CameraButton);
         camButton.setOnClickListener(new View.OnClickListener() {
@@ -113,9 +101,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         audioFilePath =
                 Environment.getExternalStorageDirectory().getAbsolutePath()
                         + "/myaudio.3gp";
-
-
-
         itemTitle = (EditText) findViewById(R.id.ItemText);
         itemCategory = (EditText) findViewById(R.id.CatText);
         itemLocation = (EditText) findViewById(R.id.LocationText);
@@ -123,9 +108,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         makeRecording=(ImageButton) findViewById(R.id.AudioButton);
 
         setDropDownMenu();
-
         setUpLocation();
-
 
         selectedCategory = "";
         finalCategory = "";
@@ -150,17 +133,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                     e.printStackTrace();
                 }
 
-                if (selectedCategory != "(Select from existing categories)") {
+                if (!(selectedCategory.equals("(Select from existing categories)"))) {
                     finalCategory = selectedCategory;
                 } else {
                     finalCategory = strCategory;
                 }
-                //Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
                 ItemCategory existedCategory = myCategoryManager.getCategoryByName(finalCategory);
-
-                //Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
-                //ItemCategory existedCategory = myCategoryManager.getCategoryByName(strCategory);
-
                 if (existedCategory == null) {
                     ItemCategory newCategory = new ItemCategory(finalCategory);
                     newCategory.addItem(newItem);
@@ -176,30 +154,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     }
 
-    private void setDropDownMenu(){
-        CategoryManager myCategoryManager = CategoryManager.INSTANCE;
-        Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
-        List<String> categories = new ArrayList<String>();
-        categories.add("(Select from existing categories)");
-        for (ItemCategory c:allCategories){
-            categories.add(c.toString());
-        }
-        spinner=(Spinner) findViewById(R.id.spinner);
 
-        spinner.setOnItemSelectedListener(this);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view =super.getView(position, convertView, parent);
-                TextView textView=(TextView) view.findViewById(android.R.id.text1);
-                // do whatever you want with this text view
-                textView.setTextSize(25);
-                return view;
-            }
-        };
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-    }
 
 
     //*******************new code
@@ -255,17 +210,13 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             messageTextView.setTextSize(25);
             message.show();
         }
-
     }
 
-    private void changeBG(){
-        View backgroundimage = findViewById(R.id.background);
-        Drawable background = backgroundimage.getBackground();
-        background.setAlpha(150);
 
-    }
 
-    /////////////////////new code to implement the audio recording
+    /*
+    Code for the audio recording
+     */
 
     private void setUpLocation(){
         itemLocation.setVisibility(View.INVISIBLE);
@@ -288,10 +239,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 playButton.setVisibility(View.VISIBLE);
             }
         });
-
-
-
     }
+
     protected boolean hasMicrophone() {
         PackageManager pmanager = this.getPackageManager();
         return pmanager.hasSystemFeature(
@@ -305,7 +254,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         stopButton.setEnabled(true);
         playButton.setEnabled(false);
         recordButton.setEnabled(false);
-
         try {
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -341,15 +289,40 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         playButton.setEnabled(false);
         recordButton.setEnabled(false);
         stopButton.setEnabled(true);
-
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setDataSource(audioFilePath);
         mediaPlayer.prepare();
         mediaPlayer.start();
     }
 
+    /*
+    For the dropdown list
+     */
+    private void setDropDownMenu(){
+        CategoryManager myCategoryManager = CategoryManager.INSTANCE;
+        Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
+        List<String> categories = new ArrayList<String>();
+        categories.add("(Select from existing categories)");
+        for (ItemCategory c:allCategories){
+            categories.add(c.toString());
+        }
+        spinner=(Spinner) findViewById(R.id.spinner);
 
-    ///////END OF NEW CODE
+        spinner.setOnItemSelectedListener(this);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                // do whatever you want with this text view
+                textView.setTextSize(25);
+                return view;
+            }
+        };
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -362,22 +335,19 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
 
-//to hide the keyboard everytime the user touches anywhere on screen
+    /*
+    To hide the keyboard every time the user touches anywhere on screen
+     */
     public boolean dispatchTouchEvent(MotionEvent event) {
-
         View v = getCurrentFocus();
         boolean ret = super.dispatchTouchEvent(event);
-
         if (v instanceof EditText) {
             View w = getCurrentFocus();
             int scrcoords[] = new int[2];
             w.getLocationOnScreen(scrcoords);
             float x = event.getRawX() + w.getLeft() - scrcoords[0];
             float y = event.getRawY() + w.getTop() - scrcoords[1];
-
-            //Log.d("Activity", "Touch event "+event.getRawX()+","+event.getRawY()+" "+x+","+y+" rect "+w.getLeft()+","+w.getTop()+","+w.getRight() +","+w.getBottom()+" coords "+ scrcoords[0]+","+scrcoords[1]);
             if (event.getAction() == MotionEvent.ACTION_UP && (x < w.getLeft() || x >= w.getRight() || y < w.getTop() || y > w.getBottom()) ) {
-
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
             }
