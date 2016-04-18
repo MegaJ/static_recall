@@ -9,16 +9,12 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.SearchView;
 
 import java.io.IOException;
@@ -32,7 +28,7 @@ import yiwejeje.staticrecallapp.Model.Item;
 import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
-public class SearchViewActivity extends AppCompatActivity {
+public class ExpandableListSearchActivity extends AppCompatActivity {
     CategoryListAdapter listAdapter;
     ExpandableListView expListView;
 
@@ -43,20 +39,15 @@ public class SearchViewActivity extends AppCompatActivity {
 
     MediaPlayer mp = new MediaPlayer();
 
-    ListView listView;
-    ArrayAdapter<Item> listAdapter2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        configureListView();
-        Log.v("-----------> value is ", "bbbbbb  ");
+        configureView();
 
         // wait, do we need these 3 lines?
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        configureView();
 
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
@@ -125,7 +116,7 @@ public class SearchViewActivity extends AppCompatActivity {
         return true;
     }
 
-    private void configureListView() {
+    private void configureView() {
         setContentView(R.layout.activity_search_view);
 
         listAdapter = new CategoryListAdapter(
@@ -153,22 +144,12 @@ public class SearchViewActivity extends AppCompatActivity {
                 // playSound("sounds/onItemClick.wav");
 
                 System.out.println("-------> group " + groupPosition + " child " + childPosition);
-                Intent intent = new Intent(SearchViewActivity.this, SearchLocationScreen.class);
+                Intent intent = new Intent(ExpandableListSearchActivity.this, SearchLocationScreen.class);
 
                 Item item = (Item) listAdapter.getChild(groupPosition, childPosition);
                 intent.putExtra("item", item.getLocationDescription());
 
                 startActivity(intent);
-
-                /*
-                final String locationText = item.getLocationDescription();
-
-                TextView locationChild = (TextView) v.findViewById(R.id.textView2);
-                System.out.println("---------------> location child" + locationChild);
-                System.out.println("---------> location" + v);
-
-                locationChild.setText(locationText);
-                */
 
                 return false;
             }
@@ -278,36 +259,5 @@ public class SearchViewActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void configureView() {
-        setContentView(R.layout.activity_search_view_list);
-
-        // initiate the listadapter
-        listAdapter2 = new ArrayAdapter<Item>(this,
-                R.layout.list_item, R.id.lblListItem, new ArrayList<Item>(categoryManager.getAllItems()));
-
-        listView = (ListView) findViewById(android.R.id.list);
-        listView.setAdapter(listAdapter2);
-        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(SearchViewActivity.this, SearchLocationScreen.class);
-                //Bundle itemInfo=new Bundle();
-                Log.v("-----------> value is ", "a  " + listAdapter2.getItem(position).toString());
-                Log.v("-----------> value is ", "a  " + listAdapter2.getItem(position).getCategories().toString());
-                Log.v("-----------> value is ", "a  " + listAdapter2.getItem(position).getLocationDescription());
-
-                //itemInfo.putString("item title",listAdapter.getItem(position).toString());
-                //itemInfo.putString("item category",listAdapter.getItem(position).getCategories().toString());
-                //itemInfo.putString("item location",listAdapter.getItem(position).getLocationDescription());
-
-
-                intent.putExtra("item title", listAdapter2.getItem(position).toString());
-                intent.putExtra("item category", listAdapter2.getItem(position).getCategories().toString());
-                intent.putExtra("item location", listAdapter2.getItem(position).getLocationDescription());
-                startActivity(intent);
-            }
-        });
     }
 }
