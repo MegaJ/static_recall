@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -50,7 +51,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private File imageFile;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Spinner spinner;
-
     private String selectedCategory;
     private String finalCategory;
 
@@ -201,6 +201,10 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            //Uri uri = Uri.fromFile(imageFile);
+            //
+            //itemImageView.setImageURI(uri);
+            //itemImageView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -227,6 +231,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     private void setUpLocation(){
         itemLocation.setVisibility(View.INVISIBLE);
+        ImageView itemImageView = (ImageView) findViewById(R.id.ItemImageView);
+        itemImageView.setVisibility(View.INVISIBLE);
         recordButton.setVisibility(View.INVISIBLE);
         stopButton.setVisibility(View.INVISIBLE);
         playButton.setVisibility(View.INVISIBLE);
