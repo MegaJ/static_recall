@@ -89,15 +89,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activity.ListViewSearchActivity" />
         </activity>
-        <activity
-            android:name=".Activity.AboutScreenActivity"
-            android:label="@string/title_activity_about_screen"
-            android:parentActivityName=".Activity.HomeScreenActivity"
+        <activity android:name=".Activity.AboutScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="yiwejeje.staticrecallapp.Activity.HomeScreenActivity" />
+                android:value=".Activity.HomeScreenActivity" />
         </activity>
+
+
     </application>
 
 </manifest>
