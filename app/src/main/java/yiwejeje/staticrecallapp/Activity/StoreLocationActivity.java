@@ -50,8 +50,11 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private File imageFile;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Spinner spinner;
+
     private String selectedCategory;
     private String finalCategory;
+
+    CategoryManager categoryManager = CategoryManager.INSTANCE;
     private ImageButton typeIn;
     private ImageButton makeRecording;
     private static MediaRecorder mediaRecorder;
@@ -72,7 +75,9 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         final PackageManager pm = this.getPackageManager();
         final ImageButton camButton = (ImageButton) findViewById(R.id.CameraButton);
         camButton.setOnClickListener(new View.OnClickListener() {
@@ -112,8 +117,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         setDropDownMenu();
         setUpLocation();
 
-        selectedCategory = "";
-        finalCategory = "";
         addNewItem = (Button) findViewById(R.id.AddButton);
         addNewItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,38 +125,51 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strCategory = itemCategory.getText().toString();
                 String strLocation = itemLocation.getText().toString();
                 newItem = new Item(strItemTitle, strLocation);
+
                 if (imageFile != null) {
                     newItem.setPicture(imageFile);
                     System.out.println("---> My image file is " + imageFile.getAbsolutePath());
                 }
 
-                CategoryManager myCategoryManager = CategoryManager.INSTANCE;
-
-                if (!(selectedCategory.equals("(Select from existing categories)"))) {
-                    finalCategory = selectedCategory;
-                } else {
-                    finalCategory = strCategory;
-                }
-                ItemCategory existedCategory = myCategoryManager.getCategoryByName(finalCategory);
-                if (existedCategory == null) {
-                    ItemCategory newCategory = new ItemCategory(finalCategory);
-                    newCategory.addItem(newItem);
-                    boolean ifAdded = myCategoryManager.addCategory(newCategory);
-                    displayResult(ifAdded);
-                } else {
-                    boolean ifAdded = existedCategory.addItem(newItem);
-                    displayResult(ifAdded);
-                }
-
-                try {
-                    System.out.println("-----> Attempt at saving!");
-                    myCategoryManager.save(StoreLocationActivity.this);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                boolean addingSuccessful = addItemToCategoryManager();
+                persistEverything();
+                displayResult(addingSuccessful);
             }
         });
 
+    }
+
+    private void persistEverything() {
+        try {
+            System.out.println("-----> Attempt at saving!");
+            categoryManager.save(StoreLocationActivity.this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean addItemToCategoryManager() {
+        selectedCategory = "";
+        if (!(selectedCategory.equals("(Select from existing categories)"))) {
+            finalCategory = selectedCategory;
+        } else {
+            finalCategory = "Uncategorized";
+        }
+
+        boolean itemAdded = false;
+        boolean categoryAdded = false;
+        boolean addingSuccessful = false;
+        ItemCategory existingCategory = categoryManager.getCategoryByName(finalCategory);
+        if (existingCategory == null) {
+            existingCategory = new ItemCategory(finalCategory);
+            itemAdded = existingCategory.addItem(newItem);
+            categoryAdded = categoryManager.addCategory(existingCategory);
+            addingSuccessful = itemAdded && categoryAdded;
+        } else {
+            addingSuccessful = existingCategory.addItem(newItem);
+        }
+
+        return addingSuccessful;
     }
 
 
@@ -222,7 +238,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             }
         });
 
-        makeRecording.setOnClickListener(new View.OnClickListener(){
+        makeRecording.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recordButton.setVisibility(View.VISIBLE);
