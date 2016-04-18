@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="yiwejeje.staticrecallapp">
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
@@ -12,8 +13,9 @@
         android:theme="@style/AppTheme">
 
         <!-- This line indicates that our app uses the android camera hardware -->
-        <uses-feature android:name="android.hardware.camera"
-            android:required="false"/>
+        <uses-feature
+            android:name="android.hardware.camera"
+            android:required="false" />
 
         <!-- HOME SCREEN -->
         <activity
@@ -23,25 +25,27 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!-- SEARCH SCREENS -->
 
+
         <!-- EXPANDABLE LIST VIEW -->
         <activity
             android:name=".Activity.ExpandableListSearchActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".Activity.HomeScreenActivity"
-            android:theme="@style/AppTheme"
-            android:launchMode="singleTop">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+                android:resource="@xml/searchable" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activity.HomeScreenActivity" />
@@ -50,16 +54,16 @@
         <!-- CLASSIC LIST VIEW -->
         <activity
             android:name=".Activity.ListViewSearchActivity"
-            android:parentActivityName=".Activity.HomeScreenActivity"
             android:label="@string/title_activity_listview_search"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:parentActivityName=".Activity.HomeScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+                android:resource="@xml/searchable" />
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activity.HomeScreenActivity" />
@@ -81,10 +85,18 @@
             android:name=".Activity.SearchLocationScreen"
             android:label="@string/title_activity_search_location_screen"
             android:theme="@style/AppTheme.NoActionBar">
-
             <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".Activity.ListViewSearchActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activity.ListViewSearchActivity" />
+        </activity>
+        <activity
+            android:name=".Activity.AboutScreenActivity"
+            android:label="@string/title_activity_about_screen"
+            android:parentActivityName=".Activity.HomeScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="yiwejeje.staticrecallapp.Activity.HomeScreenActivity" />
         </activity>
     </application>
 
