@@ -149,8 +149,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
     private boolean addItemToCategoryManager() {
-        selectedCategory = "";
-        if (!(selectedCategory.equals("(Select from existing categories)"))) {
+        // TODO: Fix bug where you add a blank category
+        if (selectedCategory != null) {
             finalCategory = selectedCategory;
         } else {
             finalCategory = "Uncategorized";
@@ -333,8 +333,10 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        selectedCategory = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG).show();
+        if (position != 0) {
+            selectedCategory = parent.getItemAtPosition(position).toString();
+            Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
