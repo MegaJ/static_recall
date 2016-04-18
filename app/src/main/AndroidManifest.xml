@@ -31,7 +31,7 @@
 
         <!-- EXPANDABLE LIST VIEW -->
         <activity
-            android:name=".Activity.SearchViewActivity"
+            android:name=".Activity.ExpandableListSearchActivity"
             android:parentActivityName=".Activity.HomeScreenActivity"
             android:theme="@style/AppTheme"
             android:launchMode="singleTop">
