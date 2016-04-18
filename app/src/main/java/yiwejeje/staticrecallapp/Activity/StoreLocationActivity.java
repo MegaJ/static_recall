@@ -143,12 +143,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 }
 
                 CategoryManager myCategoryManager = CategoryManager.INSTANCE;
-                try {
-                    System.out.println("-----> Attempt at saving!");
-                    myCategoryManager.save(StoreLocationActivity.this);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
                 if (selectedCategory != "(Select from existing categories)") {
                     finalCategory = selectedCategory;
@@ -169,7 +163,13 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 } else {
                     boolean ifAdded = existedCategory.addItem(newItem);
                     displayResult(ifAdded);
+                }
 
+                try {
+                    System.out.println("-----> Attempt at saving!");
+                    myCategoryManager.save(StoreLocationActivity.this);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
