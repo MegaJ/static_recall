@@ -202,12 +202,10 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
 
-    //*******************new code
+    //CAMERA CODE -- Picture intent and actual file-writinggit
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //setContentView(R.layout.camera_content);
-        //mImage = (ImageView) findViewById(R.id.camera_image);
 
         //Disables camera function if the device does not support the camera hardware
         //If camera installed, dispatches the picture intent.
@@ -218,21 +216,10 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
-            //2
-            //Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            //mImage.setImageBitmap(thumbnail);
-            //3
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            //if (thumbnail != null) {
-                //thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-            //}
-            //4
             imageFile = new File(this.getFilesDir() + File.separator + "image.jpg");
-            //System.out.println("-----> Filepath = " + file.getAbsolutePath());
             try {
-                //file.createNewFile();
                 FileOutputStream fo = new FileOutputStream(imageFile);
-                //5
                 fo.write(bytes.toByteArray());
                 fo.close();
             } catch (IOException e) {
