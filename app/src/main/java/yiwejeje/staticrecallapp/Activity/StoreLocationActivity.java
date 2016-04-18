@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 
 
@@ -202,7 +203,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
 
-    //CAMERA CODE -- Picture intent and actual file-writinggit
+    //CAMERA CODE -- Picture intent and actual file-writing
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -217,11 +218,13 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            imageFile = new File(this.getFilesDir() + File.separator + "image.jpg");
+            imageFile = new File(this.getFilesDir() + File.separator + UUID.randomUUID() + ".jpg");
             try {
                 FileOutputStream fo = new FileOutputStream(imageFile);
+                System.out.println("----> Attempt to write file");
                 fo.write(bytes.toByteArray());
                 fo.close();
+                System.out.println("File stored at" + imageFile.getAbsolutePath());
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
