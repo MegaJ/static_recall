@@ -164,11 +164,11 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
                 // TODO:
                 return true;
             case R.id.store:
-                // TODO:
+                Intent intent = new Intent(this, StoreLocationActivity.class);
+                startActivity(intent);
                 return true;
-
             case R.id.view_categories:
-                Intent intent = new Intent(this, ListViewSearchActivity.class);
+                intent = new Intent(this, ListViewSearchActivity.class);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
