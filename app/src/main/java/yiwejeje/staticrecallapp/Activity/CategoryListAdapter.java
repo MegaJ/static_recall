@@ -75,9 +75,9 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
 
         txtListChild.setText(childText);
 
-        Button deteteBtn = (Button)convertView.findViewById(R.id.delete_btn);
+        Button deleteBtn = (Button)convertView.findViewById(R.id.delete_btn);
 
-        deteteBtn.setOnClickListener(new View.OnClickListener() {
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemCategories.remove(groupPosition);

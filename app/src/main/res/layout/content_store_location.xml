@@ -71,9 +71,9 @@
         android:scaleType="fitXY"
 
 
-        android:layout_alignTop="@+id/TextButton"
-        android:layout_alignLeft="@+id/LocationText"
-        android:layout_alignStart="@+id/LocationText" />
+        android:layout_below="@+id/CatText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
     <ImageButton
@@ -83,9 +83,9 @@
         android:id="@+id/AudioButton"
         android:src="@drawable/soundwave"
 
-        android:layout_below="@+id/textView"
-        android:layout_alignRight="@+id/CatText"
-        android:layout_alignEnd="@+id/CatText" />
+        android:layout_above="@+id/LocationText"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 
 
 
@@ -96,7 +96,7 @@
         android:scaleType="fitXY"
         android:id="@+id/TextButton"
         android:src="@drawable/text"
-        android:layout_alignTop="@+id/AudioButton"
+        android:layout_above="@+id/LocationText"
         android:layout_alignRight="@+id/textView"
         android:layout_alignEnd="@+id/textView" />
 
@@ -109,10 +109,10 @@
         android:textSize="30sp"
         android:textColor="#d00e0e0e"
         android:textStyle="bold"
-        android:layout_below="@+id/CameraButton"
 
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp" />
+        android:layout_alignTop="@+id/playButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
     <Button
@@ -124,17 +124,18 @@
         android:textColor="#dddddf"
         android:textStyle="bold"
         android:id="@+id/AddButton"
-        android:layout_below="@+id/LocationText"
-        android:layout_alignRight="@+id/LocationText"
-        android:layout_alignEnd="@+id/LocationText" />
+        android:layout_below="@+id/stopButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Spinner
         android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:id="@+id/spinner"
+        android:textSize="40sp"
         android:layout_below="@+id/ItemText"
-        android:layout_marginTop="45dp"
-        android:textSize="40sp"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
