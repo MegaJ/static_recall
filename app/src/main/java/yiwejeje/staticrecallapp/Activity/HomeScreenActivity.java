@@ -51,4 +51,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(this, StoreLocationActivity.class);
         startActivity(intent);
     }
+
+    public void goToAbout(View view){
+        Intent intent = new Intent(this, AboutScreenActivity.class);
+        startActivity(intent);
+    }
 }

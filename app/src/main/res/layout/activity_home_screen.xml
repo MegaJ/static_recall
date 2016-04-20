@@ -47,7 +47,8 @@
         android:layout_height="150dp"
         android:layout_gravity="left|top"
         android:src="@drawable/info_icon"
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:onClick="goToAbout"/>
     <!--The info icon image was found here:
 http://vignette2.wikia.nocookie.net/gravityfalls/images/5/55/More_info_icon.png/revision/20131229000053 -->
 
