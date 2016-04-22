@@ -45,6 +45,12 @@ public class ListViewSearchActivity extends AppCompatActivity {
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshList();
+    }
+
     private void configureView() {
         setContentView(R.layout.activity_search_view_list);
 
@@ -69,7 +75,7 @@ public class ListViewSearchActivity extends AppCompatActivity {
 
 
                 intent.putExtra("item title", listAdapter.getItem(position).toString());
-                intent.putExtra("item category", listAdapter.getItem(position).getCategories().toString());
+                intent.putExtra("item category", listAdapter.getItem(position).getCategories().get(0).toString());
                 intent.putExtra("item location", listAdapter.getItem(position).getLocationDescription());
                 startActivity(intent);
             }

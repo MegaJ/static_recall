@@ -40,6 +40,16 @@ public class ItemCategory implements Serializable {
         return items;
     }
 
+    public Item getItemByName(String itemName) {
+        for (Item item : items) {
+            if (itemName.equals(item.getName())) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+
     public void setItems(List<Item> listOfItems) {
         // TODO: Somehow set the items in a defensive programming way
         items = listOfItems;

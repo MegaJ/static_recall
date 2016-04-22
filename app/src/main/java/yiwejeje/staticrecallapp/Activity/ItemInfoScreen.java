@@ -18,8 +18,11 @@ import android.widget.TextView;
 import android.widget.Button;
 
 import java.io.IOException;
+import java.util.List;
 
 import yiwejeje.staticrecallapp.Model.CategoryManager;
+import yiwejeje.staticrecallapp.Model.Item;
+import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
 public class ItemInfoScreen extends AppCompatActivity {
@@ -27,6 +30,9 @@ public class ItemInfoScreen extends AppCompatActivity {
     private EditText catDisplay;
     private EditText locationDisplay;
     private Button saveBtn;
+
+    private String originalItemName;
+    private String originalCategoryName;
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
@@ -58,27 +64,69 @@ public class ItemInfoScreen extends AppCompatActivity {
         locationDisplay=(EditText)findViewById(R.id.ItemLocation);
         saveBtn=(Button)findViewById(R.id.saveBtn1);
 
-        // TODO: set an onClickListener on the saveBtn
-
         Bundle extras = getIntent().getExtras();
-        String title=extras.getString("item title");
-        String category=extras.getString("item category");
+        originalItemName = extras.getString("item title");
+        originalCategoryName = extras.getString("item category");
+
+        System.out.println("-----> item's original name: " + originalItemName);
+        System.out.println("-----> category's original name: " + originalCategoryName);
+
         saveBtn.setVisibility(View.INVISIBLE);
-        titleDisplay.setText(title);
-        catDisplay.setText(category);
+        titleDisplay.setText(originalItemName);
+        catDisplay.setText(originalCategoryName);
         titleDisplay.setEnabled(false);
         catDisplay.setEnabled(false);
         locationDisplay.setEnabled(false);
 
         //how to pass an object
 
-.
         if (extras.getString("item location")!= null){
             String location=extras.getString("item location");
             locationDisplay.setText(location);
         }
 
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String strItemTitle = titleDisplay.getText().toString();
+                String strCategory = catDisplay.getText().toString();
+                String strLocation = locationDisplay.getText().toString();
+
+                ItemCategory originalCategory = categoryManager.
+                        getCategoryByName(originalCategoryName);
+                ItemCategory category = createNewCategoryIfNotExists(strCategory);
+                Item itemToModify = category.getItemByName(originalItemName);
+
+                System.out.println("------> itemToModify nullity: " + itemToModify);
+
+                itemToModify.setName(strItemTitle);
+                itemToModify.removeCategory(originalCategory);
+                itemToModify.addCategory(category);
+                itemToModify.setLocationDescription(strLocation);
+
+                System.out.println("------> Save called from Item Location Activity!");
+                try {
+                    categoryManager.save(ItemInfoScreen.this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+
         createEditableSlider();
+    }
+
+    private ItemCategory createNewCategoryIfNotExists(String categoryName) {
+        ItemCategory existingCategory = categoryManager.getCategoryByName(categoryName);
+        if (existingCategory == null) {
+            existingCategory = new ItemCategory(categoryName);
+            categoryManager.addCategory(existingCategory);
+        }
+
+        return existingCategory;
     }
 
     private void createEditableSlider() {
