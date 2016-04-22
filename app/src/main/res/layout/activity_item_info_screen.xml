@@ -21,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_search_location_screen" />
+    <include layout="@layout/content_item_info_screen" />
 
 
 

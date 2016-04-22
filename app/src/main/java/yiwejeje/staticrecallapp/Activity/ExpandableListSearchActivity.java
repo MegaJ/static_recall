@@ -8,10 +8,10 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
@@ -29,8 +29,9 @@ import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
 public class ExpandableListSearchActivity extends AppCompatActivity {
-    CategoryListAdapter listAdapter;
+    CategoryListAdapter expListAdapter;
     ExpandableListView expListView;
+    ArrayAdapter<Item> listAdapter;
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
@@ -43,12 +44,6 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configureView();
-
-        // wait, do we need these 3 lines?
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
@@ -74,56 +69,50 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
-        // these are declared final because they are used in an inner class
-        // Android Studio said so.
-        final MenuItem searchMenu = menu.findItem(R.id.search);
-        final android.widget.SearchView searchView =
+        MenuItem searchMenu = menu.findItem(R.id.search);
+        android.widget.SearchView searchView =
                 (android.widget.SearchView) searchMenu.getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
-        // Getting the little x button in the search widget is hard
-        // http://stackoverflow.com/questions/25930380/android-search-widgethow-to-hide-the-close-button-in-search-view-by-default
-        // http://stackoverflow.com/questions/24794377/android-capture-searchview-text-clear-by-clicking-x-button
-        ImageView searchCloseButton;
-        try {
-            Field searchField = SearchView.class.getDeclaredField("mCloseButton");
-            searchField.setAccessible(true);
-            searchCloseButton = (ImageView) searchField.get(searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                expListAdapter.filterData(newText);
+                expandAll();
+                return true;
+            }
 
-            searchCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                expListAdapter.filterData(query);
+                expandAll();
+                return true;
+            }
+        });
 
-                @Override
-                public void onClick(View v) {
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                collapseAll();
+                return true;
+            }
+        });
 
-                    System.out.println("-----> Search closed");
-                    searchView.setQuery("", false);
-                    //Collapse the action view
-                    searchView.onActionViewCollapsed();
-                    //Collapse the search widget
-                    searchMenu.collapseActionView();
-                    loadCategories();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // autoExpandSearchWidget(menu, searchView);
-        // I needed more room to add a button to the Action Bar
-        // My preferences for the device I'm working on may not apply to other devices
-        // disableAppNameOnActionBar();
         return true;
     }
 
     private void configureView() {
         setContentView(R.layout.activity_search_view);
 
-        listAdapter = new CategoryListAdapter(
+        expListAdapter = new CategoryListAdapter(
                 this, new ArrayList<>(categoryManager.getAllCategories()));
 
+        listAdapter = new ArrayAdapter<Item>(this,
+                R.layout.list_item, R.id.lblListItem, new ArrayList<Item>(categoryManager.getAllItems()));
+
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
-        expListView.setAdapter(listAdapter);
+        expListView.setAdapter(expListAdapter);
 
         // play a sound when a category is touched
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -146,7 +135,7 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
                 System.out.println("-------> group " + groupPosition + " child " + childPosition);
                 Intent intent = new Intent(ExpandableListSearchActivity.this, ItemInfoScreen.class);
 
-                Item item = (Item) listAdapter.getChild(groupPosition, childPosition);
+                Item item = (Item) expListAdapter.getChild(groupPosition, childPosition);
                 intent.putExtra("item", item.getLocationDescription());
 
                 startActivity(intent);
@@ -158,10 +147,10 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
+
         switch (item.getItemId()) {
             case R.id.search:
-                // TODO:
+                // ignore, has an onClickListener already
                 return true;
             case R.id.store:
                 Intent intent = new Intent(this, StoreLocationActivity.class);
@@ -175,72 +164,20 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         }
     }
 
-    // This is so the xml's android:onClick can link with loadCategories
-    public boolean loadCategories (MenuItem menuItem) {
-        return loadCategories();
-    }
-
-    public boolean loadCategories () {
-        System.out.println("------> Attempt to reload categories!");
-        listAdapter.setItemCategories(new ArrayList<>(categoryManager.getAllCategories()));
-        System.out.println("------> Item Categories: " + categoryManager.getAllCategories());
-        expListView.collapseGroup(0);
-        return true;
-    }
-
-    private void autoExpandSearchWidget(Menu menu, SearchView searchView) {
-        MenuItem searchMenuItem = menu.findItem( R.id.search ); // get my MenuItem with placeholder submenu
-        searchMenuItem.expandActionView(); // Expand the search menu item in order to show by default the query
-        searchView.setIconifiedByDefault(false);
-    }
-
-    private void disableAppNameOnActionBar () {
-        this.getSupportActionBar().setDisplayShowTitleEnabled(false);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        System.out.println("-------------> NEW INTENT FIRED WITHIN SEARCHVIEW");
-        setIntent(intent);
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            System.out.println("-------------> query:" + query);
-            //use the query to search your data somehow
-            searchItems(query);
-            showResults();
+    private void expandAll() {
+        int count = expListAdapter.getGroupCount();
+        for (int i = 0; i < count; i++){
+            expListView.expandGroup(i);
         }
     }
 
-    public void refreshList() {
-        listAdapter.notifyDataSetChanged();
-    }
-
-    public void searchItems (String query) {
-        String regexQuery = "(.*)" + query.toLowerCase() + "(.*)";
-
-        this.itemsResultsList.clear();
-        boolean foundMatch = false;
-        for (Item item : categoryManager.getAllItems()) {
-            foundMatch = Pattern.matches(regexQuery, item.getName().toLowerCase());
-            if (foundMatch) {
-                this.itemsResultsList.add(item);
-            }
+    private void collapseAll() {
+        int count = expListAdapter.getGroupCount();
+        for (int i = 0; i < count; i++){
+            expListView.collapseGroup(i);
         }
-        System.out.println("------> Results: " + this.itemsResultsList);
     }
 
-    private void showResults() {
-        this.resultsCategory.setItems(itemsResultsList);
-        listAdapter.setSingleCategory(resultsCategory);
-
-        // We want the list of found items expanded by default
-        expListView.expandGroup(0);
-    }
     // http://stackoverflow.com/questions/19464782/android-how-to-make-a-button-click-play-a-sound-file-every-time-it-been-presse
     private void playSound(String soundLocation) {
         if (mp.isPlaying()) {

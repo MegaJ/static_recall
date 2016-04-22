@@ -107,7 +107,7 @@ public class ListViewSearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        
+
         switch (item.getItemId()) {
             case R.id.search:
                 // ignore, has an onClickListener already
