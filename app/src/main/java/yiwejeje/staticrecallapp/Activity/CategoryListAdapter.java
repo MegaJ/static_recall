@@ -75,15 +75,15 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
 
         txtListChild.setText(childText);
 
-        Button deteteBtn = (Button)convertView.findViewById(R.id.delete_btn);
-
-        deteteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemCategories.remove(groupPosition);
-                notifyDataSetChanged();
-            }
-        });
+//        Button deteteBtn = (Button)convertView.findViewById(R.id.delete_btn);
+//
+//        deteteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                itemCategories.remove(groupPosition);
+//                notifyDataSetChanged();
+//            }
+//        });
 
         return convertView;
     }

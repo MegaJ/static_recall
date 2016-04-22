@@ -57,7 +57,7 @@ public class ListViewSearchActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ListViewSearchActivity.this, SearchLocationScreen.class);
+                Intent intent = new Intent(ListViewSearchActivity.this, ItemInfoScreen.class);
                 //Bundle itemInfo=new Bundle();
                 Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).toString());
                 Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).getCategories().toString());

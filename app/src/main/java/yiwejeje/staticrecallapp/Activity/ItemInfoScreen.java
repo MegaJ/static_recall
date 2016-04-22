@@ -22,12 +22,11 @@ import java.io.IOException;
 import yiwejeje.staticrecallapp.Model.CategoryManager;
 import yiwejeje.staticrecallapp.R;
 
-public class SearchLocationScreen extends AppCompatActivity {
+public class ItemInfoScreen extends AppCompatActivity {
     private EditText titleDisplay;
     private EditText catDisplay;
     private EditText locationDisplay;
     private Button saveBtn;
-    private Switch switch1;
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
@@ -43,15 +42,10 @@ public class SearchLocationScreen extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_location_screen);
@@ -63,9 +57,8 @@ public class SearchLocationScreen extends AppCompatActivity {
         catDisplay=(EditText)findViewById(R.id.ItemCategory);
         locationDisplay=(EditText)findViewById(R.id.ItemLocation);
         saveBtn=(Button)findViewById(R.id.saveBtn1);
-        switch1=(Switch)findViewById(R.id.switch1);
 
-
+        // TODO: set an onClickListener on the saveBtn
 
         Bundle extras = getIntent().getExtras();
         String title=extras.getString("item title");
@@ -79,39 +72,42 @@ public class SearchLocationScreen extends AppCompatActivity {
 
         //how to pass an object
 
-
+.
         if (extras.getString("item location")!= null){
             String location=extras.getString("item location");
             locationDisplay.setText(location);
         }
 
-        //set the switch to ON
-        //switch1.setChecked(true);
+        createEditableSlider();
+    }
+
+    private void createEditableSlider() {
+        Switch isEditable;
+        isEditable=(Switch)findViewById(R.id.isEditable);
+
         //attach a listener to check for changes in state
-        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        isEditable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-
-                if(isChecked){
+                if (isChecked) {
                     titleDisplay.setEnabled(true);
                     catDisplay.setEnabled(true);
                     locationDisplay.setEnabled(true);
                     saveBtn.setVisibility(View.VISIBLE);
                     //catch the intent
                     //delete the item first, then save it again
-                }else{
+                } else {
                     titleDisplay.setEnabled(false);
                     catDisplay.setEnabled(false);
                     locationDisplay.setEnabled(false);
                 }
-
             }
         });
 
         //check the current state before we display the screen
-        if(switch1.isChecked()){
+        if(isEditable.isChecked()){
             titleDisplay.setEnabled(false);
             catDisplay.setEnabled(false);
             locationDisplay.setEnabled(false);;
@@ -120,17 +116,6 @@ public class SearchLocationScreen extends AppCompatActivity {
             titleDisplay.setEnabled(false);
             catDisplay.setEnabled(false);
             locationDisplay.setEnabled(false);
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        System.out.println("------> Save called from Item Location Activity!");
-        try {
-            categoryManager.save(this);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -144,7 +144,7 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
                 // playSound("sounds/onItemClick.wav");
 
                 System.out.println("-------> group " + groupPosition + " child " + childPosition);
-                Intent intent = new Intent(ExpandableListSearchActivity.this, SearchLocationScreen.class);
+                Intent intent = new Intent(ExpandableListSearchActivity.this, ItemInfoScreen.class);
 
                 Item item = (Item) listAdapter.getChild(groupPosition, childPosition);
                 intent.putExtra("item", item.getLocationDescription());

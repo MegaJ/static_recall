@@ -10,7 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:fitsSystemWindows="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activity.SearchLocationScreen"
+    tools:context=".Activity.ItemInfoScreen"
     tools:showIn="@layout/activity_search_location_screen"
     android:background="@drawable/appback">
 
@@ -104,12 +104,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Editable"
-        android:id="@+id/switch1"
+        android:id="@+id/isEditable"
         android:textSize="30dp"
         android:layout_below="@id/text1"
         android:layout_marginTop="32dp"
         android:layout_toRightOf="@id/itemTitle"
-        />
+        android:checked="false" />
 
     <Button
         android:layout_width="wrap_content"
