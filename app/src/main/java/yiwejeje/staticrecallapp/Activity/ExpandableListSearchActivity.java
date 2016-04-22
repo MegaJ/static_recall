@@ -38,27 +38,28 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
     List<Item> itemsResultsList = new ArrayList<Item>();
     ItemCategory resultsCategory = new ItemCategory("Results");
 
-    MediaPlayer mp = new MediaPlayer();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configureView();
-        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         System.out.println("-----> I have stopped!");
-        mp.release();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        mp = new MediaPlayer();
         System.out.println("-----> I have restarted!");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshList();
     }
 
     @Override
@@ -114,32 +115,17 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setAdapter(expListAdapter);
 
-        // play a sound when a category is touched
-        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                // we have annoying sounds currently
-                // playSound("sounds/onCategoryClick.wav");
-                return false;
-            }
-        });
-
-        // play a sound when an item is touched
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                         int childPosition, long id) {
-                // we have annoying sounds currently
-                // playSound("sounds/onItemClick.wav");
 
-                System.out.println("-------> group " + groupPosition + " child " + childPosition);
                 Intent intent = new Intent(ExpandableListSearchActivity.this, ItemInfoScreen.class);
 
                 Item item = (Item) expListAdapter.getChild(groupPosition, childPosition);
                 intent.putExtra("item", item.getLocationDescription());
 
                 startActivity(intent);
-
                 return false;
             }
         });
@@ -178,23 +164,7 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         }
     }
 
-    // http://stackoverflow.com/questions/19464782/android-how-to-make-a-button-click-play-a-sound-file-every-time-it-been-presse
-    private void playSound(String soundLocation) {
-        if (mp.isPlaying()) {
-            mp.stop();
-        }
-
-        try {
-            mp.reset();
-            AssetFileDescriptor afd;
-            afd = getAssets().openFd(soundLocation);
-            mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-            mp.prepare();
-            mp.start();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void refreshList() {
+        listAdapter.notifyDataSetChanged();
     }
 }

@@ -63,9 +63,6 @@ public class ItemInfoScreen extends AppCompatActivity {
         originalItemName = extras.getString("item title");
         originalCategoryName = extras.getString("item category");
 
-        System.out.println("-----> item's original name: " + originalItemName);
-        System.out.println("-----> category's original name: " + originalCategoryName);
-
         saveBtn.setVisibility(View.INVISIBLE);
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
@@ -90,11 +87,9 @@ public class ItemInfoScreen extends AppCompatActivity {
 
                 ItemCategory originalCategory = categoryManager.
                         getCategoryByName(originalCategoryName);
+                Item itemToModify = originalCategory.getItemByName(originalItemName);
                 ItemCategory category = createNewCategoryIfNotExists(strCategory);
-                Item itemToModify = category.getItemByName(originalItemName);
-
-                System.out.println("------> itemToModify nullity: " + itemToModify);
-
+                
                 itemToModify.setName(strItemTitle);
                 itemToModify.removeCategory(originalCategory);
                 itemToModify.addCategory(category);
