@@ -11,19 +11,20 @@
         android:textSize="17sp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        />
 
-    <Button
-        android:id="@+id/delete_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="5dp"
-        android:text="Delete"
-        android:textSize="40sp"
-        android:background="#fb5a5a"
-        android:textColor="#dddddf"
-        android:textStyle="bold"/>
+    <!--<Button-->
+        <!--android:id="@+id/delete_btn"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:text="Delete"-->
+        <!--android:textSize="40sp"-->
+        <!--android:background="#fb5a5a"-->
+        <!--android:textColor="#dddddf"-->
+        <!--android:textStyle="bold"/>-->
 
 </LinearLayout>

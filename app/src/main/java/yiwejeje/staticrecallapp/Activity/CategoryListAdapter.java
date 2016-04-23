@@ -2,6 +2,7 @@ package yiwejeje.staticrecallapp.Activity;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
     private List<ItemCategory>  itemCategories;
+    private ArrayList<ItemCategory> originalList;
 
     public CategoryListAdapter(Context context, List<ItemCategory> itemCategories) {
         this._context = context;
@@ -32,6 +34,8 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
             throw new IllegalArgumentException("itemCategories cannot be null");
         }
         this.itemCategories = itemCategories;
+        this.originalList = new ArrayList<ItemCategory>();
+        this.originalList.addAll(itemCategories);
     }
 
     public void setSingleCategory(ItemCategory aCategory) {
@@ -75,15 +79,15 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
 
         txtListChild.setText(childText);
 
-        Button deteteBtn = (Button)convertView.findViewById(R.id.delete_btn);
-
-        deteteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemCategories.remove(groupPosition);
-                notifyDataSetChanged();
-            }
-        });
+//        Button deteteBtn = (Button)convertView.findViewById(R.id.delete_btn);
+//
+//        deteteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                itemCategories.remove(groupPosition);
+//                notifyDataSetChanged();
+//            }
+//        });
 
         return convertView;
     }
@@ -129,17 +133,6 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
-    public boolean addItemCategoriesWithACategory(ItemCategory aCategory) {
-        if(aCategory == null) {
-            throw new IllegalArgumentException("aCategory is null");
-        }
-        return itemCategories.add(aCategory);
-    }
-
-    public boolean removeAnItemCategory(ItemCategory itemCategory) {
-        return itemCategories.remove(itemCategory);
-    }
-
     @Override
     public boolean hasStableIds() {
         return false;
@@ -148,5 +141,36 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    // http://www.mysamplecode.com/2012/11/android-expandablelistview-search.html
+    public void filterData(String query) {
+
+        query = query.toLowerCase();
+        Log.v("MyListAdapter", String.valueOf(itemCategories.size()));
+        itemCategories.clear();
+
+        if(query.isEmpty()) {
+            itemCategories.addAll(originalList);
+        } else {
+
+            for(ItemCategory category: originalList) {
+
+                List<Item> countryList = category.getItems();
+                ArrayList<Item> newList = new ArrayList<Item>();
+                for(Item country: countryList) {
+                    if(country.getName().toLowerCase().contains(query) ||
+                            country.getName().toLowerCase().contains(query)) {
+                        newList.add(country);
+                    }
+                }
+                if(newList.size() > 0) {
+                    ItemCategory nItemCategory = new ItemCategory(category.getName(), newList);
+                    itemCategories.add(nItemCategory);
+                }
+            }
+        }
+        Log.v("MyListAdapter", String.valueOf(itemCategories.size()));
+        notifyDataSetChanged();
     }
 }

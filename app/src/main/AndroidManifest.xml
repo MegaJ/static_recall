@@ -82,7 +82,7 @@
 
         <!-- VIEW ITEM INFORMATION ACTIVITY -->
         <activity
-            android:name=".Activity.SearchLocationScreen"
+            android:name=".Activity.ItemInfoScreen"
             android:label="@string/title_activity_search_location_screen"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
