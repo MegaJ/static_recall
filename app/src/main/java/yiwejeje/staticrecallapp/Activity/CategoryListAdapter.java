@@ -156,12 +156,12 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
 
             for(ItemCategory category: originalList) {
 
-                List<Item> countryList = category.getItems();
+                List<Item> itemList = category.getItems();
                 ArrayList<Item> newList = new ArrayList<Item>();
-                for(Item country: countryList) {
-                    if(country.getName().toLowerCase().contains(query) ||
-                            country.getName().toLowerCase().contains(query)) {
-                        newList.add(country);
+                for(Item item: itemList) {
+                    if(item.getName().toLowerCase().contains(query) ||
+                            item.getName().toLowerCase().contains(query)) {
+                        newList.add(item);
                     }
                 }
                 if(newList.size() > 0) {
