@@ -244,6 +244,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
      */
 
     private void setUpLocation(){
+        itemCategory.setVisibility(View.INVISIBLE);
         itemLocation.setVisibility(View.INVISIBLE);
         itemImageView = (ImageView) findViewById(R.id.ItemImageView);
         itemImageView.setVisibility(View.INVISIBLE);
@@ -330,10 +331,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
         List<String> categories = new ArrayList<String>();
         categories.add("(Select from existing categories)");
+        categories.add("add a new category...");
         for (ItemCategory c:allCategories){
             categories.add(c.toString());
         }
         spinner=(Spinner) findViewById(R.id.spinner);
+        //spinner.setPrompt("aaa");
 
         spinner.setOnItemSelectedListener(this);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories){
@@ -355,6 +358,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position != 0) {
             selectedCategory = parent.getItemAtPosition(position).toString();
+            //if
             Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG).show();
         }
     }

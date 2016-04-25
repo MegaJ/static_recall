@@ -111,7 +111,7 @@
         android:textSize="30dp"
         android:layout_below="@id/text1"
         android:layout_marginTop="32dp"
-        android:layout_toRightOf="@id/itemTitle"
+        android:layout_alignParentRight="true"
         android:checked="false" />
 
     <Button
