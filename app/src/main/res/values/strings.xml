@@ -35,5 +35,31 @@
     <string name="title_activity_about_screen">AboutScreenActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="welcome_message">Welcome to Static Recall</string>
+    <string name="welcome_message">Welcome to Static Recall\n</string>
+
+    <string name="welcome_about_info">The finder app to ease your stress when you need to locate an
+        item used at infrequent intervals - tell the app where you’ve put important documents, your
+        passport, medications or perhaps even that sweater your grandma knit for you that you’ll
+        hide until you need to wear it to a family event next December. We’ll do the hard work of
+        remembering so that you don’t have to.\n
+        \nHere’s how to use the main features of this app:\n</string>
+
+    <string name="about_store_function">STORE\n\n
+        If you tap this icon on the home screen or the plus sign on the search screen, it will take
+        you to an input screen where you can store an item’s location. Here, you can type in the
+        name of the item, put it in a category for easier finding later, and use one of three
+        options to indicate its actual storage location. You can type in that the “Shirt” is in the
+        “Dresser”, you can take a picture of the item where you plan on keeping it, or you can even
+        describe the dresser in a verbal audio recording! Just tap on the icon corresponding to your
+        choice of input, and then you can press the ‘Add’ button to store the item’s information in
+        the app’s database.\n</string>
+
+    <string name="about_search_function">SEARCH\n\n
+        Once you’ve entered an item or two, when you need to remember where you hid
+        grandma’s sweater, you can tap on this icon on the home screen to go to a screen that lists
+        all the items you have stored. These can be viewed either in alphabetical order or by
+        category, and you can switch between these views by tapping the three dots on the right side
+        of the toolbar at the top of the screen. If you’re in a rush, you can also type an item’s
+        name directly into the search field in the middle of the toolbar, and it should show up in
+        the list view.\n </string>
 </resources>

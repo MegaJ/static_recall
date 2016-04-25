@@ -6,12 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -25,7 +28,7 @@ public class ItemInfoScreen extends AppCompatActivity {
     private EditText catDisplay;
     private EditText locationDisplay;
     private Button saveBtn;
-
+    private Switch isEditable;
     private String originalItemName;
     private String originalCategoryName;
 
@@ -69,8 +72,9 @@ public class ItemInfoScreen extends AppCompatActivity {
         titleDisplay.setEnabled(false);
         catDisplay.setEnabled(false);
         locationDisplay.setEnabled(false);
+        isEditable=(Switch)findViewById(R.id.isEditable);
 
-        //how to pass an object
+
 
         if (extras.getString("item location")!= null){
             String location=extras.getString("item location");
@@ -98,6 +102,16 @@ public class ItemInfoScreen extends AppCompatActivity {
                 System.out.println("------> Save called from Item Location Activity!");
                 try {
                     categoryManager.save(ItemInfoScreen.this);
+                    titleDisplay.setEnabled(false);
+                    catDisplay.setEnabled(false);
+                    locationDisplay.setEnabled(false);
+                    isEditable.setChecked(false);
+                    Toast message=Toast.makeText(getApplicationContext(),"Changes Successfully Saved",Toast.LENGTH_LONG);
+                    ViewGroup group = (ViewGroup) message.getView();
+                    TextView messageTextView = (TextView) group.getChildAt(0);
+                    messageTextView.setTextSize(25);
+                    message.show();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -118,8 +132,8 @@ public class ItemInfoScreen extends AppCompatActivity {
     }
 
     private void createEditableSlider() {
-        Switch isEditable;
-        isEditable=(Switch)findViewById(R.id.isEditable);
+
+
 
         //attach a listener to check for changes in state
         isEditable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -146,7 +160,7 @@ public class ItemInfoScreen extends AppCompatActivity {
         if(isEditable.isChecked()){
             titleDisplay.setEnabled(false);
             catDisplay.setEnabled(false);
-            locationDisplay.setEnabled(false);;
+            locationDisplay.setEnabled(false);
         }
         else {
             titleDisplay.setEnabled(false);
