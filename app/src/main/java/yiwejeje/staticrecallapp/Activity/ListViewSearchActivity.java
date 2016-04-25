@@ -59,9 +59,10 @@ public class ListViewSearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ListViewSearchActivity.this, ItemInfoScreen.class);
-                intent.putExtra("item title", listAdapter.getItem(position).toString());
-                intent.putExtra("item category", listAdapter.getItem(position).getCategories().get(0).toString());
-                intent.putExtra("item location", listAdapter.getItem(position).getLocationDescription());
+                Item selectedItem = listAdapter.getItem(position);
+                intent.putExtra("item title", selectedItem.getName());
+                intent.putExtra("item category", selectedItem.getCategories().get(0).toString());
+                intent.putExtra("item location", selectedItem.getLocationDescription());
 
                 startActivity(intent);
             }

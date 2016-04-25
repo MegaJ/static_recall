@@ -156,12 +156,13 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
     private boolean addItemToCategoryManager() {
-        // TODO: Fix bug where you add a blank category
         if (selectedCategory != null) {
             finalCategory = selectedCategory;
         } else {
             finalCategory = "Uncategorized";
         }
+
+        System.out.println("-----> selected category is this: " + selectedCategory);
 
         boolean itemAdded = false;
         boolean categoryAdded = false;

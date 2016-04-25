@@ -122,8 +122,10 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ExpandableListSearchActivity.this, ItemInfoScreen.class);
 
-                Item item = (Item) expListAdapter.getChild(groupPosition, childPosition);
-                intent.putExtra("item", item.getLocationDescription());
+                Item selectedItem = (Item) expListAdapter.getChild(groupPosition, childPosition);
+                intent.putExtra("item title", selectedItem.getName());
+                intent.putExtra("item category", selectedItem.getCategories().get(0).toString());
+                intent.putExtra("item location", selectedItem.getLocationDescription());
 
                 startActivity(intent);
                 return false;
