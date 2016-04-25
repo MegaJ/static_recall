@@ -146,12 +146,11 @@ public class ItemInfoScreen extends AppCompatActivity {
                     catDisplay.setEnabled(true);
                     locationDisplay.setEnabled(true);
                     saveBtn.setVisibility(View.VISIBLE);
-                    //catch the intent
-                    //delete the item first, then save it again
                 } else {
                     titleDisplay.setEnabled(false);
                     catDisplay.setEnabled(false);
                     locationDisplay.setEnabled(false);
+                    saveBtn.setVisibility(View.INVISIBLE);
                 }
             }
         });
