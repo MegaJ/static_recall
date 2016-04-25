@@ -53,20 +53,16 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private Spinner spinner;
     private String selectedCategory;
     private String finalCategory;
-
     CategoryManager categoryManager = CategoryManager.INSTANCE;
     private ImageButton typeIn;
     private ImageButton makeRecording;
-    private static MediaRecorder mediaRecorder;
-    private static MediaPlayer mediaPlayer;
-    private static String audioFilePath;
-    private static Button stopButton;
-    private static Button playButton;
-    private static Button recordButton;
+    private MediaRecorder mediaRecorder;
+    private MediaPlayer mediaPlayer;
+    private String audioFilePath;
+    private Button stopButton;
+    private Button playButton;
+    private Button recordButton;
     private boolean isRecording = false;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
