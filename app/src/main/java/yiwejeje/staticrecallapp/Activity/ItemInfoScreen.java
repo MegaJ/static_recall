@@ -89,7 +89,7 @@ public class ItemInfoScreen extends AppCompatActivity {
                         getCategoryByName(originalCategoryName);
                 Item itemToModify = originalCategory.getItemByName(originalItemName);
                 ItemCategory category = createNewCategoryIfNotExists(strCategory);
-                
+
                 itemToModify.setName(strItemTitle);
                 itemToModify.removeCategory(originalCategory);
                 itemToModify.addCategory(category);
