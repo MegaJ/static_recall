@@ -80,22 +80,12 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 expListAdapter.filterData(newText);
-                expandAll();
                 return true;
             }
 
             @Override
             public boolean onQueryTextSubmit(String query) {
                 expListAdapter.filterData(query);
-                expandAll();
-                return true;
-            }
-        });
-
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                collapseAll();
                 return true;
             }
         });
@@ -114,6 +104,8 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
 
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setAdapter(expListAdapter);
+
+        disableCategoryCollapse();
 
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
@@ -160,11 +152,14 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         }
     }
 
-    private void collapseAll() {
-        int count = expListAdapter.getGroupCount();
-        for (int i = 0; i < count; i++){
-            expListView.collapseGroup(i);
-        }
+    private void disableCategoryCollapse() {
+        expandAll();
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return true;
+            }
+        });
     }
 
     public void refreshList() {
