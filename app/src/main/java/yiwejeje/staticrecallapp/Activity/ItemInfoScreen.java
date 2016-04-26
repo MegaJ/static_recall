@@ -100,6 +100,9 @@ public class ItemInfoScreen extends AppCompatActivity {
                 itemToModify.addCategory(category);
                 itemToModify.setLocationDescription(strLocation);
 
+                originalItemName = strItemTitle;
+                originalCategoryName = strCategory;
+
                 System.out.println("------> Save called from Item Location Activity!");
                 try {
                     categoryManager.save(ItemInfoScreen.this);
