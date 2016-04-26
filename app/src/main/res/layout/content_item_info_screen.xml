@@ -14,51 +14,39 @@
     tools:showIn="@layout/activity_item_info_screen"
     android:background="@drawable/appback">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Information about this item:"
-        android:textSize="35sp"
-        android:textColor="#354950"
-        android:textStyle="bold"
-        android:id="@+id/text1"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="The item"
-        android:textSize="35sp"
+        android:text="Item Title"
+        android:textSize="17sp"
         android:id="@+id/textView2"
-        android:layout_below="@+id/text1"
-
-        android:layout_alignLeft="@+id/text1"
-        android:layout_alignStart="@+id/text1"
-        android:layout_marginTop="100dp" />
+        android:layout_below="@+id/isEditable"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="(Not Specified)"
         android:singleLine="true"
-        android:textSize="35sp"
-        android:layout_centerHorizontal="true"
+        android:textSize="17sp"
+        android:layout_alignLeft="@+id/textView2"
         android:id="@+id/itemTitle"
         android:layout_below="@id/textView2"
         android:textColor="#4281A4"
+        android:textStyle="bold"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Under category "
-        android:textSize="35sp"
+        android:text="Item Category"
+        android:textSize="17sp"
         android:id="@+id/textView4"
         android:layout_below="@+id/itemTitle"
         android:layout_alignLeft="@+id/textView2"
@@ -66,25 +54,25 @@
         android:layout_marginTop="30dp"/>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="(Not Specified)"
         android:singleLine="true"
         android:id="@+id/ItemCategory"
-        android:textSize="35sp"
-        android:layout_centerHorizontal="true"
+        android:textSize="17sp"
+        android:layout_alignLeft="@+id/textView2"
         android:layout_below="@id/textView4"
-        android:textColor="#4281A4"/>
+        android:textColor="#4281A4"
+        android:textStyle="bold"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Is stored at"
+        android:text="Item Location"
         android:id="@+id/textView6"
-        android:textSize="35sp"
-
+        android:textSize="17sp"
         android:layout_below="@+id/ItemCategory"
         android:layout_alignLeft="@+id/textView4"
         android:layout_alignStart="@+id/textView4"
@@ -92,25 +80,25 @@
         />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="(Not Specified)"
         android:singleLine="true"
         android:id="@+id/ItemLocation"
-        android:textSize="35sp"
+        android:textSize="17sp"
         android:layout_below="@id/textView6"
-        android:layout_centerHorizontal="true"
-        android:textColor="#4281A4"/>
+        android:layout_alignLeft="@+id/textView2"
+        android:textColor="#4281A4"
+        android:textStyle="bold"/>
 
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Editable"
         android:id="@+id/isEditable"
-        android:textSize="30dp"
-        android:layout_below="@id/text1"
-        android:layout_marginTop="32dp"
+        android:textSize="17dp"
+        android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
         android:checked="false" />
 

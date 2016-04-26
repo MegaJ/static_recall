@@ -23,21 +23,17 @@
     <EditText
         android:layout_width="450dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
-        android:hint="Item Title"
+        android:layout_marginTop="50dp"
+        android:hint="Type in item's name"
         android:singleLine="true"
         android:textColor="#d00d0c0c"
         android:ems="10"
-        android:textSize="30sp"
+        android:textSize="17sp"
         android:textStyle="bold"
         android:id="@+id/ItemText"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-    <!--android:textColor="#4281A4"
-    android:layout_marginTop="108dp"-->
-
-
 
     <EditText
         android:layout_width="450dp"
@@ -46,7 +42,7 @@
         android:hint="Type in a new category"
         android:singleLine="true"
         android:ems="10"
-        android:textSize="30sp"
+        android:textSize="17sp"
         android:layout_below="@+id/spinner"
         android:layout_alignParentLeft="true"
         android:textColor="#d00e0e0e"
@@ -54,24 +50,21 @@
         android:layout_alignParentStart="true" />
 
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Location"
-
-        android:textSize="25sp"
+        android:text="Item Location"
+        android:textSize="17sp"
         android:textColor="#354950"
-        android:textStyle="bold"
         android:id="@+id/textView"
         android:layout_below="@+id/CatText"
         android:layout_centerHorizontal="true"/>
 
 
     <ImageButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:id="@+id/CameraButton"
         android:src="@drawable/camera"
         android:scaleType="fitXY"
@@ -91,8 +84,8 @@
 
 
     <ImageButton
-        android:layout_width="110dp"
-        android:layout_height="100dp"
+        android:layout_width="65dp"
+        android:layout_height="60dp"
         android:scaleType="fitXY"
         android:id="@+id/AudioButton"
         android:src="@drawable/soundwave"
@@ -104,8 +97,8 @@
 
 
     <ImageButton
-        android:layout_width="110dp"
-        android:layout_height="100dp"
+        android:layout_width="65dp"
+        android:layout_height="60dp"
         android:scaleType="fitXY"
         android:id="@+id/TextButton"
         android:src="@drawable/text"
@@ -118,9 +111,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/LocationText"
-        android:hint="Type Item's Location"
+        android:hint="Type in item's location"
         android:singleLine="true"
-        android:textSize="30sp"
+        android:textSize="17sp"
         android:textColor="#d00e0e0e"
         android:textStyle="bold"
         android:layout_below="@+id/CameraButton"
@@ -147,7 +140,7 @@
         android:id="@+id/spinner"
         android:layout_below="@+id/ItemText"
         android:layout_marginTop="45dp"
-        android:textSize="40sp"/>
+        android:textSize="17sp"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -155,9 +148,7 @@
         android:text="Play"
         android:id="@+id/playButton"
         android:onClick="playAudio"
-
         android:layout_alignLeft="@+id/CameraButton"
-
         android:layout_alignStart="@id/CameraButton"
         android:layout_below="@id/CameraButton"/>
 

@@ -358,7 +358,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 View view =super.getView(position, convertView, parent);
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
                 // do whatever you want with this text view
-                textView.setTextSize(25);
+                textView.setTextSize(17);
                 return view;
             }
         };
