@@ -133,7 +133,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strLocation = itemLocation.getText().toString();
 
                 if (strItemTitle.equals("")) {
-                    // TODO: put toast here
+                    // TODO: put toast here because blank items aren't allowed
+                    return;
+                }
+
+                if (itemNameExists(strItemTitle)) {
+                    // TODO: put toast here for not being able to add an item with existing name
                     return;
                 }
 
@@ -391,6 +396,15 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             }
         }
         return ret;
+    }
+
+    private boolean itemNameExists(String proposedName) {
+        for (Item item : categoryManager.getAllItems()) {
+            if (item.getName().toLowerCase().equals(proposedName.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

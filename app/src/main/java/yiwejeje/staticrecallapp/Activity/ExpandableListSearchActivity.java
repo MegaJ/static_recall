@@ -31,7 +31,6 @@ import yiwejeje.staticrecallapp.R;
 public class ExpandableListSearchActivity extends AppCompatActivity {
     CategoryListAdapter expListAdapter;
     ExpandableListView expListView;
-    ArrayAdapter<Item> listAdapter;
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
@@ -53,6 +52,7 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        refreshList();
         System.out.println("-----> I have restarted!");
     }
 
@@ -98,10 +98,6 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
 
         expListAdapter = new CategoryListAdapter(
                 this, new ArrayList<>(categoryManager.getAllCategories()));
-
-        listAdapter = new ArrayAdapter<Item>(this,
-                R.layout.list_item, R.id.lblListItem, new ArrayList<Item>(categoryManager.getAllItems()));
-
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setAdapter(expListAdapter);
 
@@ -163,6 +159,6 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
     }
 
     public void refreshList() {
-        listAdapter.notifyDataSetChanged();
+        expListAdapter.notifyDataSetChanged();
     }
 }
