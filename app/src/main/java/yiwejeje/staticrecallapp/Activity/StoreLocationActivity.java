@@ -243,6 +243,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     Code for the audio recording
      */
 
+    //have it go away
+
     private void setUpLocation(){
         itemCategory.setVisibility(View.INVISIBLE);
         itemLocation.setVisibility(View.INVISIBLE);
@@ -356,11 +358,19 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+
+
         if (position != 0) {
+            if (position==1){
+                itemCategory.setVisibility(View.VISIBLE);
+
+            }else{
             selectedCategory = parent.getItemAtPosition(position).toString();
-            //if
+
             Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG).show();
-        }
+        }}
     }
 
     @Override

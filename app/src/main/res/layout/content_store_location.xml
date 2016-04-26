@@ -43,7 +43,7 @@
         android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:id="@+id/CatText"
-        android:hint="Or type in a new category"
+        android:hint="Type in a new category"
         android:singleLine="true"
         android:ems="10"
         android:textSize="30sp"
@@ -75,7 +75,9 @@
         android:id="@+id/CameraButton"
         android:src="@drawable/camera"
         android:scaleType="fitXY"
-        android:layout_alignTop="@+id/TextButton" />
+        android:layout_alignTop="@+id/TextButton"
+        android:layout_toLeftOf="@id/TextButton"
+        android:layout_marginRight="30dp"/>
         <!--android:layout_alignLeft="@+id/LocationText"
         android:layout_alignStart="@+id/LocationText"-->
 
@@ -94,10 +96,9 @@
         android:scaleType="fitXY"
         android:id="@+id/AudioButton"
         android:src="@drawable/soundwave"
-
         android:layout_below="@+id/textView"
-        android:layout_alignRight="@+id/CatText"
-        android:layout_alignEnd="@+id/CatText" />
+        android:layout_toRightOf="@id/TextButton"
+        android:layout_marginLeft="30dp"/>
 
 
 
