@@ -131,6 +131,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strItemTitle = itemTitle.getText().toString();
                 String strCategory = itemCategory.getText().toString();
                 String strLocation = itemLocation.getText().toString();
+
+                if (strItemTitle.equals("")) {
+                    // TODO: put toast here
+                    return;
+                }
+
                 newItem = new Item(strItemTitle, strLocation);
 
                 if (imageFile != null) {
@@ -358,7 +364,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position != 0) {
             selectedCategory = parent.getItemAtPosition(position).toString();
-            //if
             Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG).show();
         }
     }
