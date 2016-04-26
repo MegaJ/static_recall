@@ -89,6 +89,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activity.ListViewSearchActivity" />
         </activity>
+
+        <!--ABOUT SCREEN ACTIVITY -->
+
         <activity android:name=".Activity.AboutScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

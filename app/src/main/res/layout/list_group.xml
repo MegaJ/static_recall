@@ -4,15 +4,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="#90afc5">
+    android:background="@drawable/custom_shape">
 
 
     <TextView
         android:id="@+id/lblListHeader"
+
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:textSize="17sp"
+        android:textSize="26sp"
         android:textColor="#2a3432" />
 
 

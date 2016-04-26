@@ -31,7 +31,6 @@ import yiwejeje.staticrecallapp.R;
 public class ExpandableListSearchActivity extends AppCompatActivity {
     CategoryListAdapter expListAdapter;
     ExpandableListView expListView;
-    ArrayAdapter<Item> listAdapter;
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
@@ -53,6 +52,7 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        refreshList();
         System.out.println("-----> I have restarted!");
     }
 
@@ -80,22 +80,12 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 expListAdapter.filterData(newText);
-                expandAll();
                 return true;
             }
 
             @Override
             public boolean onQueryTextSubmit(String query) {
                 expListAdapter.filterData(query);
-                expandAll();
-                return true;
-            }
-        });
-
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                collapseAll();
                 return true;
             }
         });
@@ -108,12 +98,10 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
 
         expListAdapter = new CategoryListAdapter(
                 this, new ArrayList<>(categoryManager.getAllCategories()));
-
-        listAdapter = new ArrayAdapter<Item>(this,
-                R.layout.list_item, R.id.lblListItem, new ArrayList<Item>(categoryManager.getAllItems()));
-
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         expListView.setAdapter(expListAdapter);
+
+        disableCategoryCollapse();
 
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
@@ -160,14 +148,17 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         }
     }
 
-    private void collapseAll() {
-        int count = expListAdapter.getGroupCount();
-        for (int i = 0; i < count; i++){
-            expListView.collapseGroup(i);
-        }
+    private void disableCategoryCollapse() {
+        expandAll();
+        expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return true;
+            }
+        });
     }
 
     public void refreshList() {
-        listAdapter.notifyDataSetChanged();
+        expListAdapter.notifyDataSetChanged();
     }
 }

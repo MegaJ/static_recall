@@ -55,6 +55,7 @@ public class ItemInfoScreen extends AppCompatActivity {
         setContentView(R.layout.activity_item_info_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         titleDisplay=(EditText)findViewById(R.id.itemTitle);
@@ -98,6 +99,9 @@ public class ItemInfoScreen extends AppCompatActivity {
                 itemToModify.removeCategory(originalCategory);
                 itemToModify.addCategory(category);
                 itemToModify.setLocationDescription(strLocation);
+
+                originalItemName = strItemTitle;
+                originalCategoryName = strCategory;
 
                 System.out.println("------> Save called from Item Location Activity!");
                 try {
