@@ -113,7 +113,7 @@ public class ItemInfoScreen extends AppCompatActivity {
                     Toast message=Toast.makeText(getApplicationContext(),"Changes Successfully Saved",Toast.LENGTH_LONG);
                     ViewGroup group = (ViewGroup) message.getView();
                     TextView messageTextView = (TextView) group.getChildAt(0);
-                    messageTextView.setTextSize(25);
+                    messageTextView.setTextSize(15);
                     message.show();
 
                 } catch (IOException e) {
