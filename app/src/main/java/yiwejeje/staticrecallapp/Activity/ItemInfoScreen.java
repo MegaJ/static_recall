@@ -28,6 +28,7 @@ public class ItemInfoScreen extends AppCompatActivity {
     private EditText catDisplay;
     private EditText locationDisplay;
     private Button saveBtn;
+    private Button deleteBtn;
     private Switch isEditable;
     private String originalItemName;
     private String originalCategoryName;
@@ -62,6 +63,7 @@ public class ItemInfoScreen extends AppCompatActivity {
         catDisplay=(EditText)findViewById(R.id.ItemCategory);
         locationDisplay=(EditText)findViewById(R.id.ItemLocation);
         saveBtn=(Button)findViewById(R.id.saveBtn1);
+        deleteBtn=(Button)findViewById(R.id.deleteBtn1);
 
         Bundle extras = getIntent().getExtras();
         originalItemName = extras.getString("item title");
@@ -81,6 +83,14 @@ public class ItemInfoScreen extends AppCompatActivity {
             String location=extras.getString("item location");
             locationDisplay.setText(location);
         }
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ItemInfoScreen.this, "Item successfully deleted!",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
