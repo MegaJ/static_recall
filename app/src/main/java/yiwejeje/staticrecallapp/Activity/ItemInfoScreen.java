@@ -90,6 +90,19 @@ public class ItemInfoScreen extends AppCompatActivity {
                 String strCategory = catDisplay.getText().toString();
                 String strLocation = locationDisplay.getText().toString();
 
+                if (strItemTitle.equals("")) {
+                    // TODO: put toast here because blank items aren't allowed
+                    return;
+                }
+
+                // if the item is named something ELSE that exists, can't do it.
+                if (!strItemTitle.equals(originalItemName)) {
+                    if (itemNameExists(strItemTitle)) {
+                        // TODO: put toast here for not being able to add an item with existing name
+                        return;
+                    }
+                }
+
                 ItemCategory originalCategory = categoryManager.
                         getCategoryByName(originalCategoryName);
                 Item itemToModify = originalCategory.getItemByName(originalItemName);
@@ -135,10 +148,16 @@ public class ItemInfoScreen extends AppCompatActivity {
         return existingCategory;
     }
 
+    private boolean itemNameExists(String proposedName) {
+        for (Item item : categoryManager.getAllItems()) {
+            if (item.getName().toLowerCase().equals(proposedName.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void createEditableSlider() {
-
-
-
         //attach a listener to check for changes in state
         isEditable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
