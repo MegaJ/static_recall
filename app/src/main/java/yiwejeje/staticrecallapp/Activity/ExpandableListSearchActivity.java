@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import yiwejeje.staticrecallapp.Model.CategoryManager;
@@ -138,8 +140,8 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         // play a sound when an item is touched
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
-                                        int childPosition, long id) {
+            public boolean onChildClick(ExpandableListView parent, View v, final int groupPosition,
+                                        final int childPosition, long id) {
                 // we have annoying sounds currently
                 // playSound("sounds/onItemClick.wav");
 
@@ -164,11 +166,11 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
                 // TODO:
                 return true;
             case R.id.store:
-                // TODO:
+                Intent intent = new Intent(this, StoreLocationActivity.class);
+                startActivity(intent);
                 return true;
-
             case R.id.view_categories:
-                Intent intent = new Intent(this, ListViewSearchActivity.class);
+                intent = new Intent(this, ListViewSearchActivity.class);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);

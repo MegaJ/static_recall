@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -74,16 +73,6 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListItem);
 
         txtListChild.setText(childText);
-
-        Button deleteBtn = (Button)convertView.findViewById(R.id.delete_btn);
-
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemCategories.remove(groupPosition);
-                notifyDataSetChanged();
-            }
-        });
 
         return convertView;
     }

@@ -1,5 +1,6 @@
 package yiwejeje.staticrecallapp.Activity;
 
+import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -13,15 +14,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import yiwejeje.staticrecallapp.Model.CategoryManager;
 import yiwejeje.staticrecallapp.Model.Item;
+import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
 /**
@@ -56,7 +62,7 @@ public class ListViewSearchActivity extends AppCompatActivity {
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 Intent intent = new Intent(ListViewSearchActivity.this, SearchLocationScreen.class);
                 //Bundle itemInfo=new Bundle();
                 Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).toString());
@@ -72,9 +78,11 @@ public class ListViewSearchActivity extends AppCompatActivity {
                 intent.putExtra("item category", listAdapter.getItem(position).getCategories().toString());
                 intent.putExtra("item location", listAdapter.getItem(position).getLocationDescription());
                 startActivity(intent);
+
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,6 +126,8 @@ public class ListViewSearchActivity extends AppCompatActivity {
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -126,11 +136,11 @@ public class ListViewSearchActivity extends AppCompatActivity {
                 // TODO:
                 return true;
             case R.id.store:
-                // TODO:
+                Intent intent = new Intent(this, StoreLocationActivity.class);
+                startActivity(intent);
                 return true;
-
             case R.id.view_items:
-                Intent intent = new Intent(this, ExpandableListSearchActivity.class);
+                intent = new Intent(this, ExpandableListSearchActivity.class);
                 startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
