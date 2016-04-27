@@ -40,6 +40,7 @@
         android:layout_below="@id/textView2"
         android:textColor="#4281A4"
         android:textStyle="bold"
+        android:inputType="textCapSentences"
         />
 
     <TextView
@@ -66,7 +67,8 @@
         android:layout_alignLeft="@+id/textView2"
         android:layout_below="@id/textView4"
         android:textColor="#4281A4"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:inputType="textCapSentences"/>
 
     <TextView
         android:layout_width="450dp"
@@ -93,7 +95,8 @@
         android:layout_below="@id/textView6"
         android:layout_alignLeft="@+id/textView2"
         android:textColor="#4281A4"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:inputType="textCapSentences"/>
 
     <Switch
         android:layout_width="wrap_content"
@@ -109,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save Changes"
-        android:textSize="17dp"
+        android:textSize="15dp"
         android:id="@+id/saveBtn1"
         android:layout_below="@id/ItemLocation"
         android:layout_centerHorizontal="true"
