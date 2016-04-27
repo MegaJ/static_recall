@@ -3,6 +3,7 @@ package yiwejeje.staticrecallapp.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -53,20 +54,21 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private Spinner spinner;
     private String selectedCategory;
     private String finalCategory;
-
     CategoryManager categoryManager = CategoryManager.INSTANCE;
     private ImageButton typeIn;
     private ImageButton makeRecording;
-    private static MediaRecorder mediaRecorder;
-    private static MediaPlayer mediaPlayer;
-    private static String audioFilePath;
-    private static Button stopButton;
-    private static Button playButton;
-    private static Button recordButton;
+
+    private MediaRecorder mediaRecorder;
+    private MediaPlayer mediaPlayer;
+    private String audioFilePath;
+    private Button stopButton;
+    private Button playButton;
+    private Button recordButton;
+
+    private ImageView itemImageView;
+
+
     private boolean isRecording = false;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,11 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 }
             }
         });
+
+        /*
+        setup audio
+
+         */
 
         recordButton = (Button) findViewById(R.id.recordButton);
         playButton = (Button) findViewById(R.id.playButton);
@@ -124,6 +131,17 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strItemTitle = itemTitle.getText().toString();
                 String strCategory = itemCategory.getText().toString();
                 String strLocation = itemLocation.getText().toString();
+
+                if (strItemTitle.equals("")) {
+                    // TODO: put toast here because blank items aren't allowed
+                    return;
+                }
+
+                if (itemNameExists(strItemTitle)) {
+                    // TODO: put toast here for not being able to add an item with existing name
+                    return;
+                }
+
                 newItem = new Item(strItemTitle, strLocation);
 
                 if (imageFile != null) {
@@ -149,12 +167,19 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
     private boolean addItemToCategoryManager() {
-        // TODO: Fix bug where you add a blank category
+        String typedText = itemCategory.getText().toString();
+
         if (selectedCategory != null) {
             finalCategory = selectedCategory;
+        } else if (!typedText.equals("")) {
+            finalCategory = typedText;
         } else {
             finalCategory = "Uncategorized";
         }
+
+        itemCategory.getText().toString();
+
+        System.out.println("-----> selected category is this: " + selectedCategory);
 
         boolean itemAdded = false;
         boolean categoryAdded = false;
@@ -178,6 +203,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     //CAMERA CODE -- Picture intent and actual file-writing
 
     private void dispatchTakePictureIntent() {
+        itemImageView.setVisibility(View.VISIBLE);
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         //Disables camera function if the device does not support the camera hardware
@@ -189,7 +215,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            itemImageView.setImageBitmap(thumbnail);
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            if (thumbnail != null) {
+                thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                }
             imageFile = new File(this.getFilesDir() + File.separator + UUID.randomUUID() + ".jpg");
             try {
                 FileOutputStream fo = new FileOutputStream(imageFile);
@@ -202,9 +233,9 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 e.printStackTrace();
             }
             //Uri uri = Uri.fromFile(imageFile);
-            //
             //itemImageView.setImageURI(uri);
-            //itemImageView.setVisibility(View.VISIBLE);
+            //File filePath = getFileStreamPath(imageFile.getAbsolutePath());
+            //itemImageView.setImageDrawable(Drawable.createFromPath(imageFile.getAbsolutePath().toString()));
         }
     }
 
@@ -213,12 +244,13 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         if (addedResult){
             itemTitle.setText("");
             itemCategory.setText("");
-            //TO DO: DO SOMETHING WITH THE SPINNER
+
             itemLocation.setText("");
+            spinner.setSelection(0);
             Toast message=Toast.makeText(getApplicationContext(),"Item Successfully Added",Toast.LENGTH_LONG);
             ViewGroup group = (ViewGroup) message.getView();
             TextView messageTextView = (TextView) group.getChildAt(0);
-            messageTextView.setTextSize(25);
+            messageTextView.setTextSize(15);
             message.show();
         }
     }
@@ -229,9 +261,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     Code for the audio recording
      */
 
+    //have it go away
+
     private void setUpLocation(){
+        itemCategory.setVisibility(View.INVISIBLE);
         itemLocation.setVisibility(View.INVISIBLE);
-        ImageView itemImageView = (ImageView) findViewById(R.id.ItemImageView);
+        itemImageView = (ImageView) findViewById(R.id.ItemImageView);
         itemImageView.setVisibility(View.INVISIBLE);
         recordButton.setVisibility(View.INVISIBLE);
         stopButton.setVisibility(View.INVISIBLE);
@@ -259,8 +294,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         return pmanager.hasSystemFeature(
                 PackageManager.FEATURE_MICROPHONE);
     }
-
-
 
     public void recordAudio (View view) throws IOException {
         isRecording = true;
@@ -316,10 +349,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
         List<String> categories = new ArrayList<String>();
         categories.add("(Select from existing categories)");
+        categories.add("add a new category...");
         for (ItemCategory c:allCategories){
             categories.add(c.toString());
         }
         spinner=(Spinner) findViewById(R.id.spinner);
+        //spinner.setPrompt("aaa");
 
         spinner.setOnItemSelectedListener(this);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories){
@@ -328,7 +363,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 View view =super.getView(position, convertView, parent);
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
                 // do whatever you want with this text view
-                textView.setTextSize(25);
+                textView.setTextSize(17);
                 return view;
             }
         };
@@ -339,10 +374,26 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (position != 0) {
-            selectedCategory = parent.getItemAtPosition(position).toString();
-            Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG).show();
+
+        if (position == 0) {
+            itemCategory.setVisibility(View.INVISIBLE);
+            return;
         }
+
+        if (position == 1) {
+            itemCategory.setVisibility(View.VISIBLE);
+        } else {
+            itemCategory.setVisibility(View.INVISIBLE);
+            selectedCategory = parent.getItemAtPosition(position).toString();
+
+            Toast m=Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG);
+            ViewGroup group = (ViewGroup) m.getView();
+            TextView messageTextView = (TextView) group.getChildAt(0);
+            messageTextView.setTextSize(15);
+            m.show();
+        }
+
+
     }
 
     @Override
@@ -368,6 +419,15 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             }
         }
         return ret;
+    }
+
+    private boolean itemNameExists(String proposedName) {
+        for (Item item : categoryManager.getAllItems()) {
+            if (item.getName().toLowerCase().equals(proposedName.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

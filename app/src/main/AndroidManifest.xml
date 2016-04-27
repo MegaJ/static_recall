@@ -82,20 +82,24 @@
 
         <!-- VIEW ITEM INFORMATION ACTIVITY -->
         <activity
-            android:name=".Activity.SearchLocationScreen"
+            android:name=".Activity.ItemInfoScreen"
             android:label="@string/title_activity_search_location_screen"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activity.ListViewSearchActivity" />
         </activity>
-        <activity
-            android:name=".Activity.AboutScreenActivity"
+
+        <!--ABOUT SCREEN ACTIVITY -->
+
+        <activity android:name=".Activity.AboutScreenActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activity.HomeScreenActivity" />
         </activity>
+
+
     </application>
 
 </manifest>

@@ -2,7 +2,9 @@ package yiwejeje.staticrecallapp.Model;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,7 +16,7 @@ public class Item implements Serializable {
     private File picture;
     private File audioRecording;
 
-    private Set<ItemCategory> categories = new HashSet<ItemCategory>();
+    private List<ItemCategory> categories = new ArrayList<ItemCategory>();
 
     public Item (String name, String locationDescription) {
         if (name == null) {
@@ -69,11 +71,21 @@ public class Item implements Serializable {
         this.audioRecording = audioRecording;
     }
 
-    public Set<ItemCategory> getCategories() {
+    public List<ItemCategory> getCategories() {
         return categories;
     }
 
-    public void setCategories(Set<ItemCategory> categories) {
+    public ItemCategory getCategoryByName(String categoryName) {
+        for(ItemCategory category : categories) {
+            if (categoryName.equals(category.getName())) {
+                return category;
+            }
+        }
+
+        return null;
+    }
+
+    public void setCategories(List<ItemCategory> categories) {
         this.categories = categories;
     }
 

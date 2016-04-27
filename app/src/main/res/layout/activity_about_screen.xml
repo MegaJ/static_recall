@@ -1,25 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/appback"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context="yiwejeje.staticrecallapp.Activity.AboutScreenActivity">
 
         <TextView
+            android:id="@+id/welcome_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textAlignment="center"
             android:text="@string/welcome_message"
             android:textSize="50sp"
             android:textColor="@android:color/black"
             android:layout_below="@+id/view"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            />
+
+        <TextView
+            android:id="@+id/welcome_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="@string/welcome_about_info"
+            android:textSize="15sp"
+            android:textColor="@android:color/black"
+            android:layout_below="@id/welcome_title"
+            />
+
+
+        <ImageView
+            android:id="@+id/storeimage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/box"
+            android:layout_below="@id/welcome_intro"
+            android:layout_alignParentRight="true"
+            />
+
+        <TextView
+            android:id="@+id/about_store_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_toLeftOf="@id/storeimage"
+            android:text="@string/about_store_function"
+            android:textSize="15sp"
+            android:textColor="@android:color/black"
+            android:layout_below="@id/welcome_intro"
+            />
+
+
+        <ImageView
+            android:id="@+id/searchimage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/magnifying2"
+            android:layout_below="@id/about_store_text"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:id="@+id/about_search_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:layout_toRightOf="@id/searchimage"
+            android:text="@string/about_search_function"
+            android:textSize="15sp"
+            android:textColor="@android:color/black"
+            android:layout_below="@id/about_store_text"
+            />
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"

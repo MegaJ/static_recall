@@ -41,44 +41,36 @@ public class ListViewSearchActivity extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<Item> listAdapter;
 
-    MediaPlayer mp = new MediaPlayer();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v("-----------> value is ", "aaaa  ");
         configureView();
-        mp.setAudioStreamType(AudioManager.STREAM_MUSIC);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshList();
     }
 
     private void configureView() {
         setContentView(R.layout.activity_search_view_list);
 
-        // initiate the listadapter
         listAdapter = new ArrayAdapter <Item>(this,
                 R.layout.list_item, R.id.lblListItem, new ArrayList<Item>(categoryManager.getAllItems()));
-
         listView = (ListView) findViewById(android.R.id.list);
         listView.setAdapter(listAdapter);
+
         listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                Intent intent = new Intent(ListViewSearchActivity.this, SearchLocationScreen.class);
-                //Bundle itemInfo=new Bundle();
-                Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).toString());
-                Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).getCategories().toString());
-                Log.v("-----------> value is ", "a  " + listAdapter.getItem(position).getLocationDescription());
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ListViewSearchActivity.this, ItemInfoScreen.class);
+                Item selectedItem = listAdapter.getItem(position);
+                intent.putExtra("item title", selectedItem.getName());
+                intent.putExtra("item category", selectedItem.getCategories().get(0).toString());
+                intent.putExtra("item location", selectedItem.getLocationDescription());
 
-                //itemInfo.putString("item title",listAdapter.getItem(position).toString());
-                //itemInfo.putString("item category",listAdapter.getItem(position).getCategories().toString());
-                //itemInfo.putString("item location",listAdapter.getItem(position).getLocationDescription());
-
-
-                intent.putExtra("item title", listAdapter.getItem(position).toString());
-                intent.putExtra("item category", listAdapter.getItem(position).getCategories().toString());
-                intent.putExtra("item location", listAdapter.getItem(position).getLocationDescription());
                 startActivity(intent);
-
             }
         });
     }
@@ -92,11 +84,8 @@ public class ListViewSearchActivity extends AppCompatActivity {
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-
-        // these are declared final because they are used in an inner class
-        // Android Studio said so.
-        final MenuItem searchMenu = menu.findItem(R.id.search);
-        final SearchView searchView =
+        MenuItem searchMenu = menu.findItem(R.id.search);
+        SearchView searchView =
                 (SearchView) searchMenu.getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
@@ -107,7 +96,6 @@ public class ListViewSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText)
             {
-                // this is your adapter that will be filtered
                 listAdapter.getFilter().filter(newText);
                 System.out.println("on text chnge text: "+newText);
                 return true;
@@ -115,7 +103,6 @@ public class ListViewSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query)
             {
-                // this is your adapter that will be filtered
                 listAdapter.getFilter().filter(query);
                 System.out.println("on query submit: "+query);
                 return true;
@@ -130,10 +117,10 @@ public class ListViewSearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
+
         switch (item.getItemId()) {
             case R.id.search:
-                // TODO:
+                // ignore, has an onClickListener already
                 return true;
             case R.id.store:
                 Intent intent = new Intent(this, StoreLocationActivity.class);
@@ -142,45 +129,13 @@ public class ListViewSearchActivity extends AppCompatActivity {
             case R.id.view_items:
                 intent = new Intent(this, ExpandableListSearchActivity.class);
                 startActivity(intent);
+                ListViewSearchActivity.this.finish();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public boolean loadCategories () {
-        // TODO: implement
-
-        System.out.println("------> Attempt to reload categories!");
-        //listAdapter.setItemCategories(new ArrayList<>(categoryManager.getAllCategories()));
-        System.out.println("------> Item Categories: " + categoryManager.getAllCategories());
-        //expListView.collapseGroup(0);
-        return true;
-    }
-
-    private void showResults() {
-        // TODO: implement
-//        itemResultsList.setItems(itemsResultsList);
-//        listAdapter.
-//        refreshList();
-    }
-
     public void refreshList() {
         listAdapter.notifyDataSetChanged();
-    }
-
-    public void searchItems (String query) {
-        // TODO: should I have this?
-
-        String regexQuery = "(.*)" + query.toLowerCase() + "(.*)";
-
-        this.itemResultsList.clear();
-        boolean foundMatch = false;
-        for (Item item : categoryManager.getAllItems()) {
-            foundMatch = Pattern.matches(regexQuery, item.getName().toLowerCase());
-            if (foundMatch) {
-                this.itemResultsList.add(item);
-            }
-        }
-        System.out.println("------> Results: " + this.itemResultsList);
     }
 }
