@@ -77,7 +77,7 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.lblListItem);
 
         txtListChild.setText(childText);
-        
+
         return convertView;
     }
 
