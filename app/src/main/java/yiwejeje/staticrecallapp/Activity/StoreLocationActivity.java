@@ -238,12 +238,13 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         if (addedResult){
             itemTitle.setText("");
             itemCategory.setText("");
-            //TO DO: DO SOMETHING WITH THE SPINNER
+
             itemLocation.setText("");
+            spinner.setSelection(0);
             Toast message=Toast.makeText(getApplicationContext(),"Item Successfully Added",Toast.LENGTH_LONG);
             ViewGroup group = (ViewGroup) message.getView();
             TextView messageTextView = (TextView) group.getChildAt(0);
-            messageTextView.setTextSize(25);
+            messageTextView.setTextSize(15);
             message.show();
         }
     }
@@ -369,11 +370,21 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (position != 0) {
+
+        if (position == 0) {
+            itemCategory.setVisibility(View.INVISIBLE);
+            }
+        if (position == 1) {
             itemCategory.setVisibility(View.VISIBLE);
-            }else{
+        }
+        else{
+            itemCategory.setVisibility(View.INVISIBLE);
             selectedCategory = parent.getItemAtPosition(position).toString();
-            Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG).show();
+            Toast m=Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG);
+            ViewGroup group = (ViewGroup) m.getView();
+            TextView messageTextView = (TextView) group.getChildAt(0);
+            messageTextView.setTextSize(15);
+            m.show();
         }
     }
 
