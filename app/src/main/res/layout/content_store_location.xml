@@ -24,6 +24,7 @@
         android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:layout_marginLeft="10dp"
         android:hint="Type in item's name"
         android:singleLine="true"
         android:textColor="#d00d0c0c"
@@ -102,9 +103,9 @@
         android:scaleType="fitXY"
         android:id="@+id/TextButton"
         android:src="@drawable/text"
+        android:layout_centerHorizontal="true"
         android:layout_alignTop="@+id/AudioButton"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView" />
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -126,10 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add"
-        android:textSize="40sp"
-        android:background="#fb5a5a"
-        android:textColor="#dddddf"
-        android:textStyle="bold"
+        android:textSize="17sp"
         android:id="@+id/AddButton"
         android:layout_below="@+id/ItemImageView"
         android:layout_alignParentRight="true"/>

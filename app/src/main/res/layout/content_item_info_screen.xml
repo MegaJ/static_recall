@@ -15,7 +15,6 @@
     android:background="@drawable/appback">
 
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,10 +24,12 @@
         android:id="@+id/textView2"
         android:layout_below="@+id/isEditable"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
     <EditText
-        android:layout_width="450dp"
+        android:layout_width="900dp"
+        android:layout_marginRight="10dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="(Not Specified)"
@@ -54,8 +55,9 @@
         android:layout_marginTop="30dp"/>
 
     <EditText
-        android:layout_width="450dp"
+        android:layout_width="900dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="(Not Specified)"
         android:singleLine="true"
@@ -80,7 +82,8 @@
         />
 
     <EditText
-        android:layout_width="450dp"
+        android:layout_width="900dp"
+        android:layout_marginRight="10dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="(Not Specified)"
@@ -106,9 +109,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save Changes"
+        android:textSize="17dp"
         android:id="@+id/saveBtn1"
         android:layout_below="@id/ItemLocation"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"/>
+        android:layout_marginTop="60dp"/>
 
 </RelativeLayout>
