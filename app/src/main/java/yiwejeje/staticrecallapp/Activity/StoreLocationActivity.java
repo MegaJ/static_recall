@@ -167,11 +167,17 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
     private boolean addItemToCategoryManager() {
+        String typedText = itemCategory.getText().toString();
+
         if (selectedCategory != null) {
             finalCategory = selectedCategory;
+        } else if (!typedText.equals("")) {
+            finalCategory = typedText;
         } else {
             finalCategory = "Uncategorized";
         }
+
+        itemCategory.getText().toString();
 
         System.out.println("-----> selected category is this: " + selectedCategory);
 
@@ -289,8 +295,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 PackageManager.FEATURE_MICROPHONE);
     }
 
-
-
     public void recordAudio (View view) throws IOException {
         isRecording = true;
         stopButton.setEnabled(true);
@@ -373,19 +377,23 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
         if (position == 0) {
             itemCategory.setVisibility(View.INVISIBLE);
-            }
+            return;
+        }
+
         if (position == 1) {
             itemCategory.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             itemCategory.setVisibility(View.INVISIBLE);
             selectedCategory = parent.getItemAtPosition(position).toString();
+
             Toast m=Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG);
             ViewGroup group = (ViewGroup) m.getView();
             TextView messageTextView = (TextView) group.getChildAt(0);
             messageTextView.setTextSize(15);
             m.show();
         }
+
+
     }
 
     @Override
