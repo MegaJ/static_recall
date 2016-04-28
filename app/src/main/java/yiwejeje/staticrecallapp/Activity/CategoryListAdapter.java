@@ -16,11 +16,6 @@ import yiwejeje.staticrecallapp.Model.Item;
 import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
-/**
- * Code taken from
- * http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/.
- */
-
 public class CategoryListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;

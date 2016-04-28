@@ -135,7 +135,5 @@ public class ListViewSearchActivity extends AppCompatActivity {
         }
     }
 
-    public void refreshList() {
-        listAdapter.notifyDataSetChanged();
-    }
+   @p
 }
