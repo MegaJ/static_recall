@@ -38,15 +38,8 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
         this.originalList.addAll(itemCategories);
     }
 
-    public void setSingleCategory(ItemCategory aCategory) {
-        itemCategories = new ArrayList<>(1);
-        itemCategories.add(aCategory);
-        this.notifyDataSetChanged();
-    }
-
-    public void setItemCategories (List<ItemCategory> itemCategories) {
+    public void updateCategories(List<ItemCategory> itemCategories) {
         this.itemCategories = itemCategories;
-        this.notifyDataSetChanged();
     }
 
     @Override
