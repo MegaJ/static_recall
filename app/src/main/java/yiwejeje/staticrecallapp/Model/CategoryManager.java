@@ -1,6 +1,10 @@
 package yiwejeje.staticrecallapp.Model;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,6 +29,9 @@ import com.google.gson.reflect.TypeToken;
 
 import com.google.gson.graph.GraphAdapterBuilder;
 
+import yiwejeje.staticrecallapp.Activity.CategoryListAdapter;
+import yiwejeje.staticrecallapp.R;
+
 /**
  * Created by Static Recall Heroes on 3/8/16.
  */
@@ -34,6 +41,7 @@ public enum CategoryManager {
     private Collection<ItemCategory> allCategories;
     public static final String DEFAULT_CATEGORY = "Uncategorized";
     private Gson gson;
+    private Context context;
 
     private CategoryManager() {
         allCategories = new TreeSet<ItemCategory>(new CategoryComparator());
@@ -189,6 +197,8 @@ public enum CategoryManager {
         fin.close();
         return ret;
     }
+
+
 
     private void initializePresetData() {
         ItemCategory uncategorized = new ItemCategory("Uncategorized");
