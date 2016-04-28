@@ -28,6 +28,7 @@ public class ItemInfoScreen extends AppCompatActivity {
     private EditText catDisplay;
     private EditText locationDisplay;
     private Button saveBtn;
+    private Button deleteBtn;
     private Switch isEditable;
     private String originalItemName;
     private String originalCategoryName;
@@ -62,6 +63,7 @@ public class ItemInfoScreen extends AppCompatActivity {
         catDisplay=(EditText)findViewById(R.id.ItemCategory);
         locationDisplay=(EditText)findViewById(R.id.ItemLocation);
         saveBtn=(Button)findViewById(R.id.saveBtn1);
+        deleteBtn = (Button) findViewById(R.id.deleteBtn);
 
         Bundle extras = getIntent().getExtras();
         originalItemName = extras.getString("item title");
@@ -135,6 +137,16 @@ public class ItemInfoScreen extends AppCompatActivity {
             }
         });
 
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Item foundItem = findItemByName(originalItemName);
+                // TODO: Implement some popup dialog
+                foundItem.removeAllCategories();
+                System.out.println("----------> Item Deleted?!");
+            }
+        });
+
         createEditableSlider();
     }
 
@@ -149,12 +161,20 @@ public class ItemInfoScreen extends AppCompatActivity {
     }
 
     private boolean itemNameExists(String proposedName) {
-        for (Item item : categoryManager.getAllItems()) {
-            if (item.getName().toLowerCase().equals(proposedName.toLowerCase())) {
-                return true;
-            }
+        Item foundItem = findItemByName(proposedName);
+        if (foundItem != null) {
+            return true;
         }
         return false;
+    }
+
+    private Item findItemByName(String itemName) {
+        for (Item item : categoryManager.getAllItems()) {
+            if (item.getName().toLowerCase().equals(itemName.toLowerCase())) {
+                return item;
+            }
+        }
+        return null;
     }
 
     private void createEditableSlider() {
