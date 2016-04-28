@@ -142,8 +142,13 @@ public class ItemInfoScreen extends AppCompatActivity {
             public void onClick(View v) {
                 Item foundItem = findItemByName(originalItemName);
                 // TODO: Implement some popup dialog
+
+                // if user is sure they want to delete: {
                 foundItem.removeAllCategories();
                 System.out.println("----------> Item Deleted?!");
+                ItemInfoScreen.this.finish();
+                // }
+
             }
         });
 
