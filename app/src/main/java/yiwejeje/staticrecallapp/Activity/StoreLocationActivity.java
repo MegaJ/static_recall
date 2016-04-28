@@ -133,12 +133,22 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strLocation = itemLocation.getText().toString();
 
                 if (strItemTitle.equals("")) {
-                    // TODO: put toast here because blank items aren't allowed
+                    Context context = getApplicationContext();
+                    CharSequence text = "Item title cannot be blank.";
+                    int duration = Toast.LENGTH_LONG;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
                     return;
                 }
 
                 if (itemNameExists(strItemTitle)) {
-                    // TODO: put toast here for not being able to add an item with existing name
+                    Context context = getApplicationContext();
+                    CharSequence text = "This item name already exists.";
+                    int duration = Toast.LENGTH_LONG;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
                     return;
                 }
 
