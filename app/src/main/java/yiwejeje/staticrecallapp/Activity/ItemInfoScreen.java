@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Switch;
@@ -38,6 +39,7 @@ public class ItemInfoScreen extends AppCompatActivity {
     private Switch isEditable;
     private String originalItemName;
     private String originalCategoryName;
+    private ImageView imageFileView;
 
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
@@ -89,6 +91,10 @@ public class ItemInfoScreen extends AppCompatActivity {
         if (extras.getString("item location")!= null){
             String location=extras.getString("item location");
             locationDisplay.setText(location);
+        }
+
+        if (extras.getString("item picture path")!= null) {
+            System.out.println("-----> Item's picture file is at" + extras.getString("item picture path"));
         }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
