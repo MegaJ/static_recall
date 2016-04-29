@@ -50,6 +50,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private EditText itemCategory;  //right now only allow for one category for the simplicity
     private EditText itemLocation;
     private File imageFile;
+    private String imageFilePath;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Spinner spinner;
     private String selectedCategory;
@@ -158,7 +159,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 newItem = new Item(strItemTitle, strLocation);
 
                 if (imageFile != null) {
-                    newItem.setPicture(imageFile);
+                    imageFilePath = imageFile.getAbsolutePath();
+                    newItem.setPicture(imageFile, imageFilePath);
                     System.out.println("---> My image file is " + imageFile.getAbsolutePath());
                 }
 
