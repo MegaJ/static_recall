@@ -3,6 +3,7 @@ package yiwejeje.staticrecallapp.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -98,7 +99,8 @@ public class ItemInfoScreen extends AppCompatActivity {
 
         if (extras.getString("item picture path")!= null) {
             System.out.println("-----> Item's picture file is at" + extras.getString("item picture path"));
-            imageFileView.setImageBitmap(BitmapFactory.decodeFile(extras.getString("item picture path")));
+            Bitmap bitmap = BitmapFactory.decodeFile(extras.getString("item picture path"));
+            imageFileView.setImageBitmap(bitmap);
             imageFileView.setVisibility(View.VISIBLE);
         }
 
