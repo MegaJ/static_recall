@@ -41,10 +41,10 @@ import yiwejeje.staticrecallapp.R;
 
 public class StoreLocationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private Item newItem;
     private EditText itemTitle;
     private EditText itemCategory;  //right now only allow for one category for the simplicity
     private EditText itemLocation;
+
     private File imageFile;
     private String imageFilePath;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -79,6 +79,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        itemTitle = (EditText) findViewById(R.id.ItemText);
+        itemCategory = (EditText) findViewById(R.id.CatText);
+        itemLocation = (EditText) findViewById(R.id.LocationText);
+        typeIn = (ImageButton) findViewById(R.id.TextButton);
+        makeRecording=(ImageButton) findViewById(R.id.AudioButton);
 
         setupCamera();
         setupAudio();
@@ -122,11 +128,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         audioFilePath =
                 Environment.getExternalStorageDirectory().getAbsolutePath()
                         + "/myaudio.3gp";
-        itemTitle = (EditText) findViewById(R.id.ItemText);
-        itemCategory = (EditText) findViewById(R.id.CatText);
-        itemLocation = (EditText) findViewById(R.id.LocationText);
-        typeIn = (ImageButton) findViewById(R.id.TextButton);
-        makeRecording=(ImageButton) findViewById(R.id.AudioButton);
     }
 
     private void persistEverything() {
@@ -138,7 +139,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         }
     }
 
-    private boolean addItemToCategoryManager() {
+    private boolean addItemToCategoryManager(Item item) {
         String typedText = itemCategory.getText().toString();
         String finalCategoryName;
 
@@ -150,19 +151,17 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             finalCategoryName = "Uncategorized";
         }
 
-        itemCategory.getText().toString();
-
         boolean itemAdded = false;
         boolean categoryAdded = false;
         boolean addingSuccessful = false;
         ItemCategory existingCategory = categoryManager.getCategoryByName(finalCategoryName);
         if (existingCategory == null) {
             existingCategory = new ItemCategory(finalCategoryName);
-            itemAdded = existingCategory.addItem(newItem);
+            itemAdded = existingCategory.addItem(item);
             categoryAdded = categoryManager.addCategory(existingCategory);
             addingSuccessful = itemAdded && categoryAdded;
         } else {
-            addingSuccessful = existingCategory.addItem(newItem);
+            addingSuccessful = existingCategory.addItem(item);
         }
 
         return addingSuccessful;
@@ -198,7 +197,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                     return;
                 }
 
-                newItem = new Item(strItemTitle, strLocation);
+                Item newItem = new Item(strItemTitle, strLocation);
 
                 if (imageFile != null) {
                     imageFilePath = imageFile.getAbsolutePath();
@@ -206,7 +205,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                     System.out.println("---> My image file is " + imageFile.getAbsolutePath());
                 }
 
-                boolean addingSuccessful = addItemToCategoryManager();
+                boolean addingSuccessful = addItemToCategoryManager(newItem);
                 persistEverything();
                 displayResult(addingSuccessful);
             }
@@ -255,9 +254,9 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     private void displayResult(boolean addedResult){
         if (addedResult){
-            itemTitle.setText("");
-            itemCategory.setText("");
-            itemLocation.setText("");
+            itemTitle.getText().clear();
+            itemCategory.getText().clear();
+            itemLocation.getText().clear();
             spinner.setSelection(0);
 
             Toast message=Toast.makeText(getApplicationContext(),"Item Successfully Added",Toast.LENGTH_LONG);
@@ -270,10 +269,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     /*
     Code for the audio recording
-     */
-
-    //have it go away
-
+    */
     private void setUpLocation(){
         itemCategory.setVisibility(View.INVISIBLE);
         itemLocation.setVisibility(View.INVISIBLE);
@@ -358,9 +354,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         mediaPlayer.start();
     }
 
-    /*
-    For the dropdown list
-     */
     private void setDropDownMenu(){
         CategoryManager myCategoryManager = CategoryManager.INSTANCE;
         Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
@@ -371,13 +364,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             categories.add(c.toString());
         }
         spinner = (Spinner) findViewById(R.id.spinner);
-        //spinner.setPrompt("aaa");
-
         spinner.setOnItemSelectedListener(this);
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                View view =super.getView(position, convertView, parent);
+                View view = super.getView(position, convertView, parent);
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
                 // do whatever you want with this text view
                 textView.setTextSize(17);
@@ -413,7 +405,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
-
 
     /*
     To hide the keyboard every time the user touches anywhere on screen
