@@ -67,6 +67,9 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     private ImageView itemImageView;
 
+    private Context context;
+    private int duration;
+    private CharSequence toastText;
 
     private boolean isRecording = false;
 
@@ -133,21 +136,21 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strLocation = itemLocation.getText().toString();
 
                 if (strItemTitle.equals("")) {
-                    Context context = getApplicationContext();
-                    CharSequence text = "Item title cannot be blank.";
-                    int duration = Toast.LENGTH_LONG;
+                    context = getApplicationContext();
+                    toastText = "Item title cannot be blank.";
+                    duration = Toast.LENGTH_SHORT;
 
-                    Toast toast = Toast.makeText(context, text, duration);
+                    Toast toast = Toast.makeText(context, toastText, duration);
                     toast.show();
                     return;
                 }
 
                 if (itemNameExists(strItemTitle)) {
-                    Context context = getApplicationContext();
-                    CharSequence text = "This item name already exists.";
-                    int duration = Toast.LENGTH_LONG;
+                    context = getApplicationContext();
+                    toastText = "This item name already exists.";
+                    duration = Toast.LENGTH_SHORT;
 
-                    Toast toast = Toast.makeText(context, text, duration);
+                    Toast toast = Toast.makeText(context, toastText, duration);
                     toast.show();
                     return;
                 }
