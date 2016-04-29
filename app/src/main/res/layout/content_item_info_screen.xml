@@ -125,7 +125,7 @@
         android:layout_height="wrap_content"
         android:text="Delete"
         android:textSize="15dp"
-        android:id="@+id/deleteBtn"
+        android:id="@+id/deleteBtn1"
         android:layout_below="@id/ItemLocation"
         android:layout_alignRight="@id/ItemLocation"
         android:layout_marginTop="60dp"/>

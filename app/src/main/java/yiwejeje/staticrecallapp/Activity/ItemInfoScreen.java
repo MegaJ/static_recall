@@ -70,7 +70,7 @@ public class ItemInfoScreen extends AppCompatActivity {
         catDisplay=(EditText)findViewById(R.id.ItemCategory);
         locationDisplay=(EditText)findViewById(R.id.ItemLocation);
         saveBtn=(Button)findViewById(R.id.saveBtn1);
-        deleteBtn = (Button) findViewById(R.id.deleteBtn);
+        deleteBtn=(Button)findViewById(R.id.deleteBtn1);
 
         Bundle extras = getIntent().getExtras();
         originalItemName = extras.getString("item title");

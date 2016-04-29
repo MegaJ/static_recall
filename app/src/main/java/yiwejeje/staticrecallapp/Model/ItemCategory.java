@@ -36,6 +36,7 @@ public class ItemCategory implements Serializable {
         items = new ArrayList<Item>();
     }
 
+
     public List<Item> getItems() {
         return items;
     }
