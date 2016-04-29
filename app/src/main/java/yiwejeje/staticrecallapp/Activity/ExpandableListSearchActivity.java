@@ -55,6 +55,7 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         refreshList();
+        //expListAdapter.
         System.out.println("-----> I have restarted!");
     }
 
@@ -163,6 +164,9 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
     }
 
     public void refreshList() {
+        expListAdapter.updateCategories(
+                new ArrayList<ItemCategory>(categoryManager.getAllCategories()));
         expListAdapter.notifyDataSetChanged();
+        expandAll();
     }
 }

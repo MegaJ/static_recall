@@ -119,6 +119,13 @@ public class Item implements Serializable {
         return true;
     }
 
+    public boolean removeAllCategories() {
+        for(ItemCategory category : this.categories) {
+            this.removeCategory(category);
+        }
+        return true;
+    }
+
     public String toString() {
         return name;
     }

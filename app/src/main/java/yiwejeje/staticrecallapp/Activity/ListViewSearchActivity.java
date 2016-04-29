@@ -136,6 +136,8 @@ public class ListViewSearchActivity extends AppCompatActivity {
     }
 
     public void refreshList() {
+        listAdapter.clear();
+        listAdapter.addAll(categoryManager.getAllItems());
         listAdapter.notifyDataSetChanged();
     }
 }

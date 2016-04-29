@@ -133,12 +133,22 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strLocation = itemLocation.getText().toString();
 
                 if (strItemTitle.equals("")) {
-                    // TODO: put toast here because blank items aren't allowed
+                    Context context = getApplicationContext();
+                    CharSequence text = "Item title cannot be blank.";
+                    int duration = Toast.LENGTH_LONG;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
                     return;
                 }
 
                 if (itemNameExists(strItemTitle)) {
-                    // TODO: put toast here for not being able to add an item with existing name
+                    Context context = getApplicationContext();
+                    CharSequence text = "This item name already exists.";
+                    int duration = Toast.LENGTH_LONG;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
                     return;
                 }
 
@@ -204,6 +214,13 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     private void dispatchTakePictureIntent() {
         itemImageView.setVisibility(View.VISIBLE);
+        itemLocation.setVisibility(View.INVISIBLE);
+        recordButton.setVisibility(View.INVISIBLE);
+        stopButton.setVisibility(View.INVISIBLE);
+        playButton.setVisibility(View.INVISIBLE);
+
+
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         //Disables camera function if the device does not support the camera hardware
@@ -276,12 +293,18 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onClick(View v) {
                 itemLocation.setVisibility(View.VISIBLE);
+                itemImageView.setVisibility(View.INVISIBLE);
+                recordButton.setVisibility(View.INVISIBLE);
+                stopButton.setVisibility(View.INVISIBLE);
+                playButton.setVisibility(View.INVISIBLE);
             }
         });
 
         makeRecording.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                itemLocation.setVisibility(View.INVISIBLE);
+                itemImageView.setVisibility(View.INVISIBLE);
                 recordButton.setVisibility(View.VISIBLE);
                 stopButton.setVisibility(View.VISIBLE);
                 playButton.setVisibility(View.VISIBLE);

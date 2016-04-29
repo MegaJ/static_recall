@@ -16,11 +16,6 @@ import yiwejeje.staticrecallapp.Model.Item;
 import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
-/**
- * Code taken from
- * http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/.
- */
-
 public class CategoryListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
@@ -37,15 +32,8 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
         this.originalList.addAll(itemCategories);
     }
 
-    public void setSingleCategory(ItemCategory aCategory) {
-        itemCategories = new ArrayList<>(1);
-        itemCategories.add(aCategory);
-        this.notifyDataSetChanged();
-    }
-
-    public void setItemCategories (List<ItemCategory> itemCategories) {
+    public void updateCategories(List<ItemCategory> itemCategories) {
         this.itemCategories = itemCategories;
-        this.notifyDataSetChanged();
     }
 
     @Override
