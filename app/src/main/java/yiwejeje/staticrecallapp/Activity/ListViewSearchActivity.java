@@ -53,6 +53,12 @@ public class ListViewSearchActivity extends AppCompatActivity {
         refreshList();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        refreshList();
+    }
+
     private void configureView() {
         setContentView(R.layout.activity_search_view_list);
 

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
@@ -21,6 +22,8 @@ import android.widget.SearchView;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -48,6 +51,11 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        try {
+            categoryManager.save(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("-----> I have stopped!");
     }
 
@@ -105,6 +113,40 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         expListView.setAdapter(expListAdapter);
 
         disableCategoryCollapse();
+
+        expListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                int itemType = ExpandableListView.getPackedPositionType(id);
+                int categoryPosition;
+
+                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    // Delete the category
+                    categoryPosition = ExpandableListView.getPackedPositionGroup(id);
+
+                    ItemCategory category = (ItemCategory) expListAdapter.getGroup(categoryPosition);
+                    ItemCategory uncategorized = categoryManager.getCategoryByName("Uncategorized");
+
+                    if (!category.equals(uncategorized)) {
+                        List<Item> items = new ArrayList<Item>(category.getItems());
+                        category.oneSidedRemoveAllItems();
+
+                        for (Item item : items) {
+                            item.removeCategory(category);
+                            uncategorized.addItem(item);
+                        }
+
+                        categoryManager.removeCategory(category);
+                    }
+                    refreshList();
+                    return true;
+
+                } else {
+                    // null item; we don't consume the click
+                    return false;
+                }
+            }
+        });
 
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override

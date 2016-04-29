@@ -144,7 +144,10 @@ public class ItemInfoScreen extends AppCompatActivity {
                 // TODO: Implement some popup dialog
 
                 // if user is sure they want to delete: {
-                foundItem.removeAllCategories();
+                foundItem.oneSidedRemoveAllCategories();
+                ItemCategory originalCategory = categoryManager.
+                        getCategoryByName(originalCategoryName);
+                originalCategory.removeItem(foundItem);
                 System.out.println("----------> Item Deleted?!");
                 ItemInfoScreen.this.finish();
                 // }
@@ -153,6 +156,16 @@ public class ItemInfoScreen extends AppCompatActivity {
         });
 
         createEditableSlider();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+            categoryManager.save(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private ItemCategory createNewCategoryIfNotExists(String categoryName) {

@@ -16,6 +16,7 @@ import yiwejeje.staticrecallapp.R;
 public class HomeScreenActivity extends AppCompatActivity {
     CategoryManager categoryManager = CategoryManager.INSTANCE;
     private View mContentView;
+    boolean firstLoad = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +25,17 @@ public class HomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_screen);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        // Load saved data, since this activity launches first in the app.
-        try {
-            categoryManager.load(this);
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Load saved data, since this activity launches first in the app
+        if (firstLoad) {
+            try {
+                categoryManager.load(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            firstLoad = false;
         }
+
 
         setAppNameFont();
     }
