@@ -110,13 +110,19 @@
         android:switchMinWidth="55dp"
        />
 
+    <ImageView
+        android:id="@+id/imgFileView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ItemLocation"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save Changes"
         android:textSize="15dp"
         android:id="@+id/saveBtn1"
-        android:layout_below="@id/ItemLocation"
+        android:layout_below="@id/imgFileView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"/>
 
@@ -126,7 +132,7 @@
         android:text="Delete"
         android:textSize="15dp"
         android:id="@+id/deleteBtn1"
-        android:layout_below="@id/ItemLocation"
+        android:layout_below="@id/imgFileView"
         android:layout_alignRight="@id/ItemLocation"
         android:layout_marginTop="60dp"/>
 
