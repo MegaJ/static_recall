@@ -207,7 +207,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
                 boolean addingSuccessful = addItemToCategoryManager(newItem);
                 persistEverything();
-                displayResult(addingSuccessful);
+                displayAddItemResult(addingSuccessful);
             }
         });
     }
@@ -252,21 +252,28 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         }
     }
 
-    private void displayResult(boolean addedResult){
-        if (addedResult){
-            itemTitle.getText().clear();
-            itemCategory.getText().clear();
-            itemLocation.getText().clear();
-            spinner.setSelection(0);
-
-            Toast message=Toast.makeText(getApplicationContext(),"Item Successfully Added",Toast.LENGTH_LONG);
-            ViewGroup group = (ViewGroup) message.getView();
-            TextView messageTextView = (TextView) group.getChildAt(0);
-            messageTextView.setTextSize(15);
-            message.show();
+    private void displayAddItemResult(boolean addedResult){
+        if (addedResult) {
+            resetVisibleFields();
+            displaySuccessToast();
         }
     }
 
+    private void displaySuccessToast() {
+        Toast message = Toast.makeText(getApplicationContext(),"Item Successfully Added",Toast.LENGTH_LONG);
+        ViewGroup group = (ViewGroup) message.getView();
+        TextView messageTextView = (TextView) group.getChildAt(0);
+        messageTextView.setTextSize(15);
+        message.show();
+    }
+
+    private void resetVisibleFields() {
+        itemTitle.getText().clear();
+        itemCategory.getText().clear();
+        itemLocation.getText().clear();
+        spinner.setSelection(0);
+    }
+    
     /*
     Code for the audio recording
     */
