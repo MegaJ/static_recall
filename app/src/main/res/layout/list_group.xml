@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textSize="21sp"
-        android:textColor="#2a3432" />
+        android:textColor="#2a3432"/>
 
 
 </LinearLayout>
