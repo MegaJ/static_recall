@@ -75,6 +75,7 @@ public class ListViewSearchActivity extends AppCompatActivity {
                 intent.putExtra("item title", selectedItem.getName());
                 intent.putExtra("item category", selectedItem.getCategories().get(0).toString());
                 intent.putExtra("item location", selectedItem.getLocationDescription());
+                intent.putExtra("item picture path", selectedItem.getPicturePath());
 
                 startActivity(intent);
             }
