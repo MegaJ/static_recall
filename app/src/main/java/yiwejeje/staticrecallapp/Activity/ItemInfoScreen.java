@@ -1,9 +1,12 @@
 package yiwejeje.staticrecallapp.Activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +14,13 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.ViewGroup.LayoutParams;
 
 import java.io.IOException;
 
@@ -32,6 +38,7 @@ public class ItemInfoScreen extends AppCompatActivity {
     private Switch isEditable;
     private String originalItemName;
     private String originalCategoryName;
+
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
@@ -63,7 +70,7 @@ public class ItemInfoScreen extends AppCompatActivity {
         catDisplay=(EditText)findViewById(R.id.ItemCategory);
         locationDisplay=(EditText)findViewById(R.id.ItemLocation);
         saveBtn=(Button)findViewById(R.id.saveBtn1);
-        deleteBtn = (Button) findViewById(R.id.deleteBtn);
+        deleteBtn=(Button)findViewById(R.id.deleteBtn1);
 
         Bundle extras = getIntent().getExtras();
         originalItemName = extras.getString("item title");
@@ -140,17 +147,32 @@ public class ItemInfoScreen extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Item foundItem = findItemByName(originalItemName);
-                // TODO: Implement some popup dialog
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Yes button clicked
+                                Item foundItem = findItemByName(originalItemName);
+                                foundItem.oneSidedRemoveAllCategories();
+                                ItemCategory originalCategory = categoryManager.
+                                        getCategoryByName(originalCategoryName);
+                                originalCategory.removeItem(foundItem);
 
-                // if user is sure they want to delete: {
-                foundItem.oneSidedRemoveAllCategories();
-                ItemCategory originalCategory = categoryManager.
-                        getCategoryByName(originalCategoryName);
-                originalCategory.removeItem(foundItem);
-                System.out.println("----------> Item Deleted?!");
-                ItemInfoScreen.this.finish();
-                // }
+                                Toast message=Toast.makeText(getApplicationContext(),"Item Successfully Deleted",Toast.LENGTH_LONG);
+                                ViewGroup group = (ViewGroup) message.getView();
+                                TextView messageTextView = (TextView) group.getChildAt(0);
+                                messageTextView.setTextSize(15);
+                                message.show();
+                        }
+
+                        ItemInfoScreen.this.finish();
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage("Are you sure to delete the item "+originalItemName).setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
 
             }
         });
@@ -194,6 +216,7 @@ public class ItemInfoScreen extends AppCompatActivity {
         }
         return null;
     }
+
 
     private void createEditableSlider() {
         //attach a listener to check for changes in state

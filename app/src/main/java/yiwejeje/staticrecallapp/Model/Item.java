@@ -14,6 +14,7 @@ public class Item implements Serializable {
     private String name;
     private String locationDescription;
     private File picture;
+    private String picturePath;
     private File audioRecording;
 
     private List<ItemCategory> categories = new ArrayList<ItemCategory>();
@@ -55,12 +56,17 @@ public class Item implements Serializable {
         this.locationDescription = locationDescription;
     }
 
+    public String getPicturePath() {
+        return picturePath;
+    }
+
     public File getPicture() {
         return picture;
     }
 
-    public void setPicture(File picture) {
+    public void setPicture(File picture, String picturePath) {
         this.picture = picture;
+        this.picturePath = picturePath;
     }
 
     public File getAudioRecording() {
