@@ -121,20 +121,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save Changes"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:id="@+id/saveBtn1"
-        android:layout_below="@id/imgFileView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"/>
+        android:layout_alignTop="@+id/deleteBtn1"
+        android:layout_alignLeft="@+id/ItemLocation"
+        android:layout_alignStart="@+id/ItemLocation"
+        android:layout_alignRight="@+id/imgFileView"
+        android:layout_alignEnd="@+id/imgFileView" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:id="@+id/deleteBtn1"
         android:layout_below="@id/imgFileView"
         android:layout_alignRight="@id/ItemLocation"
         android:layout_marginTop="60dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="unsave Changes"
+        android:textSize="14sp"
+        android:id="@+id/disregard"
+        android:layout_below="@+id/saveBtn1"
+        android:layout_alignLeft="@+id/saveBtn1"
+        android:layout_alignStart="@+id/saveBtn1"
+        android:layout_alignRight="@+id/saveBtn1"
+        android:layout_alignEnd="@+id/saveBtn1" />
 
 </RelativeLayout>

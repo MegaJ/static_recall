@@ -117,7 +117,7 @@
             android:src="@drawable/camera"
             android:id="@+id/ItemImageView"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/LocationText"/>
+            android:layout_below="@+id/CameraButton"/>
 
 
         <ImageButton
@@ -144,9 +144,10 @@
             />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="900dp"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:id="@+id/LocationText"
             android:hint="Type in item's location"
             android:textColorHint="#4281A4"
@@ -155,8 +156,7 @@
             android:textColor="#4281A4"
             android:layout_below="@+id/CameraButton"
             android:inputType="textCapSentences"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="46dp" />
+            android:layout_centerHorizontal="true" />
 
 
         <Button
@@ -165,7 +165,7 @@
             android:text="Add"
             android:textSize="15sp"
             android:id="@+id/AddButton"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@id/ItemImageView"
             android:layout_alignRight="@+id/spinner"
             android:layout_alignEnd="@+id/spinner" />
 
