@@ -279,7 +279,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         itemLocation.getText().clear();
         spinner.setSelection(0);
     }
-    
+
     /*
     Code for the audio recording
     */
