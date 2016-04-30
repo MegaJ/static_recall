@@ -3,6 +3,8 @@ package yiwejeje.staticrecallapp.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -73,12 +75,14 @@ public class ItemInfoScreen extends AppCompatActivity {
         locationDisplay=(EditText)findViewById(R.id.ItemLocation);
         saveBtn=(Button)findViewById(R.id.saveBtn1);
         deleteBtn=(Button)findViewById(R.id.deleteBtn1);
+        imageFileView= (ImageView)findViewById(R.id.imgFileView);
 
         Bundle extras = getIntent().getExtras();
         originalItemName = extras.getString("item title");
         originalCategoryName = extras.getString("item category");
 
         saveBtn.setVisibility(View.INVISIBLE);
+        imageFileView.setVisibility(View.INVISIBLE);
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
         titleDisplay.setEnabled(false);
@@ -95,6 +99,9 @@ public class ItemInfoScreen extends AppCompatActivity {
 
         if (extras.getString("item picture path")!= null) {
             System.out.println("-----> Item's picture file is at" + extras.getString("item picture path"));
+            Bitmap bitmap = BitmapFactory.decodeFile(extras.getString("item picture path"));
+            imageFileView.setImageBitmap(bitmap);
+            imageFileView.setVisibility(View.VISIBLE);
         }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
