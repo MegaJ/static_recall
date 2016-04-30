@@ -165,8 +165,9 @@
             android:text="Add"
             android:textSize="15sp"
             android:id="@+id/AddButton"
-            android:layout_below="@+id/ItemImageView"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/spinner"
+            android:layout_alignEnd="@+id/spinner" />
 
         <Spinner
             android:layout_width="450dp"

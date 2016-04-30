@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.MotionEvent;
@@ -45,6 +46,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private EditText itemTitle;
     private EditText itemCategory;  //right now only allow for one category for the simplicity
     private EditText itemLocation;
+    private TextView locationView;
+
 
     private File imageFile;
     private String imageFilePath;
@@ -62,6 +65,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private Button stopButton;
     private Button playButton;
     private Button recordButton;
+
 
     private ImageView itemImageView;
 
@@ -84,6 +88,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         itemTitle = (EditText) findViewById(R.id.ItemText);
         itemCategory = (EditText) findViewById(R.id.CatText);
         itemLocation = (EditText) findViewById(R.id.LocationText);
+        locationView=(TextView) findViewById(R.id.textView);
         typeIn = (ImageButton) findViewById(R.id.TextButton);
         makeRecording=(ImageButton) findViewById(R.id.AudioButton);
 
@@ -400,6 +405,16 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
         if (position == 1) {
             itemCategory.setVisibility(View.VISIBLE);
+            RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            p.addRule(RelativeLayout.BELOW, R.id.CatText);
+            p.addRule(RelativeLayout.ALIGN_LEFT, R.id.CatText);
+            p.setMargins(5,70,5,0);
+
+
+            locationView.setLayoutParams(p);
+
         } else {
             itemCategory.setVisibility(View.INVISIBLE);
             selectedCategory = parent.getItemAtPosition(position).toString();
