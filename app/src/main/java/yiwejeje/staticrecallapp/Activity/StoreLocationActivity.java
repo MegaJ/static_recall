@@ -3,6 +3,7 @@ package yiwejeje.staticrecallapp.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
@@ -260,7 +261,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
     private void displaySuccessToast() {
-        Toast message = Toast.makeText(getApplicationContext(),"Item Successfully Added",Toast.LENGTH_LONG);
+        Toast message = Toast.makeText(getApplicationContext(),"Item is successfully added.",Toast.LENGTH_LONG);
         ViewGroup group = (ViewGroup) message.getView();
         TextView messageTextView = (TextView) group.getChildAt(0);
         messageTextView.setTextSize(15);
@@ -380,6 +381,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
                 // do whatever you want with this text view
                 textView.setTextSize(17);
+                textView.setTextColor(Color.parseColor("#4281A4"));
+
                 return view;
             }
         };
