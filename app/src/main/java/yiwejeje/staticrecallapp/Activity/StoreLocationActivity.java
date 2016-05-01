@@ -98,7 +98,13 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         setUpLocation();
 
         setupAddItemButton();
-    }git 
+    }
+
+    private void updateToast(String text, int duration) {
+        toast.setText(text);
+        toast.setDuration(duration);
+        toast.show();
+    }
 
     private void setupCamera() {
         final PackageManager pm = this.getPackageManager();
@@ -107,9 +113,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onClick(View v) {
                 if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
-                    toast.setText("No camera installed");
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.show();
+                    updateToast("No camera installed", Toast.LENGTH_SHORT);
                 } else {
                     dispatchTakePictureIntent();
                 }
@@ -183,17 +187,13 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strCategory = itemCategory.getText().toString();
                 String strLocation = itemLocation.getText().toString();
 
-                toast.setDuration(Toast.LENGTH_SHORT);
-
                 if (strItemTitle.equals("")) {
-                    toast.setText("Item title cannot be blank.");
-                    toast.show();
+                    updateToast("Item title cannot be blank.", Toast.LENGTH_SHORT);
                     return;
                 }
 
                 if (itemNameExists(strItemTitle)) {
-                    toast.setText("This item name already exists.");
-                    toast.show();
+                    updateToast("This item name already exists.", Toast.LENGTH_SHORT);
                     return;
                 }
 
@@ -259,14 +259,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private void displayAddItemResult(boolean addedResult){
         if (addedResult) {
             resetVisibleFields();
-            displaySuccessToast();
+            updateToast("Item is successfully added.", Toast.LENGTH_LONG);
         }
-    }
-
-    private void displaySuccessToast() {
-        toast.setText("Item is successfully added.");
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.show();
     }
 
     private void resetVisibleFields() {
@@ -413,10 +407,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         } else {
             itemCategory.setVisibility(View.INVISIBLE);
             selectedCategory = parent.getItemAtPosition(position).toString();
-
-            toast.setText("Selected: " + selectedCategory);
-            toast.setDuration(Toast.LENGTH_LONG);
-            toast.show();
+            updateToast("Selected: " + selectedCategory, Toast.LENGTH_LONG);
         }
     }
 
