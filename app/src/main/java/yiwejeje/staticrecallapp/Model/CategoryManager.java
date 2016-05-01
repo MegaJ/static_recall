@@ -41,7 +41,6 @@ public enum CategoryManager {
     private Collection<ItemCategory> allCategories;
     public static final String DEFAULT_CATEGORY = "Uncategorized";
     private Gson gson;
-    private Context context;
 
     private CategoryManager() {
         allCategories = new TreeSet<ItemCategory>(new CategoryComparator());

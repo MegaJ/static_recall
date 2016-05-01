@@ -66,12 +66,9 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private Button playButton;
     private Button recordButton;
 
-
     private ImageView itemImageView;
 
-    private Context context;
-    private int duration;
-    private CharSequence toastText;
+    private Toast toast;
 
     private boolean isRecording = false;
 
@@ -92,6 +89,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         typeIn = (ImageButton) findViewById(R.id.TextButton);
         makeRecording=(ImageButton) findViewById(R.id.AudioButton);
 
+        setupToast();
+
         setupCamera();
         setupAudio();
 
@@ -99,7 +98,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         setUpLocation();
 
         setupAddItemButton();
-    }
+    }git 
 
     private void setupCamera() {
         final PackageManager pm = this.getPackageManager();
@@ -108,7 +107,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onClick(View v) {
                 if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "No camera installed", Toast.LENGTH_SHORT);
+                    toast.setText("No camera installed");
+                    toast.setDuration(Toast.LENGTH_SHORT);
                     toast.show();
                 } else {
                     dispatchTakePictureIntent();
@@ -183,22 +183,16 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 String strCategory = itemCategory.getText().toString();
                 String strLocation = itemLocation.getText().toString();
 
-                if (strItemTitle.equals("")) {
-                    context = getApplicationContext();
-                    toastText = "Item title cannot be blank.";
-                    duration = Toast.LENGTH_SHORT;
+                toast.setDuration(Toast.LENGTH_SHORT);
 
-                    Toast toast = Toast.makeText(context, toastText, duration);
+                if (strItemTitle.equals("")) {
+                    toast.setText("Item title cannot be blank.");
                     toast.show();
                     return;
                 }
 
                 if (itemNameExists(strItemTitle)) {
-                    context = getApplicationContext();
-                    toastText = "This item name already exists.";
-                    duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, toastText, duration);
+                    toast.setText("This item name already exists.");
                     toast.show();
                     return;
                 }
@@ -216,6 +210,10 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 displayAddItemResult(addingSuccessful);
             }
         });
+    }
+
+    private void setupToast() {
+        toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
     }
 
     //CAMERA CODE -- Picture intent and actual file-writing
@@ -266,11 +264,9 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
     private void displaySuccessToast() {
-        Toast message = Toast.makeText(getApplicationContext(),"Item is successfully added.",Toast.LENGTH_LONG);
-        ViewGroup group = (ViewGroup) message.getView();
-        TextView messageTextView = (TextView) group.getChildAt(0);
-        messageTextView.setTextSize(15);
-        message.show();
+        toast.setText("Item is successfully added.");
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.show();
     }
 
     private void resetVisibleFields() {
@@ -412,18 +408,15 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             p.addRule(RelativeLayout.ALIGN_LEFT, R.id.CatText);
             p.setMargins(5,70,5,0);
 
-
             locationView.setLayoutParams(p);
 
         } else {
             itemCategory.setVisibility(View.INVISIBLE);
             selectedCategory = parent.getItemAtPosition(position).toString();
 
-            Toast m=Toast.makeText(parent.getContext(), "Selected: " + selectedCategory, Toast.LENGTH_LONG);
-            ViewGroup group = (ViewGroup) m.getView();
-            TextView messageTextView = (TextView) group.getChildAt(0);
-            messageTextView.setTextSize(15);
-            m.show();
+            toast.setText("Selected: " + selectedCategory);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 
