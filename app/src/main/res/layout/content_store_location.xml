@@ -112,8 +112,8 @@
         android:layout_alignStart="@+id/LocationText"-->
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:src="@drawable/camera"
             android:id="@+id/ItemImageView"
             android:layout_centerHorizontal="true"

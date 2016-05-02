@@ -1,8 +1,11 @@
 package yiwejeje.staticrecallapp.Activity;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -11,6 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -29,8 +33,12 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import android.net.Uri;
+
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -67,6 +75,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private Button recordButton;
 
     private ImageView itemImageView;
+    private android.net.Uri mImageUri;
 
     private Toast toast;
 
@@ -225,35 +234,44 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         stopButton.setVisibility(View.INVISIBLE);
         playButton.setVisibility(View.INVISIBLE);
 
+        mImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new ContentValues());
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
 
         //Disables camera function if the device does not support the camera hardware
-        //If camera installed, dispatches the picture intent.
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            itemImageView.setImageBitmap(thumbnail);
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            if (thumbnail != null) {
-                thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                }
-            imageFile = new File(this.getFilesDir() + File.separator + UUID.randomUUID() + ".jpg");
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            ContentResolver contentResolver = this.getContentResolver();
+            contentResolver.notifyChange(mImageUri, null);
+
             try {
-                FileOutputStream fo = new FileOutputStream(imageFile);
-                System.out.println("----> Attempt to write file");
-                fo.write(bytes.toByteArray());
-                fo.close();
-                System.out.println("File stored at" + imageFile.getAbsolutePath());
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(contentResolver, mImageUri);
+                itemImageView.setImageBitmap(bitmap);
+                System.out.println("-----> Bitmap is " + bitmap.getWidth() + " by " + bitmap.getHeight());
+
+                contentResolver.delete(mImageUri, null, null);
+
+                imageFile = new File(this.getFilesDir() + File.separator + UUID.randomUUID() + ".jpg");
+                FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+                fileOutputStream.close();
+
+                System.out.println("-------> Image path of jpeg is: " + imageFile.getAbsolutePath());
+
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
+                Log.d("StoreLocationActivity", "Failed to load", e);
             }
         }
+
+        super.onActivityResult(requestCode, resultCode, intent);
     }
 
     private void displayAddItemResult(boolean addedResult){
