@@ -37,10 +37,13 @@ public class ItemInfoScreen extends AppCompatActivity {
     private EditText catDisplay;
     private EditText locationDisplay;
     private Button saveBtn;
+    private Button unsaveBtn;
     private Button deleteBtn;
     private Switch isEditable;
     private String originalItemName;
     private String originalCategoryName;
+    private String location;
+    //private String originalLocationName;
     private ImageView imageFileView;
 
 
@@ -74,12 +77,14 @@ public class ItemInfoScreen extends AppCompatActivity {
         catDisplay=(EditText)findViewById(R.id.ItemCategory);
         locationDisplay=(EditText)findViewById(R.id.ItemLocation);
         saveBtn=(Button)findViewById(R.id.saveBtn1);
+        unsaveBtn=(Button)findViewById(R.id.disregard);
         deleteBtn=(Button)findViewById(R.id.deleteBtn1);
         imageFileView= (ImageView)findViewById(R.id.imgFileView);
 
         Bundle extras = getIntent().getExtras();
         originalItemName = extras.getString("item title");
         originalCategoryName = extras.getString("item category");
+        //originalLocationName = extras.getString("item location");
 
         saveBtn.setVisibility(View.INVISIBLE);
         imageFileView.setVisibility(View.INVISIBLE);
@@ -93,7 +98,7 @@ public class ItemInfoScreen extends AppCompatActivity {
 
 
         if (extras.getString("item location")!= null){
-            String location=extras.getString("item location");
+            location=extras.getString("item location");
             locationDisplay.setText(location);
         }
 
@@ -107,55 +112,19 @@ public class ItemInfoScreen extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String strItemTitle = titleDisplay.getText().toString();
-                String strCategory = catDisplay.getText().toString();
-                String strLocation = locationDisplay.getText().toString();
-
-                if (strItemTitle.equals("")) {
-                    // TODO: put toast here because blank items aren't allowed
-                    return;
-                }
-
-                // if the item is named something ELSE that exists, can't do it.
-                if (!strItemTitle.equals(originalItemName)) {
-                    if (itemNameExists(strItemTitle)) {
-                        // TODO: put toast here for not being able to add an item with existing name
-                        return;
-                    }
-                }
-
-                ItemCategory originalCategory = categoryManager.
-                        getCategoryByName(originalCategoryName);
-                Item itemToModify = originalCategory.getItemByName(originalItemName);
-                ItemCategory category = createNewCategoryIfNotExists(strCategory);
-
-                itemToModify.setName(strItemTitle);
-                itemToModify.removeCategory(originalCategory);
-                itemToModify.addCategory(category);
-                itemToModify.setLocationDescription(strLocation);
-
-                originalItemName = strItemTitle;
-                originalCategoryName = strCategory;
-
-                System.out.println("------> Save called from Item Location Activity!");
-                try {
-                    categoryManager.save(ItemInfoScreen.this);
-                    titleDisplay.setEnabled(false);
-                    catDisplay.setEnabled(false);
-                    locationDisplay.setEnabled(false);
-                    isEditable.setChecked(false);
-                    Toast message=Toast.makeText(getApplicationContext(),"Changes Successfully Saved",Toast.LENGTH_LONG);
-                    ViewGroup group = (ViewGroup) message.getView();
-                    TextView messageTextView = (TextView) group.getChildAt(0);
-                    messageTextView.setTextSize(15);
-                    message.show();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                saveChanges();
             }
         });
+
+        unsaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                disregardChanges();
+            }
+        });
+
+
+
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +141,7 @@ public class ItemInfoScreen extends AppCompatActivity {
                                         getCategoryByName(originalCategoryName);
                                 originalCategory.removeItem(foundItem);
 
-                                Toast message=Toast.makeText(getApplicationContext(),"Item Successfully Deleted",Toast.LENGTH_LONG);
+                                Toast message=Toast.makeText(getApplicationContext(),"Item is successfully deleted",Toast.LENGTH_LONG);
                                 ViewGroup group = (ViewGroup) message.getView();
                                 TextView messageTextView = (TextView) group.getChildAt(0);
                                 messageTextView.setTextSize(15);
@@ -231,6 +200,75 @@ public class ItemInfoScreen extends AppCompatActivity {
     }
 
 
+    private void disregardChanges(){
+        titleDisplay.setText(originalItemName);
+        catDisplay.setText(originalCategoryName);
+        if (location != null ){
+            locationDisplay.setText(location);
+        }
+        titleDisplay.setEnabled(false);
+        catDisplay.setEnabled(false);
+        locationDisplay.setEnabled(false);
+        isEditable.setChecked(false);
+        Toast message=Toast.makeText(getApplicationContext(),"Changes are disregarded.",Toast.LENGTH_LONG);
+        ViewGroup group = (ViewGroup) message.getView();
+        TextView messageTextView = (TextView) group.getChildAt(0);
+        messageTextView.setTextSize(15);
+        message.show();
+
+    }
+
+    private void saveChanges(){
+        String strItemTitle = titleDisplay.getText().toString();
+        String strCategory = catDisplay.getText().toString();
+        String strLocation = locationDisplay.getText().toString();
+
+        if (strItemTitle.equals("")) {
+            // TODO: put toast here because blank items aren't allowed
+            return;
+        }
+
+        // if the item is named something ELSE that exists, can't do it.
+        if (!strItemTitle.equals(originalItemName)) {
+            if (itemNameExists(strItemTitle)) {
+                // TODO: put toast here for not being able to add an item with existing name
+                return;
+            }
+        }
+
+        ItemCategory originalCategory = categoryManager.
+                getCategoryByName(originalCategoryName);
+        Item itemToModify = originalCategory.getItemByName(originalItemName);
+        ItemCategory category = createNewCategoryIfNotExists(strCategory);
+
+        itemToModify.setName(strItemTitle);
+        itemToModify.removeCategory(originalCategory);
+        itemToModify.addCategory(category);
+        itemToModify.setLocationDescription(strLocation);
+
+        originalItemName = strItemTitle;
+        originalCategoryName = strCategory;
+
+        System.out.println("------> Save called from Item Location Activity!");
+        try {
+            categoryManager.save(ItemInfoScreen.this);
+            titleDisplay.setEnabled(false);
+            catDisplay.setEnabled(false);
+            locationDisplay.setEnabled(false);
+            isEditable.setChecked(false);
+            Toast message=Toast.makeText(getApplicationContext(),"Changes are successfully added.",Toast.LENGTH_LONG);
+            ViewGroup group = (ViewGroup) message.getView();
+            TextView messageTextView = (TextView) group.getChildAt(0);
+            messageTextView.setTextSize(15);
+            message.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     private void createEditableSlider() {
         //attach a listener to check for changes in state
         isEditable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -243,11 +281,13 @@ public class ItemInfoScreen extends AppCompatActivity {
                     catDisplay.setEnabled(true);
                     locationDisplay.setEnabled(true);
                     saveBtn.setVisibility(View.VISIBLE);
+                    unsaveBtn.setVisibility(View.VISIBLE);
                 } else {
                     titleDisplay.setEnabled(false);
                     catDisplay.setEnabled(false);
                     locationDisplay.setEnabled(false);
                     saveBtn.setVisibility(View.INVISIBLE);
+                    unsaveBtn.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -262,6 +302,7 @@ public class ItemInfoScreen extends AppCompatActivity {
             titleDisplay.setEnabled(false);
             catDisplay.setEnabled(false);
             locationDisplay.setEnabled(false);
+            unsaveBtn.setVisibility(View.INVISIBLE);
         }
     }
 }

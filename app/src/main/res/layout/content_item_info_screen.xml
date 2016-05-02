@@ -120,14 +120,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save Changes"
+        android:text="Save"
         android:textSize="15sp"
         android:id="@+id/saveBtn1"
         android:layout_alignTop="@+id/deleteBtn1"
         android:layout_alignLeft="@+id/ItemLocation"
         android:layout_alignStart="@+id/ItemLocation"
-        android:layout_alignRight="@+id/imgFileView"
-        android:layout_alignEnd="@+id/imgFileView" />
+         />
 
     <Button
         android:layout_width="wrap_content"
@@ -142,8 +141,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="unsave Changes"
-        android:textSize="14sp"
+        android:text="unsave"
+        android:textSize="15sp"
         android:id="@+id/disregard"
         android:layout_below="@+id/saveBtn1"
         android:layout_alignLeft="@+id/saveBtn1"
