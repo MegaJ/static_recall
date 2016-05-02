@@ -45,6 +45,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private EditText titleDisplay;
     private EditText catDisplay;
     private EditText locationDisplay;
+    private TextView locationplace;
     private Button saveBtn;
     private Button unsaveBtn;
     private Button deleteBtn;
@@ -92,6 +93,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         deleteBtn=(Button)findViewById(R.id.deleteBtn1);
         imageFileView= (ImageView)findViewById(R.id.imgFileView);
         thisSpinner=(Spinner)findViewById(R.id.editSpinner);
+        locationplace=(TextView)findViewById(R.id.textView6);
         selectedCategory=null;
 
         Bundle extras = getIntent().getExtras();
@@ -271,7 +273,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             catDisplay.setEnabled(false);
             locationDisplay.setEnabled(false);
             isEditable.setChecked(false);
-            Toast message=Toast.makeText(getApplicationContext(),"Changes are successfully added.",Toast.LENGTH_LONG);
+            Toast message=Toast.makeText(getApplicationContext(),"Changes are successfully saved.",Toast.LENGTH_LONG);
             ViewGroup group = (ViewGroup) message.getView();
             TextView messageTextView = (TextView) group.getChildAt(0);
             messageTextView.setTextSize(15);
@@ -298,6 +300,14 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                     saveBtn.setVisibility(View.VISIBLE);
                     unsaveBtn.setVisibility(View.VISIBLE);
                     thisSpinner.setVisibility(View.VISIBLE);
+                    RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                    p.addRule(RelativeLayout.BELOW, R.id.editSpinner);
+                    p.addRule(RelativeLayout.ALIGN_LEFT, R.id.editSpinner);
+                    p.setMargins(10, 75, 5, 0);
+
+                    locationplace.setLayoutParams(p);
                     setupDropdown();
 
                 } else {
@@ -307,6 +317,14 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                     saveBtn.setVisibility(View.INVISIBLE);
                     unsaveBtn.setVisibility(View.INVISIBLE);
                     thisSpinner.setVisibility(View.INVISIBLE);
+                    RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                    p.addRule(RelativeLayout.BELOW, R.id.ItemCategory);
+                    p.addRule(RelativeLayout.ALIGN_LEFT, R.id.ItemCategory);
+                    p.setMargins(5, 75, 5, 0);
+
+                    locationplace.setLayoutParams(p);
                 }
             }
         });
