@@ -39,7 +39,6 @@
         android:id="@+id/itemTitle"
         android:layout_below="@id/textView2"
         android:textColor="#4281A4"
-        android:textStyle="bold"
         android:inputType="textCapSentences"
         />
 
@@ -67,7 +66,6 @@
         android:layout_alignLeft="@+id/textView2"
         android:layout_below="@id/textView4"
         android:textColor="#4281A4"
-        android:textStyle="bold"
         android:inputType="textCapSentences"/>
 
     <TextView
@@ -95,7 +93,6 @@
         android:layout_below="@id/textView6"
         android:layout_alignLeft="@+id/textView2"
         android:textColor="#4281A4"
-        android:textStyle="bold"
         android:inputType="textCapSentences"/>
 
     <Switch
@@ -114,7 +111,7 @@
         android:id="@+id/imgFileView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ItemLocation"
+        android:layout_below="@id/textView6"
         android:layout_centerHorizontal="true"/>
 
     <Button
@@ -149,5 +146,16 @@
         android:layout_alignStart="@+id/saveBtn1"
         android:layout_alignRight="@+id/saveBtn1"
         android:layout_alignEnd="@+id/saveBtn1" />
+
+    <Spinner
+        android:layout_width="450dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSpinner"
+        android:layout_below="@+id/ItemCategory"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4"
+        android:textColor="#4281A4"
+        android:textSize="17sp"
+        android:layout_marginRight="10dp"/>
 
 </RelativeLayout>

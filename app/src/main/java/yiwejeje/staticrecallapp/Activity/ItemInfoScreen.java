@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,25 +15,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import yiwejeje.staticrecallapp.Model.CategoryManager;
 import yiwejeje.staticrecallapp.Model.Item;
 import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
-public class ItemInfoScreen extends AppCompatActivity {
+public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText titleDisplay;
     private EditText catDisplay;
     private EditText locationDisplay;
@@ -45,6 +54,8 @@ public class ItemInfoScreen extends AppCompatActivity {
     private String location;
     //private String originalLocationName;
     private ImageView imageFileView;
+    private Spinner thisSpinner;
+    private String selectedCategory;
 
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
@@ -80,6 +91,8 @@ public class ItemInfoScreen extends AppCompatActivity {
         unsaveBtn=(Button)findViewById(R.id.disregard);
         deleteBtn=(Button)findViewById(R.id.deleteBtn1);
         imageFileView= (ImageView)findViewById(R.id.imgFileView);
+        thisSpinner=(Spinner)findViewById(R.id.editSpinner);
+        selectedCategory=null;
 
         Bundle extras = getIntent().getExtras();
         originalItemName = extras.getString("item title");
@@ -107,6 +120,7 @@ public class ItemInfoScreen extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(extras.getString("item picture path"));
             imageFileView.setImageBitmap(bitmap);
             imageFileView.setVisibility(View.VISIBLE);
+            locationDisplay.setVisibility(View.INVISIBLE);
         }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -218,6 +232,7 @@ public class ItemInfoScreen extends AppCompatActivity {
 
     }
 
+
     private void saveChanges(){
         String strItemTitle = titleDisplay.getText().toString();
         String strCategory = catDisplay.getText().toString();
@@ -282,12 +297,16 @@ public class ItemInfoScreen extends AppCompatActivity {
                     locationDisplay.setEnabled(true);
                     saveBtn.setVisibility(View.VISIBLE);
                     unsaveBtn.setVisibility(View.VISIBLE);
+                    thisSpinner.setVisibility(View.VISIBLE);
+                    setupDropdown();
+
                 } else {
                     titleDisplay.setEnabled(false);
                     catDisplay.setEnabled(false);
                     locationDisplay.setEnabled(false);
                     saveBtn.setVisibility(View.INVISIBLE);
                     unsaveBtn.setVisibility(View.INVISIBLE);
+                    thisSpinner.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -303,8 +322,58 @@ public class ItemInfoScreen extends AppCompatActivity {
             catDisplay.setEnabled(false);
             locationDisplay.setEnabled(false);
             unsaveBtn.setVisibility(View.INVISIBLE);
+            thisSpinner.setVisibility(View.INVISIBLE);
         }
     }
+
+
+    private void setupDropdown(){
+        CategoryManager myCategoryManager = CategoryManager.INSTANCE;
+        Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
+        List<String> categories = new ArrayList<String>();
+        categories.add("Or select from existing categories...");
+        for (ItemCategory c:allCategories){
+            categories.add(c.toString());
+        }
+
+
+        thisSpinner.setOnItemSelectedListener(this);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+                // do whatever you want with this text view
+                textView.setTextSize(17);
+                textView.setTextColor(Color.parseColor("#4281A4"));
+
+                return view;
+            }
+        };
+
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        thisSpinner.setAdapter(dataAdapter);
+
+    }
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (position != 1 && position !=0) {
+                selectedCategory = parent.getItemAtPosition(position).toString();
+                catDisplay.setText(selectedCategory);
+                Toast message=Toast.makeText(getApplicationContext(),"Selected: " + selectedCategory,Toast.LENGTH_LONG);
+                ViewGroup group = (ViewGroup) message.getView();
+                TextView messageTextView = (TextView) group.getChildAt(0);
+                messageTextView.setTextSize(15);
+                message.show();
+
+
+            }
+        }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parentView){
+    }
+
 }
 
 

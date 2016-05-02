@@ -44,12 +44,9 @@
             android:textColor="#4281A4"
             android:singleLine="true"
             android:textColorHint="#4281A4"
-
             android:ems="10"
             android:textSize="17sp"
-
             android:id="@+id/ItemText"
-
             android:inputType="textCapSentences"/>
 
         <TextView
@@ -74,11 +71,7 @@
             android:textSize="17sp"
             android:textColorHint="#4281A4"
             android:layout_below="@+id/viewCategory"
-
             android:textColor="#4281A4"
-
-
-
             android:layout_marginTop="20dp"
             android:inputType="textCapSentences"
             android:layout_marginLeft="10dp"
