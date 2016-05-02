@@ -41,7 +41,6 @@ public enum CategoryManager {
     private Collection<ItemCategory> allCategories;
     public static final String DEFAULT_CATEGORY = "Uncategorized";
     private Gson gson;
-    private Context context;
 
     private CategoryManager() {
         allCategories = new TreeSet<ItemCategory>(new CategoryComparator());
@@ -157,7 +156,8 @@ public enum CategoryManager {
             Reader jsonReader = new InputStreamReader(jsonStream, "UTF-8");
 
             Type listOfItemCategories = new TypeToken<List<ItemCategory>>(){}.getType();
-            this.allCategories = gson.fromJson(jsonReader, listOfItemCategories);
+            this.allCategories.addAll(
+                    gson.<Collection<? extends ItemCategory>>fromJson(jsonReader, listOfItemCategories));
 
             jsonStream.close();
             return true;

@@ -23,38 +23,67 @@
         <!--android:paddingRight="@dimen/activity_horizontal_margin">-->
         <!--android:paddingLeft="@dimen/activity_horizontal_margin">-->
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Item Title"
+            android:textSize="17sp"
+            android:id="@+id/viewTitle"
+            android:layout_marginTop="50dp"
+            android:layout_alignLeft="@+id/ItemText"
+             />
+
         <EditText
             android:layout_width="900dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_below="@id/viewTitle"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:hint="Type in item's name"
+            android:textColor="#4281A4"
             android:singleLine="true"
-            android:textColor="#d00d0c0c"
+            android:textColorHint="#4281A4"
+
             android:ems="10"
             android:textSize="17sp"
-            android:textStyle="bold"
+
             android:id="@+id/ItemText"
 
             android:inputType="textCapSentences"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Item Category"
+            android:textSize="17sp"
+            android:id="@+id/viewCategory"
+            android:layout_below="@+id/ItemText"
+            android:layout_marginTop="30dp"
+            android:layout_alignLeft="@+id/spinner"
+            android:layout_alignStart="@+id/spinner" />
+
+
         <EditText
-            android:layout_width="450dp"
+            android:layout_width="900dp"
             android:layout_height="wrap_content"
             android:id="@+id/CatText"
             android:hint="Type in a new category"
             android:singleLine="true"
-            android:ems="10"
             android:textSize="17sp"
-            android:layout_below="@+id/spinner"
-            android:layout_alignParentLeft="true"
-            android:textColor="#d00e0e0e"
-            android:textStyle="bold"
-            android:layout_alignParentStart="true"
+            android:textColorHint="#4281A4"
+            android:layout_below="@+id/viewCategory"
+
+            android:textColor="#4281A4"
+
+
+
+            android:layout_marginTop="20dp"
             android:inputType="textCapSentences"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            />
 
 
         <TextView
@@ -63,11 +92,11 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Item Location"
             android:textSize="17sp"
-            android:textColor="#354950"
             android:id="@+id/textView"
             android:layout_below="@+id/spinner"
-            android:layout_marginTop="50dp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_alignLeft="@id/viewTitle"
+            android:layout_marginTop="30dp"/>
+
 
 
         <ImageButton
@@ -83,12 +112,12 @@
         android:layout_alignStart="@+id/LocationText"-->
 
         <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:src="@drawable/camera"
             android:id="@+id/ItemImageView"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/LocationText"/>
+            android:layout_below="@+id/CameraButton"/>
 
 
         <ImageButton
@@ -115,19 +144,19 @@
             />
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="900dp"
             android:layout_height="wrap_content"
-            android:ems="10"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:id="@+id/LocationText"
             android:hint="Type in item's location"
+            android:textColorHint="#4281A4"
             android:singleLine="true"
             android:textSize="17sp"
-            android:textColor="#d00e0e0e"
-            android:textStyle="bold"
+            android:textColor="#4281A4"
             android:layout_below="@+id/CameraButton"
             android:inputType="textCapSentences"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="46dp" />
+            android:layout_centerHorizontal="true" />
 
 
         <Button
@@ -136,18 +165,20 @@
             android:text="Add"
             android:textSize="15sp"
             android:id="@+id/AddButton"
-            android:layout_below="@+id/ItemImageView"
-            android:layout_alignParentRight="true"/>
+            android:layout_below="@id/ItemImageView"
+            android:layout_alignRight="@+id/spinner"
+            android:layout_alignEnd="@+id/spinner" />
 
         <Spinner
             android:layout_width="450dp"
             android:layout_height="wrap_content"
             android:id="@+id/spinner"
-            android:layout_below="@+id/ItemText"
-            android:layout_marginTop="30dp"
+            android:textColor="#4281A4"
+            android:layout_below="@+id/viewCategory"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textSize="17sp"/>
+            android:textSize="17sp"
+            />
 
         <Button
             android:layout_width="70dp"
@@ -177,6 +208,8 @@
             android:layout_below="@+id/AudioButton"
             android:layout_alignRight="@+id/AudioButton"
             android:layout_alignEnd="@+id/AudioButton" />
+
+
 
 
     </RelativeLayout>

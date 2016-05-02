@@ -53,6 +53,12 @@ public class ListViewSearchActivity extends AppCompatActivity {
         refreshList();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        refreshList();
+    }
+
     private void configureView() {
         setContentView(R.layout.activity_search_view_list);
 
@@ -69,6 +75,7 @@ public class ListViewSearchActivity extends AppCompatActivity {
                 intent.putExtra("item title", selectedItem.getName());
                 intent.putExtra("item category", selectedItem.getCategories().get(0).toString());
                 intent.putExtra("item location", selectedItem.getLocationDescription());
+                intent.putExtra("item picture path", selectedItem.getPicturePath());
 
                 startActivity(intent);
             }

@@ -3,6 +3,8 @@ package yiwejeje.staticrecallapp.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +16,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Switch;
@@ -38,6 +41,7 @@ public class ItemInfoScreen extends AppCompatActivity {
     private Switch isEditable;
     private String originalItemName;
     private String originalCategoryName;
+    private ImageView imageFileView;
 
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
@@ -71,12 +75,14 @@ public class ItemInfoScreen extends AppCompatActivity {
         locationDisplay=(EditText)findViewById(R.id.ItemLocation);
         saveBtn=(Button)findViewById(R.id.saveBtn1);
         deleteBtn=(Button)findViewById(R.id.deleteBtn1);
+        imageFileView= (ImageView)findViewById(R.id.imgFileView);
 
         Bundle extras = getIntent().getExtras();
         originalItemName = extras.getString("item title");
         originalCategoryName = extras.getString("item category");
 
         saveBtn.setVisibility(View.INVISIBLE);
+        imageFileView.setVisibility(View.INVISIBLE);
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
         titleDisplay.setEnabled(false);
@@ -89,6 +95,13 @@ public class ItemInfoScreen extends AppCompatActivity {
         if (extras.getString("item location")!= null){
             String location=extras.getString("item location");
             locationDisplay.setText(location);
+        }
+
+        if (extras.getString("item picture path")!= null) {
+            System.out.println("-----> Item's picture file is at" + extras.getString("item picture path"));
+            Bitmap bitmap = BitmapFactory.decodeFile(extras.getString("item picture path"));
+            imageFileView.setImageBitmap(bitmap);
+            imageFileView.setVisibility(View.VISIBLE);
         }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -154,20 +167,19 @@ public class ItemInfoScreen extends AppCompatActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
                                 Item foundItem = findItemByName(originalItemName);
-                                foundItem.removeAllCategories();
-                                System.out.println("----------> Item Deleted?!");
-                                ItemInfoScreen.this.finish();
+                                foundItem.oneSidedRemoveAllCategories();
+                                ItemCategory originalCategory = categoryManager.
+                                        getCategoryByName(originalCategoryName);
+                                originalCategory.removeItem(foundItem);
+
                                 Toast message=Toast.makeText(getApplicationContext(),"Item Successfully Deleted",Toast.LENGTH_LONG);
                                 ViewGroup group = (ViewGroup) message.getView();
                                 TextView messageTextView = (TextView) group.getChildAt(0);
                                 messageTextView.setTextSize(15);
                                 message.show();
-                                break;
-
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                //No button clicked
-                                break;
                         }
+
+                        ItemInfoScreen.this.finish();
                     }
                 };
 
@@ -179,6 +191,16 @@ public class ItemInfoScreen extends AppCompatActivity {
         });
 
         createEditableSlider();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+            categoryManager.save(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private ItemCategory createNewCategoryIfNotExists(String categoryName) {

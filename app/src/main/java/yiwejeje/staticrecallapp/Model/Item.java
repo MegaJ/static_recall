@@ -125,10 +125,8 @@ public class Item implements Serializable {
         return true;
     }
 
-    public boolean removeAllCategories() {
-        for(ItemCategory category : this.categories) {
-            this.removeCategory(category);
-        }
+    public boolean oneSidedRemoveAllCategories() {
+        this.categories.clear();
         return true;
     }
 
