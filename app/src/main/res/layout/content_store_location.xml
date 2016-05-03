@@ -98,6 +98,7 @@
             android:id="@+id/CameraButton"
             android:src="@drawable/camera"
             android:scaleType="fitXY"
+            android:background="@android:color/transparent"
             android:layout_alignTop="@+id/TextButton"
             android:layout_toLeftOf="@id/TextButton"
             android:layout_marginRight="30dp"/>
@@ -118,6 +119,7 @@
             android:layout_height="60dp"
             android:scaleType="fitXY"
             android:id="@+id/AudioButton"
+            android:background="@android:color/transparent"
             android:src="@drawable/soundwave"
             android:layout_below="@+id/textView"
             android:layout_toRightOf="@id/TextButton"
@@ -132,6 +134,7 @@
             android:scaleType="fitXY"
             android:id="@+id/TextButton"
             android:src="@drawable/text"
+            android:background="@android:color/transparent"
             android:layout_centerHorizontal="true"
             android:layout_alignTop="@+id/AudioButton"
             />
