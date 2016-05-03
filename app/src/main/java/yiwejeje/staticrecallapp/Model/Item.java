@@ -13,7 +13,6 @@ import java.util.Set;
 public class Item implements Serializable {
     private String name;
     private String locationDescription;
-    private File picture;
     private String picturePath;
     private File audioRecording;
 
@@ -60,12 +59,7 @@ public class Item implements Serializable {
         return picturePath;
     }
 
-    public File getPicture() {
-        return picture;
-    }
-
-    public void setPicture(File picture, String picturePath) {
-        this.picture = picture;
+    public void setPicturePath(String picturePath) {
         this.picturePath = picturePath;
     }
 

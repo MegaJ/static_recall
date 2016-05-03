@@ -210,7 +210,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
                 if (imageFile != null) {
                     imageFilePath = imageFile.getAbsolutePath();
-                    newItem.setPicture(imageFile, imageFilePath);
+                    newItem.setPicturePath(imageFilePath);
                     System.out.println("---> My image file is " + imageFile.getAbsolutePath());
                 }
 
