@@ -124,6 +124,11 @@ public class Item implements Serializable {
         return true;
     }
 
+    public void deleteImage() {
+        File imageFile = new File(picturePath);
+        imageFile.delete();
+    }
+
     public String toString() {
         return name;
     }

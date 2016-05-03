@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView.OnItemSelectedListener;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -152,10 +154,12 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
                                 Item foundItem = findItemByName(originalItemName);
+
                                 foundItem.oneSidedRemoveAllCategories();
                                 ItemCategory originalCategory = categoryManager.
                                         getCategoryByName(originalCategoryName);
                                 originalCategory.removeItem(foundItem);
+                                foundItem.deleteImage();
 
                                 Toast message=Toast.makeText(getApplicationContext(),"Item is successfully deleted",Toast.LENGTH_LONG);
                                 ViewGroup group = (ViewGroup) message.getView();
