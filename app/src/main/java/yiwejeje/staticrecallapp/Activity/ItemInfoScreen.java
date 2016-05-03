@@ -94,6 +94,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         unsaveBtn=(Button)findViewById(R.id.disregard);
         deleteBtn=(Button)findViewById(R.id.deleteBtn1);
         imageFileView= (ImageView)findViewById(R.id.imgFileView);
+        imageFileView.setRotation(90);
         thisSpinner=(Spinner)findViewById(R.id.editSpinner);
         locationplace=(TextView)findViewById(R.id.textView6);
         selectedCategory=null;

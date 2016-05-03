@@ -295,6 +295,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         itemCategory.setVisibility(View.INVISIBLE);
         itemLocation.setVisibility(View.INVISIBLE);
         itemImageView = (ImageView) findViewById(R.id.ItemImageView);
+        itemImageView.setRotation(90);
         itemImageView.setVisibility(View.INVISIBLE);
         recordButton.setVisibility(View.INVISIBLE);
         stopButton.setVisibility(View.INVISIBLE);
