@@ -64,7 +64,7 @@ public enum CategoryManager {
         return Collections.unmodifiableCollection(allCategories);
     }
 
-    public void setAllCategories(List<ItemCategory> allCategories) {
+    public void setAllCategories(Collection<ItemCategory> allCategories) {
         this.allCategories = allCategories;
     }
 
@@ -144,6 +144,8 @@ public enum CategoryManager {
         Writer writer = new FileWriter(context.getFilesDir() + File.separator + SAVED_DATA);
         gson.toJson(allCategories, writer);
         writer.close();
+
+        printSavedData(context);
     }
 
     public boolean load(Context context) throws IOException {
@@ -155,9 +157,23 @@ public enum CategoryManager {
             InputStream jsonStream = new FileInputStream(jsonFile);
             Reader jsonReader = new InputStreamReader(jsonStream, "UTF-8");
 
-            Type listOfItemCategories = new TypeToken<List<ItemCategory>>(){}.getType();
-            this.allCategories.addAll(
-                    gson.<Collection<? extends ItemCategory>>fromJson(jsonReader, listOfItemCategories));
+            Type listOfItemCategories = new TypeToken<Collection<ItemCategory>>(){}.getType();
+
+            Collection<? extends ItemCategory> newCategories = gson.fromJson(jsonReader, listOfItemCategories);
+
+            // merge loaded categories with preset categories
+            for (ItemCategory newCategory : newCategories) {
+                ItemCategory existingCategory = this.getCategoryByName(newCategory.getName());
+                if (existingCategory != null) {
+                    for (Item item : newCategory.getItems()) {
+                        existingCategory.addItem(item);
+                    }
+                }
+            }
+            this.allCategories.addAll(newCategories);
+
+            System.out.println("-----> loaded categories: " + newCategories);
+            System.out.println("-----> categories: " + this.allCategories);
 
             jsonStream.close();
             return true;
