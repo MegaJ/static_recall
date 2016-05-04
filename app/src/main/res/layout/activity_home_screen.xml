@@ -42,51 +42,51 @@
     <!-- SEARCH ICON AND BUTTON -->
 
     <ImageView
-        android:id="@+id/search_icon"
+        android:id="@+id/stash_icon"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_gravity="left|top"
-        android:src="@drawable/magnifying2"
+        android:src="@drawable/galaxy_stash"
         android:padding="5dp"
-        android:onClick="showItemsList"/>
+        android:onClick="storeLocation"/>
     <!--The magnifying glass image was found here:
     http://www.officialpsds.com/Magnifying-Glass-PSD24080.html-->
 
 
     <TextView
-        android:id="@+id/search_button"
+        android:id="@+id/store_button"
         style="?metaButtonBarButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_icon"
+        android:layout_below="@id/stash_icon"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="20dp"
-        android:text="@string/search_button"
+        android:text="@string/store_button"
         android:textAlignment="center"
-        android:onClick="showItemsList"
+        android:onClick="storeLocation"
         android:textColor="#2a3132"
         android:textSize="30sp"/>
 
     <!-- STORE ICON AND BUTTON -->
 
     <ImageView
-        android:id="@+id/openbox_icon"
+        android:id="@+id/search_icon"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:src="@drawable/box"
+        android:src="@drawable/telescope"
         android:layout_alignParentBottom="true"
-        android:onClick="storeLocation" />
+        android:onClick="showItemsList" />
         <!--The box icon image was found here:
         http://www.clipartpanda.com/clipart_images/brown-box-clip-art-7533842 -->
 
         <TextView
-            android:id="@+id/store_button"
+            android:id="@+id/search_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/openbox_icon"
+            android:layout_above="@id/search_icon"
             android:layout_marginBottom="20dp"
-            android:text="@string/store_button"
+            android:text="@string/search_button"
             android:textAlignment="center"
             android:textColor="#2a3432"
             android:textSize="30sp"/>
@@ -97,8 +97,8 @@
         android:id="@+id/about_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_above="@id/store_button"
-        android:layout_alignRight="@id/store_button"
+        android:layout_above="@id/search_button"
+        android:layout_alignRight="@id/search_button"
         android:layout_marginBottom="25dp"
         android:src="@drawable/info_icon"
         android:onClick="goToAbout"/>
