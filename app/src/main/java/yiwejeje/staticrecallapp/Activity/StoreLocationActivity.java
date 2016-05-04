@@ -277,6 +277,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private void displayAddItemResult(boolean addedResult){
         if (addedResult) {
             resetVisibleFields();
+
             updateToast("Item is successfully added.", Toast.LENGTH_LONG);
         }
     }
@@ -286,8 +287,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         itemCategory.getText().clear();
         itemLocation.getText().clear();
         spinner.setSelection(0);
+        itemImageView.setImageBitmap(null);
         itemImageView.setImageResource(R.drawable.camera);
-        itemImageView.setRotation(90);
         itemImageView.setVisibility(View.INVISIBLE);
     }
 
