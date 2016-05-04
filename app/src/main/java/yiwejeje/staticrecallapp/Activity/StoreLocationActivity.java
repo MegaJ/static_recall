@@ -286,6 +286,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         itemCategory.getText().clear();
         itemLocation.getText().clear();
         spinner.setSelection(0);
+        itemImageView.setImageBitmap(null);
     }
 
     /*
