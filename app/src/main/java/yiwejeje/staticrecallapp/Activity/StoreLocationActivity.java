@@ -228,7 +228,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     //CAMERA CODE -- Picture intent and actual file-writing
 
     private void dispatchTakePictureIntent() {
-        itemImageView.setVisibility(View.VISIBLE);
         itemLocation.setVisibility(View.INVISIBLE);
         recordButton.setVisibility(View.INVISIBLE);
         stopButton.setVisibility(View.INVISIBLE);
@@ -253,6 +252,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(contentResolver, mImageUri);
+                itemImageView.setVisibility(View.VISIBLE);
                 itemImageView.setImageBitmap(bitmap);
                 System.out.println("-----> Bitmap is " + bitmap.getWidth() + " by " + bitmap.getHeight());
 
@@ -298,7 +298,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         itemCategory.setVisibility(View.INVISIBLE);
         itemLocation.setVisibility(View.INVISIBLE);
         itemImageView = (ImageView) findViewById(R.id.ItemImageView);
-        itemImageView.setImageResource(R.drawable.camera);
         itemImageView.setRotation(90);
         itemImageView.setVisibility(View.INVISIBLE);
         recordButton.setVisibility(View.INVISIBLE);
