@@ -24,8 +24,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_home_screen);
         mContentView = findViewById(R.id.fullscreen_content);
-
-        categoryManager.deleteSavedData(this);
+        
         // Load saved data, since this activity launches first in the app
         if (firstLoad) {
             try {
