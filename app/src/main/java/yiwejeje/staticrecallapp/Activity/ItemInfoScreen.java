@@ -51,6 +51,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private Button saveBtn;
     private Button unsaveBtn;
     private Button deleteBtn;
+    private Button newBtn;
     private Switch isEditable;
     private String originalItemName;
     private String originalCategoryName;
@@ -93,6 +94,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         saveBtn=(Button)findViewById(R.id.saveBtn1);
         unsaveBtn=(Button)findViewById(R.id.disregard);
         deleteBtn=(Button)findViewById(R.id.deleteBtn1);
+        newBtn=(Button)findViewById(R.id.newPic);
         imageFileView= (ImageView)findViewById(R.id.imgFileView);
         imageFileView.setRotation(90);
         thisSpinner=(Spinner)findViewById(R.id.editSpinner);
@@ -125,6 +127,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             Bitmap bitmap = BitmapFactory.decodeFile(extras.getString("item picture path"));
             imageFileView.setImageBitmap(bitmap);
             imageFileView.setVisibility(View.VISIBLE);
+            newBtn.setVisibility(View.VISIBLE);
             locationDisplay.setVisibility(View.INVISIBLE);
         }
 
@@ -346,6 +349,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             locationDisplay.setEnabled(false);
             unsaveBtn.setVisibility(View.INVISIBLE);
             thisSpinner.setVisibility(View.INVISIBLE);
+            //newBtn.setVisibility(View.INVISIBLE);
         }
     }
 
