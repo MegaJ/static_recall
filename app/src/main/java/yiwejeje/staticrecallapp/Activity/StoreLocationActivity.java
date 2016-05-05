@@ -67,12 +67,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private ImageButton typeIn;
     private ImageButton makeRecording;
 
-    private MediaRecorder mediaRecorder;
-    private MediaPlayer mediaPlayer;
-    private String audioFilePath;
-    private Button stopButton;
-    private Button playButton;
-    private Button recordButton;
+
 
     private ImageView itemImageView;
     private android.net.Uri mImageUri;
@@ -96,12 +91,11 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         itemLocation = (EditText) findViewById(R.id.LocationText);
         locationView=(TextView) findViewById(R.id.textView);
         typeIn = (ImageButton) findViewById(R.id.TextButton);
-        makeRecording=(ImageButton) findViewById(R.id.AudioButton);
+
 
         setupToast();
 
         setupCamera();
-        setupAudio();
 
         setDropDownMenu();
         setUpLocation();
@@ -130,24 +124,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         });
     }
 
-    private void setupAudio() {
-        recordButton = (Button) findViewById(R.id.recordButton);
-        playButton = (Button) findViewById(R.id.playButton);
-        stopButton = (Button) findViewById(R.id.stopButton);
-
-        if (!hasMicrophone()) {
-            stopButton.setEnabled(false);
-            playButton.setEnabled(false);
-            recordButton.setEnabled(false);
-        } else {
-            playButton.setEnabled(false);
-            stopButton.setEnabled(false);
-        }
-
-        audioFilePath =
-                Environment.getExternalStorageDirectory().getAbsolutePath()
-                        + "/myaudio.3gp";
-    }
 
     private void persistEverything() {
         try {
@@ -229,9 +205,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     private void dispatchTakePictureIntent() {
         itemLocation.setVisibility(View.INVISIBLE);
-        recordButton.setVisibility(View.INVISIBLE);
-        stopButton.setVisibility(View.INVISIBLE);
-        playButton.setVisibility(View.INVISIBLE);
+
 
         mImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new ContentValues());
@@ -301,84 +275,22 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         itemImageView = (ImageView) findViewById(R.id.ItemImageView);
         itemImageView.setRotation(90);
         itemImageView.setVisibility(View.INVISIBLE);
-        recordButton.setVisibility(View.INVISIBLE);
-        stopButton.setVisibility(View.INVISIBLE);
-        playButton.setVisibility(View.INVISIBLE);
 
         typeIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemLocation.setVisibility(View.VISIBLE);
                 itemImageView.setVisibility(View.INVISIBLE);
-                recordButton.setVisibility(View.INVISIBLE);
-                stopButton.setVisibility(View.INVISIBLE);
-                playButton.setVisibility(View.INVISIBLE);
+
             }
         });
 
-        makeRecording.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemLocation.setVisibility(View.INVISIBLE);
-                itemImageView.setVisibility(View.INVISIBLE);
-                recordButton.setVisibility(View.VISIBLE);
-                stopButton.setVisibility(View.VISIBLE);
-                playButton.setVisibility(View.VISIBLE);
-            }
-        });
     }
 
-    protected boolean hasMicrophone() {
-        PackageManager pmanager = this.getPackageManager();
-        return pmanager.hasSystemFeature(
-                PackageManager.FEATURE_MICROPHONE);
-    }
 
-    public void recordAudio (View view) throws IOException {
-        isRecording = true;
-        stopButton.setEnabled(true);
-        playButton.setEnabled(false);
-        recordButton.setEnabled(false);
-        try {
-            mediaRecorder = new MediaRecorder();
-            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-            mediaRecorder.setOutputFile(audioFilePath);
-            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-            mediaRecorder.prepare();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        mediaRecorder.start();
-    }
 
-    public void stopAudio (View view) {
-        stopButton.setEnabled(false);
-        playButton.setEnabled(true);
 
-        if (isRecording) {
-            recordButton.setEnabled(false);
-            mediaRecorder.stop();
-            mediaRecorder.release();
-            mediaRecorder = null;
-            isRecording = false;
-        } else {
-            mediaPlayer.release();
-            mediaPlayer = null;
-            recordButton.setEnabled(true);
-        }
-    }
-
-    public void playAudio (View view) throws IOException {
-        playButton.setEnabled(false);
-        recordButton.setEnabled(false);
-        stopButton.setEnabled(true);
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setDataSource(audioFilePath);
-        mediaPlayer.prepare();
-        mediaPlayer.start();
-    }
 
     private void setDropDownMenu(){
         CategoryManager myCategoryManager = CategoryManager.INSTANCE;
