@@ -169,7 +169,7 @@
             android:layout_marginRight="10dp"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Take a new picture"
             android:id="@+id/newPic"

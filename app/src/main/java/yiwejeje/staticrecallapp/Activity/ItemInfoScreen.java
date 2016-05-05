@@ -1,15 +1,20 @@
 package yiwejeje.staticrecallapp.Activity;
 
 import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,10 +38,12 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import yiwejeje.staticrecallapp.Model.CategoryManager;
 import yiwejeje.staticrecallapp.Model.Item;
@@ -59,7 +66,13 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     //private String originalLocationName;
     private ImageView imageFileView;
     private Spinner thisSpinner;
+
     private String selectedCategory;
+
+    private android.net.Uri mImageUri;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private File imageFile;
+    private String imageFilePath;
 
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
@@ -120,6 +133,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         if (extras.getString("item location")!= null){
             location=extras.getString("item location");
             locationDisplay.setText(location);
+            newBtn.setVisibility(View.INVISIBLE);
         }
 
         if (extras.getString("item picture path")!= null) {
@@ -129,6 +143,12 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             imageFileView.setVisibility(View.VISIBLE);
             newBtn.setVisibility(View.VISIBLE);
             locationDisplay.setVisibility(View.INVISIBLE);
+            newBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dispatchTakePictureIntent();
+                }
+            });
         }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -196,6 +216,49 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         }
     }
 
+    private void dispatchTakePictureIntent(){
+        mImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new ContentValues());
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
+
+        //Disables camera function if the device does not support the camera hardware
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            ContentResolver contentResolver = this.getContentResolver();
+            contentResolver.notifyChange(mImageUri, null);
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(contentResolver, mImageUri);
+//                itemImageView.setVisibility(View.VISIBLE);
+//                itemImageView.setImageBitmap(bitmap);
+                System.out.println("-----> Bitmap is " + bitmap.getWidth() + " by " + bitmap.getHeight());
+
+                contentResolver.delete(mImageUri, null, null);
+
+                imageFile = new File(this.getFilesDir() + File.separator + UUID.randomUUID() + ".jpg");
+                FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
+                fileOutputStream.close();
+
+                System.out.println("-------> Image path of jpeg is: " + imageFile.getAbsolutePath());
+
+            } catch (IOException e) {
+                Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
+                Log.d("StoreLocationActivity", "Failed to load", e);
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, intent);
+    }
+
+
     private ItemCategory createNewCategoryIfNotExists(String categoryName) {
         ItemCategory existingCategory = categoryManager.getCategoryByName(categoryName);
         if (existingCategory == null) {
@@ -249,14 +312,22 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         String strLocation = locationDisplay.getText().toString();
 
         if (strItemTitle.equals("")) {
-            // TODO: put toast here because blank items aren't allowed
+            Toast message=Toast.makeText(getApplicationContext(), "Item title cannot be blank.",Toast.LENGTH_LONG);
+            ViewGroup group = (ViewGroup) message.getView();
+            TextView messageTextView = (TextView) group.getChildAt(0);
+            messageTextView.setTextSize(15);
+            message.show();
             return;
         }
 
         // if the item is named something ELSE that exists, can't do it.
         if (!strItemTitle.equals(originalItemName)) {
             if (itemNameExists(strItemTitle)) {
-                // TODO: put toast here for not being able to add an item with existing name
+                Toast message=Toast.makeText(getApplicationContext(), "This item name already exists.",Toast.LENGTH_LONG);
+                ViewGroup group = (ViewGroup) message.getView();
+                TextView messageTextView = (TextView) group.getChildAt(0);
+                messageTextView.setTextSize(15);
+                message.show();
                 return;
             }
         }
@@ -270,6 +341,10 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         itemToModify.removeCategory(originalCategory);
         itemToModify.addCategory(category);
         itemToModify.setLocationDescription(strLocation);
+
+        if (imageFile != null) {
+            imageFilePath = imageFile.getAbsolutePath();
+            itemToModify.setPicturePath(imageFilePath);
 
         originalItemName = strItemTitle;
         originalCategoryName = strCategory;
@@ -291,7 +366,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             e.printStackTrace();
         }
 
-    }
+    }}
 
 
     private void createEditableSlider() {
@@ -305,6 +380,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                     titleDisplay.setEnabled(true);
                     catDisplay.setEnabled(true);
                     locationDisplay.setEnabled(true);
+                    newBtn.setVisibility(View.VISIBLE);
                     saveBtn.setVisibility(View.VISIBLE);
                     unsaveBtn.setVisibility(View.VISIBLE);
                     thisSpinner.setVisibility(View.VISIBLE);
@@ -349,7 +425,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             locationDisplay.setEnabled(false);
             unsaveBtn.setVisibility(View.INVISIBLE);
             thisSpinner.setVisibility(View.INVISIBLE);
-            //newBtn.setVisibility(View.INVISIBLE);
+            newBtn.setVisibility(View.INVISIBLE);
         }
     }
 
