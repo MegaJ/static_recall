@@ -35,7 +35,7 @@
     <string name="title_activity_about_screen">AboutScreenActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="welcome_message">Welcome to Static Recall\n</string>
+    <string name="welcome_message">Welcome to Static Recall</string>
 
     <string name="welcome_about_info">The finder app to ease your stress when you need to locate an
         item used at infrequent intervals - tell the app where you’ve put important documents, your
