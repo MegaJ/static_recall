@@ -5,12 +5,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,14 +27,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import android.net.Uri;
 
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -49,6 +41,10 @@ import yiwejeje.staticrecallapp.Model.Item;
 import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
+/**
+ * Implements the screen for storing a new item.
+ * The user can either store the item by text input or image input
+ */
 public class StoreLocationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText itemTitle;
@@ -85,6 +81,9 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     }
 
+    /**
+     * Set up the initial status of the screen.
+     */
     private void screenSetUp(){
         setupToast();
         setupCamera();
@@ -93,12 +92,20 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         setupAddItemButton();
     }
 
+    /**
+     * A method to update the toast to be displayed on the screen.
+     * @param text text of the toast
+     * @param duration how long the toast will appear on the screen
+     */
     private void updateToast(String text, int duration) {
         toast.setText(text);
         toast.setDuration(duration);
         toast.show();
     }
 
+    /**
+     * Check if the phone has a camera.
+     */
     private void setupCamera() {
         final PackageManager pm = this.getPackageManager();
         final ImageButton camButton = (ImageButton) findViewById(R.id.CameraButton);
@@ -114,7 +121,9 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         });
     }
 
-
+    /**
+     * Persist new changes.
+     */
     private void persistEverything() {
         try {
             categoryManager.save(StoreLocationActivity.this);
@@ -123,6 +132,11 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         }
     }
 
+    /**
+     * Add a new item to the category manager
+     * @param item item to be added
+     * @return if the item is successfully added to the category
+     */
     private boolean addItemToCategoryManager(Item item) {
         String finalCategoryName=getFinalCategory();
         boolean itemAdded = false;

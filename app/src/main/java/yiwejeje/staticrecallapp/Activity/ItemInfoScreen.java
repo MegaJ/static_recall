@@ -267,9 +267,11 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         String strCategory = catDisplay.getText().toString();
         String strLocation = locationDisplay.getText().toString();
         checkItemTitle(strItemTitle);
+
         ItemCategory originalCategory = categoryManager.
                 getCategoryByName(originalCategoryName);
         Item itemToModify = originalCategory.getItemByName(originalItemName);
+
         ItemCategory category = createNewCategoryIfNotExists(strCategory);
         itemToModify.setName(strItemTitle);
         itemToModify.removeCategory(originalCategory);
@@ -279,6 +281,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             imageFilePath = imageFile.getAbsolutePath();
             itemToModify.setPicturePath(imageFilePath);
         }
+
         originalItemName = strItemTitle;
         originalCategoryName = strCategory;
         originalLocationName = strLocation;
