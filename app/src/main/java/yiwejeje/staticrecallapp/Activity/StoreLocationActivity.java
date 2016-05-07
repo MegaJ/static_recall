@@ -203,7 +203,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     }
 
-
     private void setupToast() {
         toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
     }
@@ -212,13 +211,10 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     private void dispatchTakePictureIntent() {
         itemLocation.setVisibility(View.INVISIBLE);
-
-
         mImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new ContentValues());
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-
         //Disables camera function if the device does not support the camera hardware
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -226,7 +222,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             ContentResolver contentResolver = this.getContentResolver();
             contentResolver.notifyChange(mImageUri, null);
@@ -258,44 +253,46 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private void displayAddItemResult(boolean addedResult){
         if (addedResult) {
             resetVisibleFields();
-
             updateToast("Item is successfully added.", Toast.LENGTH_LONG);
         }
     }
 
     private void resetVisibleFields() {
+        clearTextField();
+        clearImageView();
+    }
+
+    private void clearTextField(){
         itemTitle.getText().clear();
         itemCategory.getText().clear();
         itemLocation.getText().clear();
         spinner.setSelection(0);
+    }
+
+    private void clearImageView(){
         itemImageView.setImageBitmap(null);
         itemImageView.setImageResource(R.drawable.camera);
         itemImageView.setVisibility(View.INVISIBLE);
     }
 
-    /*
-    Code for the audio recording
-    */
     private void setUpLocation(){
-        itemCategory.setVisibility(View.INVISIBLE);
-        itemLocation.setVisibility(View.INVISIBLE);
-        itemImageView = (ImageView) findViewById(R.id.ItemImageView);
-        itemImageView.setRotation(90);
-        itemImageView.setVisibility(View.INVISIBLE);
-
+        setVisibility();
         typeIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemLocation.setVisibility(View.VISIBLE);
                 itemImageView.setVisibility(View.INVISIBLE);
-
             }
         });
-
     }
 
-
-
+    private void setVisibility(){
+        itemCategory.setVisibility(View.INVISIBLE);
+        itemLocation.setVisibility(View.INVISIBLE);
+        itemImageView = (ImageView) findViewById(R.id.ItemImageView);
+        itemImageView.setRotation(90);
+        itemImageView.setVisibility(View.INVISIBLE);
+    }
 
 
 
@@ -329,23 +326,13 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
         if (position == 0) {
             itemCategory.setVisibility(View.INVISIBLE);
             return;
         }
-
         if (position == 1) {
             itemCategory.setVisibility(View.VISIBLE);
-            RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            p.addRule(RelativeLayout.BELOW, R.id.CatText);
-            p.addRule(RelativeLayout.ALIGN_LEFT, R.id.CatText);
-            p.setMargins(5,70,5,0);
-
-            locationView.setLayoutParams(p);
-
+            changeSpacing();
         } else {
             itemCategory.setVisibility(View.INVISIBLE);
             selectedCategory = parent.getItemAtPosition(position).toString();
@@ -355,6 +342,15 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+
+    private void changeSpacing(){
+        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        p.addRule(RelativeLayout.BELOW, R.id.CatText);
+        p.addRule(RelativeLayout.ALIGN_LEFT, R.id.CatText);
+        p.setMargins(5,70,5,0);
+        locationView.setLayoutParams(p);
     }
 
     /*
