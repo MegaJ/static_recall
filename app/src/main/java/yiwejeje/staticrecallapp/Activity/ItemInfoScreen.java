@@ -90,18 +90,24 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         titleDisplay=(EditText)findViewById(R.id.itemTitle);
         catDisplay=(EditText)findViewById(R.id.ItemCategory);
         locationDisplay=(EditText)findViewById(R.id.ItemLocation);
+
         saveBtn=(Button)findViewById(R.id.saveBtn1);
         unsaveBtn=(Button)findViewById(R.id.disregard);
         deleteBtn=(Button)findViewById(R.id.deleteBtn1);
+
         imageFileView= (ImageView)findViewById(R.id.imgFileView);
         imageFileView.setRotation(90);
+
         thisSpinner=(Spinner)findViewById(R.id.editSpinner);
         locationPlace =(TextView)findViewById(R.id.textView6);
         selectedCategory=null;
+
         Bundle extras = getIntent().getExtras();
+
         originalItemName = extras.getString("item title");
         originalCategoryName = extras.getString("item category");
         originalLocationName = extras.getString("item location");
@@ -110,7 +116,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         setupTextField();
         setupToast();
         if (extras.getString("item picture path")!= null) {
-            System.out.println("-----> Item's picture file is at" + extras.getString("item picture path"));
             Bitmap bitmap = BitmapFactory.decodeFile(extras.getString("item picture path"));
             imageFileView.setImageBitmap(bitmap);
             imageFileView.setVisibility(View.VISIBLE);
@@ -173,15 +178,16 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
 
     private void setupTextField(){
-        saveBtn.setVisibility(View.INVISIBLE);
-        imageFileView.setVisibility(View.INVISIBLE);
+        uncheckedVisibility();
+        initialDisplay();
+        uncheckedStatus();
+        isEditable=(Switch)findViewById(R.id.isEditable);
+    }
+
+    private void initialDisplay(){
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
         locationDisplay.setText(originalLocationName);
-        titleDisplay.setEnabled(false);
-        catDisplay.setEnabled(false);
-        locationDisplay.setEnabled(false);
-        isEditable=(Switch)findViewById(R.id.isEditable);
     }
 
     private void setupToast() {
@@ -193,6 +199,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         toast.setDuration(duration);
         toast.show();
     }
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -306,7 +313,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
 
     private void createEditableSlider() {
         isEditable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
@@ -329,7 +335,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             uncheckedVisibility();
         }
     }
-    
+
     private void initialStatus(){
         if(isEditable.isChecked()){
             checkedStatus();
@@ -377,7 +383,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private void checkedSpacing(){
         RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-
         p.addRule(RelativeLayout.BELOW, R.id.editSpinner);
         p.addRule(RelativeLayout.ALIGN_LEFT, R.id.editSpinner);
         p.setMargins(10, 75, 5, 0);
