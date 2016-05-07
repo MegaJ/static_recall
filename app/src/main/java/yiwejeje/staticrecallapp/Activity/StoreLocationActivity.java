@@ -91,16 +91,17 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         itemLocation = (EditText) findViewById(R.id.LocationText);
         locationView=(TextView) findViewById(R.id.textView);
         typeIn = (ImageButton) findViewById(R.id.TextButton);
+        setup();
 
+    }
 
+    private void setup(){
         setupToast();
-
         setupCamera();
-
         setDropDownMenu();
         setUpLocation();
-
         setupAddItemButton();
+
     }
 
     private void updateToast(String text, int duration) {
@@ -168,34 +169,40 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         addNewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String strItemTitle = itemTitle.getText().toString();
-                String strCategory = itemCategory.getText().toString();
-                String strLocation = itemLocation.getText().toString();
-
-                if (strItemTitle.equals("")) {
-                    updateToast("Item title cannot be blank.", Toast.LENGTH_SHORT);
-                    return;
-                }
-
-                if (itemNameExists(strItemTitle)) {
-                    updateToast("This item name already exists.", Toast.LENGTH_SHORT);
-                    return;
-                }
-
-                Item newItem = new Item(strItemTitle, strLocation);
-
-                if (imageFile != null) {
-                    imageFilePath = imageFile.getAbsolutePath();
-                    newItem.setPicturePath(imageFilePath);
-                    System.out.println("---> My image file is " + imageFile.getAbsolutePath());
-                }
-
-                boolean addingSuccessful = addItemToCategoryManager(newItem);
-                persistEverything();
-                displayAddItemResult(addingSuccessful);
+                addNewItem();
             }
         });
     }
+
+    private void addNewItem(){
+        String strItemTitle = itemTitle.getText().toString();
+        String strCategory = itemCategory.getText().toString();
+        String strLocation = itemLocation.getText().toString();
+
+        if (strItemTitle.equals("")) {
+            updateToast("Item title cannot be blank.", Toast.LENGTH_SHORT);
+            return;
+        }
+
+        if (itemNameExists(strItemTitle)) {
+            updateToast("This item name already exists.", Toast.LENGTH_SHORT);
+            return;
+        }
+
+        Item newItem = new Item(strItemTitle, strLocation);
+
+        if (imageFile != null) {
+            imageFilePath = imageFile.getAbsolutePath();
+            newItem.setPicturePath(imageFilePath);
+            System.out.println("---> My image file is " + imageFile.getAbsolutePath());
+        }
+
+        boolean addingSuccessful = addItemToCategoryManager(newItem);
+        persistEverything();
+        displayAddItemResult(addingSuccessful);
+
+    }
+
 
     private void setupToast() {
         toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
