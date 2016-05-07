@@ -16,10 +16,26 @@ import yiwejeje.staticrecallapp.Model.Item;
 import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
+/**
+ * This is a custom adapter for a class that inflates an ExpandableListView.
+ * The assumption is that only ExpandableListSearchActivity uses this class to
+ * interface with the ItemCategories and Items within each category.
+ * <p>
+ * This class also provides Item search capability to the ExpandableListSearchActivity.
+ */
 public class CategoryListAdapter extends BaseExpandableListAdapter {
 
     private Context _context;
+
+    /**
+     * Gets mutated by calls from (@code filterQuery()) to show updated search results.
+     */
     private List<ItemCategory>  itemCategories;
+
+    /**
+     * A copy of all original items. Changed on call to {@code updateCategories()}
+     * Used so itemCategories can return to a previous state.
+     */
     private ArrayList<ItemCategory> originalList;
 
     public CategoryListAdapter(Context context, List<ItemCategory> itemCategories) {
@@ -32,8 +48,14 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
         this.originalList.addAll(itemCategories);
     }
 
+    /**
+     * Replaces {@code this.itemCategories} with a new list of ItemCategory
+     * @param itemCategories
+     */
     public void updateCategories(List<ItemCategory> itemCategories) {
         this.itemCategories = itemCategories;
+        this.originalList.clear();
+        this.originalList.addAll(itemCategories);
     }
 
     @Override
@@ -121,6 +143,13 @@ public class CategoryListAdapter extends BaseExpandableListAdapter {
     }
 
     // http://www.mysamplecode.com/2012/11/android-expandablelistview-search.html
+    /**
+     * Mutates {@code itemCategories} but not {@code originalList}
+     * Search is done by substring matching on {@code Item}. Calls {@code notifyDataSetChanged()}.
+     * If query is empty, the {@code originalList} is the list that itemCategories holds.
+     * @param query
+     *          This should be an attempt at naming an item.
+     */
     public void filterData(String query) {
 
         query = query.toLowerCase();

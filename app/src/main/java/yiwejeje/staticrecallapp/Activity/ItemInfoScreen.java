@@ -9,13 +9,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +24,12 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,7 +48,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private EditText titleDisplay;
     private EditText catDisplay;
     private EditText locationDisplay;
-    private TextView locationplace;
+    private TextView locationPlace;
     private Button saveBtn;
     private Button unsaveBtn;
     private Button deleteBtn;
@@ -62,10 +56,11 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private Switch isEditable;
     private String originalItemName;
     private String originalCategoryName;
-    private String location;
-    //private String originalLocationName;
+    private String originalLocationName;
+
     private ImageView imageFileView;
     private Spinner thisSpinner;
+    private Toast toast;
 
     private String selectedCategory;
 
@@ -73,7 +68,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private File imageFile;
     private String imageFilePath;
-
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
@@ -107,48 +101,38 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         saveBtn=(Button)findViewById(R.id.saveBtn1);
         unsaveBtn=(Button)findViewById(R.id.disregard);
         deleteBtn=(Button)findViewById(R.id.deleteBtn1);
-        newBtn=(Button)findViewById(R.id.newPic);
         imageFileView= (ImageView)findViewById(R.id.imgFileView);
         imageFileView.setRotation(90);
         thisSpinner=(Spinner)findViewById(R.id.editSpinner);
-        locationplace=(TextView)findViewById(R.id.textView6);
+        locationPlace =(TextView)findViewById(R.id.textView6);
         selectedCategory=null;
 
         Bundle extras = getIntent().getExtras();
         originalItemName = extras.getString("item title");
         originalCategoryName = extras.getString("item category");
-        //originalLocationName = extras.getString("item location");
+        originalLocationName = extras.getString("item location");
 
         saveBtn.setVisibility(View.INVISIBLE);
         imageFileView.setVisibility(View.INVISIBLE);
+
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
+        locationDisplay.setText(originalLocationName);
+
         titleDisplay.setEnabled(false);
         catDisplay.setEnabled(false);
         locationDisplay.setEnabled(false);
+
         isEditable=(Switch)findViewById(R.id.isEditable);
 
-
-
-        if (extras.getString("item location")!= null){
-            location=extras.getString("item location");
-            locationDisplay.setText(location);
-            newBtn.setVisibility(View.INVISIBLE);
-        }
+        setupToast();
 
         if (extras.getString("item picture path")!= null) {
             System.out.println("-----> Item's picture file is at" + extras.getString("item picture path"));
             Bitmap bitmap = BitmapFactory.decodeFile(extras.getString("item picture path"));
             imageFileView.setImageBitmap(bitmap);
             imageFileView.setVisibility(View.VISIBLE);
-            newBtn.setVisibility(View.VISIBLE);
             locationDisplay.setVisibility(View.INVISIBLE);
-            newBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dispatchTakePictureIntent();
-                }
-            });
         }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -164,9 +148,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                 disregardChanges();
             }
         });
-
-
-
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,11 +166,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                                 originalCategory.removeItem(foundItem);
                                 foundItem.deleteImage();
 
-                                Toast message=Toast.makeText(getApplicationContext(),"Item is successfully deleted",Toast.LENGTH_LONG);
-                                ViewGroup group = (ViewGroup) message.getView();
-                                TextView messageTextView = (TextView) group.getChildAt(0);
-                                messageTextView.setTextSize(15);
-                                message.show();
+                                updateToast("Item is successfully deleted", Toast.LENGTH_LONG);
                         }
 
                         ItemInfoScreen.this.finish();
@@ -214,6 +191,16 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setupToast() {
+        toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+    }
+
+    private void updateToast(String text, int duration) {
+        toast.setText(text);
+        toast.setDuration(duration);
+        toast.show();
     }
 
     private void dispatchTakePictureIntent(){
@@ -250,7 +237,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                 System.out.println("-------> Image path of jpeg is: " + imageFile.getAbsolutePath());
 
             } catch (IOException e) {
-                Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
+                updateToast("Failed to load", Toast.LENGTH_SHORT);
                 Log.d("StoreLocationActivity", "Failed to load", e);
             }
         }
@@ -290,19 +277,13 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private void disregardChanges(){
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
-        if (location != null ){
-            locationDisplay.setText(location);
-        }
+        locationDisplay.setText(originalLocationName);
         titleDisplay.setEnabled(false);
         catDisplay.setEnabled(false);
         locationDisplay.setEnabled(false);
         isEditable.setChecked(false);
-        Toast message=Toast.makeText(getApplicationContext(),"Changes are disregarded.",Toast.LENGTH_LONG);
-        ViewGroup group = (ViewGroup) message.getView();
-        TextView messageTextView = (TextView) group.getChildAt(0);
-        messageTextView.setTextSize(15);
-        message.show();
 
+        updateToast("Changes are disregarded.", Toast.LENGTH_LONG);
     }
 
 
@@ -312,22 +293,14 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         String strLocation = locationDisplay.getText().toString();
 
         if (strItemTitle.equals("")) {
-            Toast message=Toast.makeText(getApplicationContext(), "Item title cannot be blank.",Toast.LENGTH_LONG);
-            ViewGroup group = (ViewGroup) message.getView();
-            TextView messageTextView = (TextView) group.getChildAt(0);
-            messageTextView.setTextSize(15);
-            message.show();
+            updateToast("Item title cannot be blank.", Toast.LENGTH_LONG);;
             return;
         }
 
         // if the item is named something ELSE that exists, can't do it.
         if (!strItemTitle.equals(originalItemName)) {
             if (itemNameExists(strItemTitle)) {
-                Toast message=Toast.makeText(getApplicationContext(), "This item name already exists.",Toast.LENGTH_LONG);
-                ViewGroup group = (ViewGroup) message.getView();
-                TextView messageTextView = (TextView) group.getChildAt(0);
-                messageTextView.setTextSize(15);
-                message.show();
+                updateToast("This item name already exists.", Toast.LENGTH_LONG);
                 return;
             }
         }
@@ -345,9 +318,11 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         if (imageFile != null) {
             imageFilePath = imageFile.getAbsolutePath();
             itemToModify.setPicturePath(imageFilePath);
+        }
 
         originalItemName = strItemTitle;
         originalCategoryName = strCategory;
+        originalLocationName = strLocation;
 
         System.out.println("------> Save called from Item Location Activity!");
         try {
@@ -356,17 +331,12 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             catDisplay.setEnabled(false);
             locationDisplay.setEnabled(false);
             isEditable.setChecked(false);
-            Toast message=Toast.makeText(getApplicationContext(),"Changes are successfully saved.",Toast.LENGTH_LONG);
-            ViewGroup group = (ViewGroup) message.getView();
-            TextView messageTextView = (TextView) group.getChildAt(0);
-            messageTextView.setTextSize(15);
-            message.show();
-
+            updateToast("Changes are successfully saved.", Toast.LENGTH_LONG);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-    }}
+    }
 
 
     private void createEditableSlider() {
@@ -380,7 +350,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                     titleDisplay.setEnabled(true);
                     catDisplay.setEnabled(true);
                     locationDisplay.setEnabled(true);
-                    newBtn.setVisibility(View.VISIBLE);
                     saveBtn.setVisibility(View.VISIBLE);
                     unsaveBtn.setVisibility(View.VISIBLE);
                     thisSpinner.setVisibility(View.VISIBLE);
@@ -391,7 +360,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                     p.addRule(RelativeLayout.ALIGN_LEFT, R.id.editSpinner);
                     p.setMargins(10, 75, 5, 0);
 
-                    locationplace.setLayoutParams(p);
+                    locationPlace.setLayoutParams(p);
                     setupDropdown();
 
                 } else {
@@ -408,7 +377,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                     p.addRule(RelativeLayout.ALIGN_LEFT, R.id.ItemCategory);
                     p.setMargins(5, 75, 5, 0);
 
-                    locationplace.setLayoutParams(p);
+                    locationPlace.setLayoutParams(p);
                 }
             }
         });
@@ -425,7 +394,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             locationDisplay.setEnabled(false);
             unsaveBtn.setVisibility(View.INVISIBLE);
             thisSpinner.setVisibility(View.INVISIBLE);
-            newBtn.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -460,16 +428,10 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (position != 1 && position !=0) {
+            if (position != 0) {
                 selectedCategory = parent.getItemAtPosition(position).toString();
                 catDisplay.setText(selectedCategory);
-                Toast message=Toast.makeText(getApplicationContext(),"Selected: " + selectedCategory,Toast.LENGTH_LONG);
-                ViewGroup group = (ViewGroup) message.getView();
-                TextView messageTextView = (TextView) group.getChildAt(0);
-                messageTextView.setTextSize(15);
-                message.show();
-
-
+                updateToast("Selected: " + selectedCategory, Toast.LENGTH_LONG);
             }
         }
 
