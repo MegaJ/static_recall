@@ -33,6 +33,16 @@ import yiwejeje.staticrecallapp.Model.Item;
 import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
+/**
+ * Implements the screen for viewing the categories. Expansion means allowing
+ * a user to look at the items in each category. Includes search widget to search items
+ * and an overflow menu for navigating to other activities.
+ * Saves when {@code onStop()} is called.
+ * <p>
+ * Leverages a custom adapter. Leverages {@code CategoryManager} for data.
+ * @see CategoryListAdapter
+ * @see CategoryManager
+ */
 public class ExpandableListSearchActivity extends AppCompatActivity {
     CategoryListAdapter expListAdapter;
     ExpandableListView expListView;
@@ -46,6 +56,10 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
     }
 
     @Override
+    /**
+     * Saves when the activity is finished. Necessary for when categories are able to be
+     * deleted.
+     */
     protected void onStop() {
         super.onStop();
         try {
@@ -67,6 +81,13 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         refreshList();
     }
 
+    /**
+     * Sets up functionality in the right side of the ActionBar.
+     * Mostly works to set up the search widget.
+     * @param menu
+     *      Provided by the framework.
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -100,6 +121,10 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Sets up both the adapter and the view for the screen.
+     * Accesses {@code categoryManager} to load data into adapter.
+     */
     private void configureView() {
         setContentView(R.layout.activity_search_view);
 
@@ -111,6 +136,16 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         disableCategoryCollapse();
 
         expListView.setOnChildClickListener(new OnChildClickListener() {
+            /**
+             * Fires an intent to ItemInfoScreen.
+             *
+             * @param parent
+             * @param v
+             * @param groupPosition
+             * @param childPosition
+             * @param id
+             * @return false, but doesn't really matter what is returned
+             */
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, final int groupPosition,
                                         final int childPosition, long id) {
@@ -128,10 +163,20 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sets up the Android overflow menu for when user clicks.
+     * Routes user to StoreLocationActivity and classic ListView
+     *
+     * @param menuItem
+     * @return
+     *
+     * @see StoreLocationActivity
+     * @see ItemInfoScreen
+     */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
 
-        switch (item.getItemId()) {
+        switch (menuItem.getItemId()) {
             case R.id.search:
                 // ignore, has an onClickListener already
                 return true;
@@ -144,7 +189,7 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
                 startActivity(intent);
                 ExpandableListSearchActivity.this.finish();
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(menuItem);
         }
     }
 
@@ -165,6 +210,15 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Repopulates the {@code expListAdapter} with most updated categories.
+     * Calling this is necessary for when ItemInfoScreen adds a new category OR
+     * when adding an item from the StoreLocationActivity via the options menu
+     * is done.
+     *
+     * @see ItemInfoScreen
+     * @see StoreLocationActivity
+     */
     public void refreshList() {
         expListAdapter.updateCategories(
                 new ArrayList<ItemCategory>(categoryManager.getAllCategories()));
