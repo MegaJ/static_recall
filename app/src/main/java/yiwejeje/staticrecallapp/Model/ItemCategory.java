@@ -6,7 +6,13 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by Static Recall Heroes on 3/8/16
+ * Holds items. A symmetry exists between Item and ItemCategory.
+ * Items hold a list of categories. Categories hold a list of items. Bidirectional update methods
+ * such as {@code addItem()} and {@code removeItem()} update this class and
+ * {@code Item} to preserve the symmetry.
+ * <p>
+ * Implementation for serializable is present to allow gson to write Item objects
+ * to json files in the application's local storage.
  */
 public class ItemCategory implements Serializable {
     private String name;
@@ -85,9 +91,13 @@ public class ItemCategory implements Serializable {
     // ------ Adding ------
 
     /**
-     * Enforces uniqueness of item names. Not using a list since it's convenient for the
-     * adapter to access a list of items.
-     *
+     * A bidirectional adding that updates both the category and the item.
+     * May throw a concurrent modification exception if this function is called
+     * in a loop--untested case.
+     * @param item
+     *      An item that should belong to this category.
+     * @return true if adding was successful in updating
+     *      both {@code item} and this {@code ItemCategory}. False otherwise.
      */
     public boolean addItem (Item item) {
         if (item == null) {
@@ -118,6 +128,15 @@ public class ItemCategory implements Serializable {
 
     // ------ Removing ------
 
+    /**
+     * A bidirectional remove that updates both the category and the item.
+     * Do not use this function if iterating over a list of categories or items and removing
+     * objects or else a concurrent modification exception will be thrown.
+     * @param item
+     *      An item to remove from this category.
+     * @return true if removing was successful in updating
+     *      both {@code item} and this {@code ItemCategory}. False otherwise.
+     */
     public boolean removeItem(Item item) {
 
         if (item.belongsToCategory(this) || this.hasItem(item)) {
@@ -131,6 +150,13 @@ public class ItemCategory implements Serializable {
         return true;
     }
 
+    /**
+     * A unidirectional remove that clears all the items from this category.
+     * This function is required for getting around the case when one tries to loop
+     * over a list of categories or items to update both the category and the items.
+     * The bidirectional remove will cause a concurrent modification exception.
+     * @return true
+     */
     public boolean oneSidedRemoveAllItems() {
         this.items.clear();
         return true;

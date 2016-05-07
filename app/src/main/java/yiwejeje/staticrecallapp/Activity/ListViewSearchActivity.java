@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import yiwejeje.staticrecallapp.Model.CategoryManager;
 import yiwejeje.staticrecallapp.Model.Item;
@@ -30,8 +29,6 @@ import yiwejeje.staticrecallapp.R;
 public class ListViewSearchActivity extends AppCompatActivity {
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
-
-    List<Item> itemResultsList = new ArrayList<Item>();
     ListView listView;
     ArrayAdapter<Item> listAdapter;
 
