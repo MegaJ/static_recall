@@ -102,17 +102,13 @@ public class ListViewSearchActivity extends AppCompatActivity {
         SearchView.OnQueryTextListener textChangeListener = new SearchView.OnQueryTextListener()
         {
             @Override
-            public boolean onQueryTextChange(String newText)
-            {
+            public boolean onQueryTextChange(String newText) {
                 listAdapter.getFilter().filter(newText);
-                System.out.println("on text chnge text: "+newText);
                 return true;
             }
             @Override
-            public boolean onQueryTextSubmit(String query)
-            {
+            public boolean onQueryTextSubmit(String query) {
                 listAdapter.getFilter().filter(query);
-                System.out.println("on query submit: "+query);
                 return true;
             }
         };

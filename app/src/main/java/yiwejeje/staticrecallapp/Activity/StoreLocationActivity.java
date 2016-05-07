@@ -117,7 +117,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     private void persistEverything() {
         try {
-            System.out.println("-----> Attempt at saving!");
             categoryManager.save(StoreLocationActivity.this);
         } catch (IOException e) {
             e.printStackTrace();
@@ -173,7 +172,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         if (imageFile != null) {
             imageFilePath = imageFile.getAbsolutePath();
             newItem.setPicturePath(imageFilePath);
-            System.out.println("---> My image file is " + imageFile.getAbsolutePath());
         }
         boolean addingSuccessful = addItemToCategoryManager(newItem);
         persistEverything();
@@ -220,14 +218,12 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(contentResolver, mImageUri);
                 itemImageView.setVisibility(View.VISIBLE);
                 itemImageView.setImageBitmap(bitmap);
-                System.out.println("-----> Bitmap is " + bitmap.getWidth() + " by " + bitmap.getHeight());
+
                 contentResolver.delete(mImageUri, null, null);
                 imageFile = new File(this.getFilesDir() + File.separator + UUID.randomUUID() + ".jpg");
                 FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
                 fileOutputStream.close();
-                System.out.println("-------> Image path of jpeg is: " + imageFile.getAbsolutePath());
-
             } catch (IOException e) {
                 Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
                 Log.d("StoreLocationActivity", "Failed to load", e);

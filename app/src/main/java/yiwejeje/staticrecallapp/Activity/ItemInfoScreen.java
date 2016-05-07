@@ -324,7 +324,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         originalCategoryName = strCategory;
         originalLocationName = strLocation;
 
-        System.out.println("------> Save called from Item Location Activity!");
         try {
             categoryManager.save(ItemInfoScreen.this);
             titleDisplay.setEnabled(false);
