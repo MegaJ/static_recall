@@ -57,8 +57,10 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private String originalItemName;
     private String originalCategoryName;
     private String originalLocationName;
+
     private ImageView imageFileView;
     private Spinner thisSpinner;
+    private Toast toast;
 
     private String selectedCategory;
 
@@ -123,8 +125,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
 
         isEditable=(Switch)findViewById(R.id.isEditable);
 
-
-
+        setupToast();
 
         if (extras.getString("item picture path")!= null) {
             System.out.println("-----> Item's picture file is at" + extras.getString("item picture path"));
@@ -168,11 +169,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                                 originalCategory.removeItem(foundItem);
                                 foundItem.deleteImage();
 
-                                Toast message=Toast.makeText(getApplicationContext(),"Item is successfully deleted",Toast.LENGTH_LONG);
-                                ViewGroup group = (ViewGroup) message.getView();
-                                TextView messageTextView = (TextView) group.getChildAt(0);
-                                messageTextView.setTextSize(15);
-                                message.show();
+                                updateToast("Item is successfully deleted", Toast.LENGTH_LONG);
                         }
 
                         ItemInfoScreen.this.finish();
@@ -197,6 +194,16 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setupToast() {
+        toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+    }
+
+    private void updateToast(String text, int duration) {
+        toast.setText(text);
+        toast.setDuration(duration);
+        toast.show();
     }
 
     private void dispatchTakePictureIntent(){
@@ -233,7 +240,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                 System.out.println("-------> Image path of jpeg is: " + imageFile.getAbsolutePath());
 
             } catch (IOException e) {
-                Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
+                updateToast("Failed to load", Toast.LENGTH_SHORT);
                 Log.d("StoreLocationActivity", "Failed to load", e);
             }
         }
@@ -278,12 +285,8 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         catDisplay.setEnabled(false);
         locationDisplay.setEnabled(false);
         isEditable.setChecked(false);
-        Toast message=Toast.makeText(getApplicationContext(),"Changes are disregarded.",Toast.LENGTH_LONG);
-        ViewGroup group = (ViewGroup) message.getView();
-        TextView messageTextView = (TextView) group.getChildAt(0);
-        messageTextView.setTextSize(15);
-        message.show();
 
+        updateToast("Changes are disregarded.", Toast.LENGTH_LONG);
     }
 
 
@@ -293,22 +296,14 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         String strLocation = locationDisplay.getText().toString();
 
         if (strItemTitle.equals("")) {
-            Toast message=Toast.makeText(getApplicationContext(), "Item title cannot be blank.",Toast.LENGTH_LONG);
-            ViewGroup group = (ViewGroup) message.getView();
-            TextView messageTextView = (TextView) group.getChildAt(0);
-            messageTextView.setTextSize(15);
-            message.show();
+            updateToast("Item title cannot be blank.", Toast.LENGTH_LONG);;
             return;
         }
 
         // if the item is named something ELSE that exists, can't do it.
         if (!strItemTitle.equals(originalItemName)) {
             if (itemNameExists(strItemTitle)) {
-                Toast message=Toast.makeText(getApplicationContext(), "This item name already exists.",Toast.LENGTH_LONG);
-                ViewGroup group = (ViewGroup) message.getView();
-                TextView messageTextView = (TextView) group.getChildAt(0);
-                messageTextView.setTextSize(15);
-                message.show();
+                updateToast("This item name already exists.", Toast.LENGTH_LONG);
                 return;
             }
         }
@@ -327,7 +322,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             imageFilePath = imageFile.getAbsolutePath();
             itemToModify.setPicturePath(imageFilePath);
         }
-        
+
         originalItemName = strItemTitle;
         originalCategoryName = strCategory;
         originalLocationName = strLocation;
@@ -339,12 +334,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             catDisplay.setEnabled(false);
             locationDisplay.setEnabled(false);
             isEditable.setChecked(false);
-            Toast message=Toast.makeText(getApplicationContext(),"Changes are successfully saved.",Toast.LENGTH_LONG);
-            ViewGroup group = (ViewGroup) message.getView();
-            TextView messageTextView = (TextView) group.getChildAt(0);
-            messageTextView.setTextSize(15);
-            message.show();
-
+            updateToast("Changes are successfully saved.", Toast.LENGTH_LONG);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -444,11 +434,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             if (position != 0) {
                 selectedCategory = parent.getItemAtPosition(position).toString();
                 catDisplay.setText(selectedCategory);
-                Toast message=Toast.makeText(getApplicationContext(),"Selected: " + selectedCategory,Toast.LENGTH_LONG);
-                ViewGroup group = (ViewGroup) message.getView();
-                TextView messageTextView = (TextView) group.getChildAt(0);
-                messageTextView.setTextSize(15);
-                message.show();
+                updateToast("Selected: " + selectedCategory, Toast.LENGTH_LONG);
             }
         }
 
