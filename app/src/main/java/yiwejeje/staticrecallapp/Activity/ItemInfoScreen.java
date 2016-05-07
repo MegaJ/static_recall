@@ -195,11 +195,9 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             ContentResolver contentResolver = this.getContentResolver();
             contentResolver.notifyChange(mImageUri, null);
-
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(contentResolver, mImageUri);
                 contentResolver.delete(mImageUri, null, null);
@@ -274,11 +272,9 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             imageFilePath = imageFile.getAbsolutePath();
             itemToModify.setPicturePath(imageFilePath);
         }
-
         originalItemName = strItemTitle;
         originalCategoryName = strCategory;
         originalLocationName = strLocation;
-
         try {
             categoryManager.save(ItemInfoScreen.this);
             titleDisplay.setEnabled(false);
@@ -307,74 +303,101 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
 
 
-    private void createEditableSlider() {
 
+    private void createEditableSlider() {
         isEditable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 if (isChecked) {
-                    titleDisplay.setEnabled(true);
-                    catDisplay.setEnabled(true);
-                    locationDisplay.setEnabled(true);
-                    saveBtn.setVisibility(View.VISIBLE);
-                    unsaveBtn.setVisibility(View.VISIBLE);
-                    thisSpinner.setVisibility(View.VISIBLE);
-                    RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                    p.addRule(RelativeLayout.BELOW, R.id.editSpinner);
-                    p.addRule(RelativeLayout.ALIGN_LEFT, R.id.editSpinner);
-                    p.setMargins(10, 75, 5, 0);
-
-                    locationPlace.setLayoutParams(p);
+                    checkedDisplay();
+                    checkedSpacing();
                     setupDropdown();
-
                 } else {
-                    titleDisplay.setEnabled(false);
-                    catDisplay.setEnabled(false);
-                    locationDisplay.setEnabled(false);
-                    saveBtn.setVisibility(View.INVISIBLE);
-                    unsaveBtn.setVisibility(View.INVISIBLE);
-                    thisSpinner.setVisibility(View.INVISIBLE);
-                    RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                    p.addRule(RelativeLayout.BELOW, R.id.ItemCategory);
-                    p.addRule(RelativeLayout.ALIGN_LEFT, R.id.ItemCategory);
-                    p.setMargins(5, 75, 5, 0);
-
-                    locationPlace.setLayoutParams(p);
+                    setUncheckedVisibility();
+                    uncheckedSpacing();
                 }
             }
         });
-
+        initialStatus();
         if(isEditable.isChecked()){
-            titleDisplay.setEnabled(false);
-            catDisplay.setEnabled(false);
-            locationDisplay.setEnabled(false);
+            checkedStatus();
         }
         else {
-            titleDisplay.setEnabled(false);
-            catDisplay.setEnabled(false);
-            locationDisplay.setEnabled(false);
-            unsaveBtn.setVisibility(View.INVISIBLE);
-            thisSpinner.setVisibility(View.INVISIBLE);
+            uncheckedStatus();
+            uncheckedVisibility();
         }
+    }
+    
+    private void initialStatus(){
+        if(isEditable.isChecked()){
+            checkedStatus();
+        }
+        else {
+            uncheckedStatus();
+            uncheckedVisibility();
+        }
+    }
+
+    private void checkedVisibility(){
+        saveBtn.setVisibility(View.VISIBLE);
+        unsaveBtn.setVisibility(View.VISIBLE);
+        thisSpinner.setVisibility(View.VISIBLE);
+    }
+
+    private void checkedStatus(){
+        saveBtn.setVisibility(View.VISIBLE);
+        unsaveBtn.setVisibility(View.VISIBLE);
+        thisSpinner.setVisibility(View.VISIBLE);
+    }
+
+    private void checkedDisplay(){
+        checkedVisibility();
+        checkedStatus();
+    }
+
+    private void uncheckedVisibility(){
+        saveBtn.setVisibility(View.INVISIBLE);
+        unsaveBtn.setVisibility(View.INVISIBLE);
+        thisSpinner.setVisibility(View.INVISIBLE);
+    }
+
+    private void uncheckedStatus(){
+        titleDisplay.setEnabled(false);
+        catDisplay.setEnabled(false);
+        locationDisplay.setEnabled(false);
+    }
+
+    private void setUncheckedVisibility(){
+        uncheckedStatus();
+        uncheckedVisibility();
+    }
+
+    private void checkedSpacing(){
+        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        p.addRule(RelativeLayout.BELOW, R.id.editSpinner);
+        p.addRule(RelativeLayout.ALIGN_LEFT, R.id.editSpinner);
+        p.setMargins(10, 75, 5, 0);
+
+        locationPlace.setLayoutParams(p);
+    }
+
+    private void uncheckedSpacing(){
+        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        p.addRule(RelativeLayout.BELOW, R.id.ItemCategory);
+        p.addRule(RelativeLayout.ALIGN_LEFT, R.id.ItemCategory);
+        p.setMargins(5, 75, 5, 0);
+        locationPlace.setLayoutParams(p);
     }
 
 
     private void setupDropdown(){
-        CategoryManager myCategoryManager = CategoryManager.INSTANCE;
-        Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
-        List<String> categories = new ArrayList<String>();
-        categories.add("Or select from existing categories...");
-        for (ItemCategory c:allCategories){
-            categories.add(c.toString());
-        }
-
-
+        List<String> categories=categoriesForDropDown();
         thisSpinner.setOnItemSelectedListener(this);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories){
             @Override
@@ -388,7 +411,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                 return view;
             }
         };
-
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         thisSpinner.setAdapter(dataAdapter);
 
@@ -404,6 +426,17 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onNothingSelected(AdapterView<?> parentView){
+    }
+
+    private List<String> categoriesForDropDown(){
+        CategoryManager myCategoryManager = CategoryManager.INSTANCE;
+        Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
+        List<String> categories = new ArrayList<String>();
+        categories.add("Or select from existing categories...");
+        for (ItemCategory c:allCategories){
+            categories.add(c.toString());
+        }
+        return categories;
     }
 
 }
