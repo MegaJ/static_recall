@@ -52,18 +52,14 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private Button saveBtn;
     private Button unsaveBtn;
     private Button deleteBtn;
-    private Button newBtn;
     private Switch isEditable;
     private String originalItemName;
     private String originalCategoryName;
     private String originalLocationName;
-
+    private String selectedCategory;
     private ImageView imageFileView;
     private Spinner thisSpinner;
     private Toast toast;
-
-    private String selectedCategory;
-
     private android.net.Uri mImageUri;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private File imageFile;
@@ -94,7 +90,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
         titleDisplay=(EditText)findViewById(R.id.itemTitle);
         catDisplay=(EditText)findViewById(R.id.ItemCategory);
         locationDisplay=(EditText)findViewById(R.id.ItemLocation);
@@ -106,27 +101,14 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         thisSpinner=(Spinner)findViewById(R.id.editSpinner);
         locationPlace =(TextView)findViewById(R.id.textView6);
         selectedCategory=null;
-
         Bundle extras = getIntent().getExtras();
         originalItemName = extras.getString("item title");
         originalCategoryName = extras.getString("item category");
         originalLocationName = extras.getString("item location");
 
-        saveBtn.setVisibility(View.INVISIBLE);
-        imageFileView.setVisibility(View.INVISIBLE);
 
-        titleDisplay.setText(originalItemName);
-        catDisplay.setText(originalCategoryName);
-        locationDisplay.setText(originalLocationName);
-
-        titleDisplay.setEnabled(false);
-        catDisplay.setEnabled(false);
-        locationDisplay.setEnabled(false);
-
-        isEditable=(Switch)findViewById(R.id.isEditable);
-
+        setupTextField();
         setupToast();
-
         if (extras.getString("item picture path")!= null) {
             System.out.println("-----> Item's picture file is at" + extras.getString("item picture path"));
             Bitmap bitmap = BitmapFactory.decodeFile(extras.getString("item picture path"));
@@ -141,42 +123,16 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                 saveChanges();
             }
         });
-
         unsaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 disregardChanges();
             }
         });
-
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                //Yes button clicked
-                                Item foundItem = findItemByName(originalItemName);
-
-                                foundItem.oneSidedRemoveAllCategories();
-                                ItemCategory originalCategory = categoryManager.
-                                        getCategoryByName(originalCategoryName);
-                                originalCategory.removeItem(foundItem);
-                                foundItem.deleteImage();
-
-                                updateToast("Item is successfully deleted", Toast.LENGTH_LONG);
-                        }
-
-                        ItemInfoScreen.this.finish();
-                    }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setMessage("Are you sure to delete the item "+originalItemName).setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
-
+                deleteItem(v);
             }
         });
 
@@ -193,6 +149,41 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         }
     }
 
+    private void deleteItem(View v){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        Item foundItem = findItemByName(originalItemName);
+                        foundItem.oneSidedRemoveAllCategories();
+                        ItemCategory originalCategory = categoryManager.
+                                getCategoryByName(originalCategoryName);
+                        originalCategory.removeItem(foundItem);
+                        foundItem.deleteImage();
+                        updateToast("Item is successfully deleted", Toast.LENGTH_LONG);
+                }
+
+                ItemInfoScreen.this.finish();
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+        builder.setMessage("Are you sure to delete the item "+originalItemName).setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+
+    private void setupTextField(){
+        saveBtn.setVisibility(View.INVISIBLE);
+        imageFileView.setVisibility(View.INVISIBLE);
+        titleDisplay.setText(originalItemName);
+        catDisplay.setText(originalCategoryName);
+        locationDisplay.setText(originalLocationName);
+        titleDisplay.setEnabled(false);
+        catDisplay.setEnabled(false);
+        locationDisplay.setEnabled(false);
+        isEditable=(Switch)findViewById(R.id.isEditable);
+    }
+
     private void setupToast() {
         toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
     }
@@ -203,18 +194,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         toast.show();
     }
 
-    private void dispatchTakePictureIntent(){
-        mImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                new ContentValues());
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-
-        //Disables camera function if the device does not support the camera hardware
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -223,22 +202,14 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(contentResolver, mImageUri);
-//                itemImageView.setVisibility(View.VISIBLE);
-//                itemImageView.setImageBitmap(bitmap);
-                System.out.println("-----> Bitmap is " + bitmap.getWidth() + " by " + bitmap.getHeight());
-
                 contentResolver.delete(mImageUri, null, null);
 
                 imageFile = new File(this.getFilesDir() + File.separator + UUID.randomUUID() + ".jpg");
                 FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
                 fileOutputStream.close();
-
-                System.out.println("-------> Image path of jpeg is: " + imageFile.getAbsolutePath());
-
             } catch (IOException e) {
                 updateToast("Failed to load", Toast.LENGTH_SHORT);
-                Log.d("StoreLocationActivity", "Failed to load", e);
             }
         }
 
@@ -282,7 +253,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         catDisplay.setEnabled(false);
         locationDisplay.setEnabled(false);
         isEditable.setChecked(false);
-
         updateToast("Changes are disregarded.", Toast.LENGTH_LONG);
     }
 
@@ -291,30 +261,15 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         String strItemTitle = titleDisplay.getText().toString();
         String strCategory = catDisplay.getText().toString();
         String strLocation = locationDisplay.getText().toString();
-
-        if (strItemTitle.equals("")) {
-            updateToast("Item title cannot be blank.", Toast.LENGTH_LONG);;
-            return;
-        }
-
-        // if the item is named something ELSE that exists, can't do it.
-        if (!strItemTitle.equals(originalItemName)) {
-            if (itemNameExists(strItemTitle)) {
-                updateToast("This item name already exists.", Toast.LENGTH_LONG);
-                return;
-            }
-        }
-
+        checkItemTitle(strItemTitle);
         ItemCategory originalCategory = categoryManager.
                 getCategoryByName(originalCategoryName);
         Item itemToModify = originalCategory.getItemByName(originalItemName);
         ItemCategory category = createNewCategoryIfNotExists(strCategory);
-
         itemToModify.setName(strItemTitle);
         itemToModify.removeCategory(originalCategory);
         itemToModify.addCategory(category);
         itemToModify.setLocationDescription(strLocation);
-
         if (imageFile != null) {
             imageFilePath = imageFile.getAbsolutePath();
             itemToModify.setPicturePath(imageFilePath);
@@ -324,7 +279,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         originalCategoryName = strCategory;
         originalLocationName = strLocation;
 
-        System.out.println("------> Save called from Item Location Activity!");
         try {
             categoryManager.save(ItemInfoScreen.this);
             titleDisplay.setEnabled(false);
@@ -338,9 +292,23 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
 
     }
 
+    private void checkItemTitle(String strItemTitle){
+        if (strItemTitle.equals("")) {
+            updateToast("Item title cannot be blank.", Toast.LENGTH_LONG);;
+            return;
+        }
+
+        if (!strItemTitle.equals(originalItemName)) {
+            if (itemNameExists(strItemTitle)) {
+                updateToast("This item name already exists.", Toast.LENGTH_LONG);
+                return;
+            }
+        }
+    }
+
 
     private void createEditableSlider() {
-        //attach a listener to check for changes in state
+
         isEditable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -382,7 +350,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             }
         });
 
-        //check the current state before we display the screen
         if(isEditable.isChecked()){
             titleDisplay.setEnabled(false);
             catDisplay.setEnabled(false);
