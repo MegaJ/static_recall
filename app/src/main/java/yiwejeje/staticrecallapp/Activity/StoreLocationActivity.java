@@ -353,6 +353,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         locationView.setLayoutParams(p);
     }
 
+    // http://stackoverflow.com/questions/33733075/close-keypad-when-touch-or-click-outside-of-edittext-in-android
     /*
     To hide the keyboard every time the user touches anywhere on screen
      */
