@@ -9,13 +9,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +24,12 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,7 +48,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private EditText titleDisplay;
     private EditText catDisplay;
     private EditText locationDisplay;
-    private TextView locationplace;
+    private TextView locationPlace;
     private Button saveBtn;
     private Button unsaveBtn;
     private Button deleteBtn;
@@ -62,8 +56,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private Switch isEditable;
     private String originalItemName;
     private String originalCategoryName;
-    private String location;
-    //private String originalLocationName;
+    private String originalLocationName;
     private ImageView imageFileView;
     private Spinner thisSpinner;
 
@@ -73,7 +66,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private File imageFile;
     private String imageFilePath;
-
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
@@ -110,29 +102,29 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         imageFileView= (ImageView)findViewById(R.id.imgFileView);
         imageFileView.setRotation(90);
         thisSpinner=(Spinner)findViewById(R.id.editSpinner);
-        locationplace=(TextView)findViewById(R.id.textView6);
+        locationPlace =(TextView)findViewById(R.id.textView6);
         selectedCategory=null;
 
         Bundle extras = getIntent().getExtras();
         originalItemName = extras.getString("item title");
         originalCategoryName = extras.getString("item category");
-        //originalLocationName = extras.getString("item location");
+        originalLocationName = extras.getString("item location");
 
         saveBtn.setVisibility(View.INVISIBLE);
         imageFileView.setVisibility(View.INVISIBLE);
+
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
+        locationDisplay.setText(originalLocationName);
+
         titleDisplay.setEnabled(false);
         catDisplay.setEnabled(false);
         locationDisplay.setEnabled(false);
+
         isEditable=(Switch)findViewById(R.id.isEditable);
 
 
 
-        if (extras.getString("item location")!= null){
-            location=extras.getString("item location");
-            locationDisplay.setText(location);
-        }
 
         if (extras.getString("item picture path")!= null) {
             System.out.println("-----> Item's picture file is at" + extras.getString("item picture path"));
@@ -281,9 +273,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private void disregardChanges(){
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
-        if (location != null ){
-            locationDisplay.setText(location);
-        }
+        locationDisplay.setText(originalLocationName);
         titleDisplay.setEnabled(false);
         catDisplay.setEnabled(false);
         locationDisplay.setEnabled(false);
@@ -336,9 +326,11 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         if (imageFile != null) {
             imageFilePath = imageFile.getAbsolutePath();
             itemToModify.setPicturePath(imageFilePath);
-
+        }
+        
         originalItemName = strItemTitle;
         originalCategoryName = strCategory;
+        originalLocationName = strLocation;
 
         System.out.println("------> Save called from Item Location Activity!");
         try {
@@ -357,7 +349,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             e.printStackTrace();
         }
 
-    }}
+    }
 
 
     private void createEditableSlider() {
@@ -381,7 +373,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                     p.addRule(RelativeLayout.ALIGN_LEFT, R.id.editSpinner);
                     p.setMargins(10, 75, 5, 0);
 
-                    locationplace.setLayoutParams(p);
+                    locationPlace.setLayoutParams(p);
                     setupDropdown();
 
                 } else {
@@ -398,7 +390,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                     p.addRule(RelativeLayout.ALIGN_LEFT, R.id.ItemCategory);
                     p.setMargins(5, 75, 5, 0);
 
-                    locationplace.setLayoutParams(p);
+                    locationPlace.setLayoutParams(p);
                 }
             }
         });
@@ -457,8 +449,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                 TextView messageTextView = (TextView) group.getChildAt(0);
                 messageTextView.setTextSize(15);
                 message.show();
-
-
             }
         }
 
