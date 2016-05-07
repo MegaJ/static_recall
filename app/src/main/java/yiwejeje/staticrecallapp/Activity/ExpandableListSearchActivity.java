@@ -39,9 +39,6 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
-    List<Item> itemsResultsList = new ArrayList<Item>();
-    ItemCategory resultsCategory = new ItemCategory("Results");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,15 +53,12 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("-----> I have stopped!");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         refreshList();
-        //expListAdapter.
-        System.out.println("-----> I have restarted!");
     }
 
     @Override
@@ -114,47 +108,10 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
 
         disableCategoryCollapse();
 
-        expListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                int itemType = ExpandableListView.getPackedPositionType(id);
-                int categoryPosition;
-
-                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    // Delete the category
-                    categoryPosition = ExpandableListView.getPackedPositionGroup(id);
-
-                    ItemCategory category = (ItemCategory) expListAdapter.getGroup(categoryPosition);
-                    ItemCategory uncategorized = categoryManager.getCategoryByName("Uncategorized");
-
-                    if (!category.equals(uncategorized)) {
-                        List<Item> items = new ArrayList<Item>(category.getItems());
-                        category.oneSidedRemoveAllItems();
-
-                        for (Item item : items) {
-                            item.removeCategory(category);
-                            uncategorized.addItem(item);
-                        }
-
-                        categoryManager.removeCategory(category);
-                    }
-                    refreshList();
-                    return true;
-
-                } else {
-                    // null item; we don't consume the click
-                    return false;
-                }
-            }
-        });
-
         expListView.setOnChildClickListener(new OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, final int groupPosition,
                                         final int childPosition, long id) {
-                // we have annoying sounds currently
-                // playSound("sounds/onItemClick.wav");
-
                 Intent intent = new Intent(ExpandableListSearchActivity.this, ItemInfoScreen.class);
 
                 Item selectedItem = (Item) expListAdapter.getChild(groupPosition, childPosition);
