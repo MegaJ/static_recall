@@ -1,37 +1,31 @@
 package yiwejeje.staticrecallapp.Activity;
 
-import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 import yiwejeje.staticrecallapp.Model.CategoryManager;
 import yiwejeje.staticrecallapp.Model.Item;
-import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
 /**
- * Created by Static Recall Heroes on 4/8/16.
+ * Implements the screen for viewing a list of items. Includes search widget to search items
+ * and an overflow menu for navigating to other activities.
+ * <p>
+ * Leverages {@code CategoryManager} for data.
+ * @see CategoryManager
  */
 public class ListViewSearchActivity extends AppCompatActivity {
 
@@ -59,6 +53,10 @@ public class ListViewSearchActivity extends AppCompatActivity {
         refreshList();
     }
 
+    /**
+     * Sets up both the adapter and the view for the screen.
+     * Accesses {@code categoryManager} to load data into adapter.
+     */
     private void configureView() {
         setContentView(R.layout.activity_search_view_list);
 
@@ -82,7 +80,13 @@ public class ListViewSearchActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Sets up functionality in the right side of the ActionBar.
+     * Mostly works to set up the search widget.
+     * @param menu
+     *      Provided by the framework.
+     * @return true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -121,11 +125,20 @@ public class ListViewSearchActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Sets up the Android overflow menu for when user clicks.
+     * Routes user to StoreLocationActivity and classic ListView
+     *
+     * @param menuItem
+     * @return
+     *
+     * @see StoreLocationActivity
+     * @see ItemInfoScreen
+     */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
 
-        switch (item.getItemId()) {
+        switch (menuItem.getItemId()) {
             case R.id.search:
                 // ignore, has an onClickListener already
                 return true;
@@ -138,10 +151,19 @@ public class ListViewSearchActivity extends AppCompatActivity {
                 startActivity(intent);
                 ListViewSearchActivity.this.finish();
             default:
-                return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(menuItem);
         }
     }
 
+    /**
+     * Repopulates the {@code listAdapter} with most updated categories.
+     * Calling this is necessary for when ItemInfoScreen adds a new category OR
+     * when adding an item from the StoreLocationActivity via the options menu
+     * is done.
+     *
+     * @see ItemInfoScreen
+     * @see StoreLocationActivity
+     */
     public void refreshList() {
         listAdapter.clear();
         listAdapter.addAll(categoryManager.getAllItems());
