@@ -1,49 +1,44 @@
 <resources>
+
+    <!--Application Title -->
     <string name="app_name">Static Recall App</string>
 
+    <!--Screen Titles -->
     <string name="title_content">Static Recall</string>
+    <string name="title_activity_store_location">Store Location</string>
+    <string name="title_activity_listview_search">Search Stored Items</string>
+    <string name="title_activity_search_location_screen">Item Location Information</string>
+    <string name="title_activity_about_screen">About Screen Activity</string>
+
+    <!--Button Strings -->
     <string name="search_button">Find It</string>
     <string name="store_button">Stash It</string>
     <string name="edit_button">Edit</string>
     <string name="about_button">About</string>
 
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="edit_message">Enter a message</string>
+    <!--Searchbar Strings -->
     <string name="searchbar">Search for...</string>
     <string name="search_items">Search for Item</string>
-    <string name="add_message">Add To Coming Soon</string>
-    <string name="title_activity_store_location">Store Location</string>
-    <string name="title_activity_listview_search">Search Stored Items</string>
 
+    <!--List View and Expandable List View Strings -->
     <string-array name="category_list">
         <item>Uncategorized</item>
     </string-array>
-
-
     <string name="category_view">View Categories</string>
-
     <string name="search_title">Item Location Information</string>
     <string name="search_hint">Search stored items</string>
-
-    <string name="store_title">Store Location</string>
-    <string name="title_activity_search_location_screen">Item Location Information</string>
-
     <string name="view_categories">View Categories</string>
     <string name="view_items">View Items</string>
-    <string name="title_activity_about_screen">AboutScreenActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-    <string name="welcome_message">Welcome to Static Recall</string>
 
+    <!--About Screen Strings -->
+    <string name="welcome_message">Welcome to Static Recall</string>
     <string name="welcome_about_info">The finder app to ease your stress when you need to locate an
         item used at infrequent intervals - tell the app where you’ve put important documents, your
         passport, medications or perhaps even that sweater your grandma knit for you that you’ll
         hide until you need to wear it to a family event next December. We’ll do the hard work of
         remembering so that you don’t have to.\n
         \nHere’s how to use the main features of this app:\n</string>
-
     <string name="about_store_function">STORE\n\n
         If you tap this icon on the home screen or the plus sign on the search screen, it will take
         you to an input screen where you can store an item’s location. Here, you can type in the
@@ -53,7 +48,6 @@
         describe the dresser in a verbal audio recording! Just tap on the icon corresponding to your
         choice of input, and then you can press the ‘Add’ button to store the item’s information in
         the app’s database.\n</string>
-
     <string name="about_search_function">SEARCH\n\n
         Once you’ve entered an item or two, when you need to remember where you hid
         grandma’s sweater, you can tap on this icon on the home screen to go to a screen that lists

@@ -9,7 +9,7 @@
         app:actionViewClass="android.widget.SearchView" />
 
     <item android:id="@+id/store"
-        android:title="@string/store_title"
+        android:title="@string/title_activity_store_location"
         android:icon="@drawable/plussign"
         app:showAsAction="ifRoom" />
 

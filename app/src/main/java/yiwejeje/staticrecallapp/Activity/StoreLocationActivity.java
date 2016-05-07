@@ -222,6 +222,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         }
     }
 
+    // Original camera code found here: http://adblogcat.com/camera-api-simple-way-to-take-pictures-and-save-them-on-sd-card/
+
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             ContentResolver contentResolver = this.getContentResolver();
@@ -253,6 +255,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         }
     }
 
+    //Following 3 functions called to reset screen upon hitting the add button
     private void resetVisibleFields() {
         clearTextField();
         clearImageView();
@@ -265,12 +268,14 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         spinner.setSelection(0);
     }
 
+
     private void clearImageView(){
         itemImageView.setImageBitmap(null);
         itemImageView.setImageResource(R.drawable.camera);
         itemImageView.setVisibility(View.INVISIBLE);
     }
 
+    //Layers and toggles visibility for location features.
     private void setUpLocation(){
         setVisibility();
         typeIn.setOnClickListener(new View.OnClickListener() {

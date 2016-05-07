@@ -5,7 +5,6 @@
     android:background="@drawable/galaxy_wallpaper"
     android:fitsSystemWindows="true"
     tools:context=".Activity.HomeScreenActivity">
-    <!--The background image was found here: http://www.wallpapersonweb.com/image-3102.html-->
     <!--The background galaxy image was found here:
     http://freewallpaperdownloads.net/wp-content/uploads/2015/03/ipad-air-2-wallpaper-for-iphone-6-plus.jpg/-->
 
@@ -39,7 +38,7 @@
 
         </LinearLayout>
 
-    <!-- SEARCH ICON AND BUTTON -->
+    <!-- STASH IT ICON AND BUTTON -->
 
     <ImageView
         android:id="@+id/stash_icon"
@@ -49,8 +48,8 @@
         android:src="@drawable/galaxy_stash"
         android:padding="5dp"
         android:onClick="storeLocation"/>
-    <!--The magnifying glass image was found here:
-    http://www.officialpsds.com/Magnifying-Glass-PSD24080.html-->
+    <!--The file icon was found here:
+    http://www.icons101.com/icon/id_81471/setid_2889/Galaxy_by_angeldenadie/galaxy_download-->
 
 
     <TextView
@@ -67,7 +66,7 @@
         android:textColor="#2a3132"
         android:textSize="30sp"/>
 
-    <!-- STORE ICON AND BUTTON -->
+    <!-- FIND IT ICON AND BUTTON -->
 
     <ImageView
         android:id="@+id/search_icon"
@@ -77,8 +76,8 @@
         android:src="@drawable/telescope"
         android:layout_alignParentBottom="true"
         android:onClick="showItemsList" />
-        <!--The box icon image was found here:
-        http://www.clipartpanda.com/clipart_images/brown-box-clip-art-7533842 -->
+        <!--The telescope icon was found here:
+        https://openclipart.org/detail/211391/telescope -->
 
         <TextView
             android:id="@+id/search_button"
