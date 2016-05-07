@@ -449,7 +449,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (position != 1 && position !=0) {
+            if (position != 0) {
                 selectedCategory = parent.getItemAtPosition(position).toString();
                 catDisplay.setText(selectedCategory);
                 Toast message=Toast.makeText(getApplicationContext(),"Selected: " + selectedCategory,Toast.LENGTH_LONG);
