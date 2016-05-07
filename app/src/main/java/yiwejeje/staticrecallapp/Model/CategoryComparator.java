@@ -3,7 +3,9 @@ package yiwejeje.staticrecallapp.Model;
 import java.util.Comparator;
 
 /**
- * Created by el-swug on 3/10/16.
+ * Created by Static Recall Heroes on 3/10/16.
+ *
+ * Compares categories alphabetically by name. Case insensitive.
  */
 public class CategoryComparator implements Comparator<ItemCategory> {
 

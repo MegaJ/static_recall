@@ -5,7 +5,9 @@ import java.util.Comparator;
 import yiwejeje.staticrecallapp.Model.Item;
 
 /**
- * Created by el-swug on 3/13/16.
+ * Created by Static Recall Heroes on 3/13/16.
+ *
+ * Compares Items alphabetically by name. Case insensitive.
  */
 public class ItemComparator implements Comparator<Item> {
 

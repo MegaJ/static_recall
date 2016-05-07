@@ -230,7 +230,6 @@ public enum CategoryManager {
         File jsonFile = new File(jsonFileLocation);
 
         if (jsonFile.exists()) {
-            System.out.println("------> Json file exists");
             InputStream jsonStream = new FileInputStream(jsonFile);
             Reader jsonReader = new InputStreamReader(jsonStream, "UTF-8");
 
@@ -248,9 +247,6 @@ public enum CategoryManager {
                 }
             }
             this.allCategories.addAll(newCategories);
-
-            System.out.println("-----> loaded categories: " + newCategories);
-            System.out.println("-----> categories: " + this.allCategories);
 
             jsonStream.close();
             return true;
@@ -345,13 +341,5 @@ public enum CategoryManager {
         this.addCategory(uncategorized);
         this.addCategory(docs);
         this.addCategory(travel);
-
-        for (Item item : this.getAllItems()) {
-            System.out.println("----------> TEST: " + item + ": categories: " + item.getCategories());
-        }
-
-        for (ItemCategory aCategory : allCategories) {
-            System.out.println("----------> TEST: " + aCategory + ": items: " + aCategory.getItems());
-        }
     }
 }
