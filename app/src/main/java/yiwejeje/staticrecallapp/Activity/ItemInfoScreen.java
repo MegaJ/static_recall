@@ -149,9 +149,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             }
         });
 
-
-
-
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
