@@ -85,12 +85,14 @@ public class ExpandableListSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 expListAdapter.filterData(newText);
+                expandAll();
                 return true;
             }
 
             @Override
             public boolean onQueryTextSubmit(String query) {
                 expListAdapter.filterData(query);
+                expandAll();
                 return true;
             }
         });
