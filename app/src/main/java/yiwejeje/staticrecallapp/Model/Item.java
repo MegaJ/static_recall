@@ -100,7 +100,7 @@ public class Item implements Serializable {
     /**
      * A bidirectional adding that updates both the category and the item.
      * May throw a concurrent modification exception if this function is called
-     * in a loop--untested.
+     * in a loop--untested case.
      * @param aCategory
      * @return true if adding was successful in updating
      *      both {@code aCategory} and this {@code Item}. False otherwise.
@@ -125,6 +125,7 @@ public class Item implements Serializable {
      * Do not use this function if iterating over a list of categories or items and removing
      * objects or else a concurrent modification exception will be thrown.
      * @param aCategory
+     *      A category that this item no longer should belong to.
      * @return true if removing was successful in updating
      *      both {@code aCategory} and this {@code Item}. False otherwise.
      */
@@ -142,7 +143,7 @@ public class Item implements Serializable {
     /**
      * A unidirectional remove that clears all the categories from this item.
      * This function is required for getting around the case when one tries to loop
-     * over a list of categories to update both the category and the items.
+     * over a list of categories or items to update both the category and the items.
      * The bidirectional remove will cause a concurrent modification exception.
      * @return true
      */
