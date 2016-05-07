@@ -2,7 +2,6 @@ package yiwejeje.staticrecallapp.Activity;
 
 import android.app.AlertDialog;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,6 +43,10 @@ import yiwejeje.staticrecallapp.Model.Item;
 import yiwejeje.staticrecallapp.Model.ItemCategory;
 import yiwejeje.staticrecallapp.R;
 
+/**
+ * Implements the screen for displaying all the relevant information about an item.
+ * The user can edit or delete the item.
+ */
 public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText titleDisplay;
     private EditText catDisplay;
@@ -154,6 +157,10 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         }
     }
 
+    /**
+     * Method to delete the item chosen.
+     * @param v view of the item
+     */
     private void deleteItem(View v){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -177,6 +184,9 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                 .setNegativeButton("No", dialogClickListener).show();
     }
 
+    /**
+     * To set up the initial status and visibility of the screen.
+     */
     private void setupTextField(){
         uncheckedVisibility();
         initialDisplay();
@@ -184,6 +194,9 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         isEditable=(Switch)findViewById(R.id.isEditable);
     }
 
+    /**
+     * The initial info to be displayed.
+     */
     private void initialDisplay(){
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
@@ -250,6 +263,9 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
 
 
+    /**
+     * Method to disregard changes.
+     */
     private void disregardChanges(){
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
@@ -261,6 +277,9 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         updateToast("Changes are disregarded.", Toast.LENGTH_LONG);
     }
 
+    /**
+     * Method to save changes.
+     */
 
     private void saveChanges(){
         String strItemTitle = titleDisplay.getText().toString();

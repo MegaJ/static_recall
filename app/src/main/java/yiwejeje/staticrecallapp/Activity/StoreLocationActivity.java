@@ -179,7 +179,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     private void addNewItem(){
         String strItemTitle = itemTitle.getText().toString();
-        //String strCategory = itemCategory.getText().toString();
         String strLocation = itemLocation.getText().toString();
         checkItemTitle(strItemTitle);
         Item newItem = new Item(strItemTitle, strLocation);
@@ -301,7 +300,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView textView=(TextView) view.findViewById(android.R.id.text1);
-                // do whatever you want with this text view
                 textView.setTextSize(17);
                 textView.setTextColor(Color.parseColor("#4281A4"));
 
