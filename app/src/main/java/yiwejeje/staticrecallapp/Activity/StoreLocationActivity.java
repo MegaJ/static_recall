@@ -52,10 +52,9 @@ import yiwejeje.staticrecallapp.R;
 public class StoreLocationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText itemTitle;
-    private EditText itemCategory;  //right now only allow for one category for the simplicity
+    private EditText itemCategory;
     private EditText itemLocation;
     private TextView locationView;
-
 
     private File imageFile;
     private String imageFilePath;
@@ -65,16 +64,9 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
     private ImageButton typeIn;
-    private ImageButton makeRecording;
-
-
-
     private ImageView itemImageView;
     private android.net.Uri mImageUri;
-
     private Toast toast;
-
-    private boolean isRecording = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,25 +75,22 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
         itemTitle = (EditText) findViewById(R.id.ItemText);
         itemCategory = (EditText) findViewById(R.id.CatText);
         itemLocation = (EditText) findViewById(R.id.LocationText);
         locationView=(TextView) findViewById(R.id.textView);
         typeIn = (ImageButton) findViewById(R.id.TextButton);
-        setup();
+        screenSetUp();
 
     }
 
-    private void setup(){
+    private void screenSetUp(){
         setupToast();
         setupCamera();
         setDropDownMenu();
         setUpLocation();
         setupAddItemButton();
-
     }
 
     private void updateToast(String text, int duration) {
@@ -136,17 +125,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
     private boolean addItemToCategoryManager(Item item) {
-        String typedText = itemCategory.getText().toString();
-        String finalCategoryName;
-
-        if (selectedCategory != null) {
-            finalCategoryName = selectedCategory;
-        } else if (!typedText.equals("")) {
-            finalCategoryName = typedText;
-        } else {
-            finalCategoryName = "Uncategorized";
-        }
-
+        String finalCategoryName=getFinalCategory();
         boolean itemAdded = false;
         boolean categoryAdded = false;
         boolean addingSuccessful = false;
@@ -163,6 +142,17 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         return addingSuccessful;
     }
 
+    private String getFinalCategory (){
+        String typedText = itemCategory.getText().toString();
+        if (selectedCategory != null) {
+            return selectedCategory;
+        } else if (!typedText.equals("")) {
+            return typedText;
+        } else {
+            return"Uncategorized";
+        }
+    }
+
     private void setupAddItemButton() {
         Button addNewItem;
         addNewItem = (Button) findViewById(R.id.AddButton);
@@ -176,32 +166,32 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     private void addNewItem(){
         String strItemTitle = itemTitle.getText().toString();
-        String strCategory = itemCategory.getText().toString();
+        //String strCategory = itemCategory.getText().toString();
         String strLocation = itemLocation.getText().toString();
-
-        if (strItemTitle.equals("")) {
-            updateToast("Item title cannot be blank.", Toast.LENGTH_SHORT);
-            return;
-        }
-
-        if (itemNameExists(strItemTitle)) {
-            updateToast("This item name already exists.", Toast.LENGTH_SHORT);
-            return;
-        }
-
+        checkItemTitle(strItemTitle);
         Item newItem = new Item(strItemTitle, strLocation);
-
         if (imageFile != null) {
             imageFilePath = imageFile.getAbsolutePath();
             newItem.setPicturePath(imageFilePath);
             System.out.println("---> My image file is " + imageFile.getAbsolutePath());
         }
-
         boolean addingSuccessful = addItemToCategoryManager(newItem);
         persistEverything();
         displayAddItemResult(addingSuccessful);
 
     }
+
+    private void checkItemTitle(String strItemTitle){
+        if (strItemTitle.equals("")) {
+            updateToast("Item title cannot be blank.", Toast.LENGTH_SHORT);
+            return;
+        }
+        if (itemNameExists(strItemTitle)) {
+            updateToast("This item name already exists.", Toast.LENGTH_SHORT);
+            return;
+        }
+    }
+
 
     private void setupToast() {
         toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
@@ -231,14 +221,11 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 itemImageView.setVisibility(View.VISIBLE);
                 itemImageView.setImageBitmap(bitmap);
                 System.out.println("-----> Bitmap is " + bitmap.getWidth() + " by " + bitmap.getHeight());
-
                 contentResolver.delete(mImageUri, null, null);
-
                 imageFile = new File(this.getFilesDir() + File.separator + UUID.randomUUID() + ".jpg");
                 FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
                 fileOutputStream.close();
-
                 System.out.println("-------> Image path of jpeg is: " + imageFile.getAbsolutePath());
 
             } catch (IOException e) {
@@ -295,19 +282,10 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     }
 
 
-
     private void setDropDownMenu(){
-        CategoryManager myCategoryManager = CategoryManager.INSTANCE;
-        Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
-        List<String> categories = new ArrayList<String>();
-        categories.add("Select a category");
-        categories.add("Add A New Category...");
-        for (ItemCategory c:allCategories){
-            categories.add(c.toString());
-        }
+        List<String> categories=neededCategories();
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
-
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -322,6 +300,18 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         };
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
+    }
+
+    private List<String> neededCategories(){
+        CategoryManager myCategoryManager = CategoryManager.INSTANCE;
+        Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();
+        List<String> categories = new ArrayList<String>();
+        categories.add("Select a category");
+        categories.add("Add A New Category...");
+        for (ItemCategory c:allCategories){
+            categories.add(c.toString());
+        }
+        return categories;
     }
 
     @Override
