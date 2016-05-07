@@ -168,16 +168,5 @@
             android:textSize="17sp"
             android:layout_marginRight="10dp"/>
 
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Take a new picture"
-            android:id="@+id/newPic"
-            android:layout_below="@+id/imgFileView"
-            android:layout_centerHorizontal="true"
-            android:textSize="15sp"
-            android:background="#E74C3C"
-            android:textColor="#FFFFFF"/>
-
     </RelativeLayout>
 </ScrollView>
