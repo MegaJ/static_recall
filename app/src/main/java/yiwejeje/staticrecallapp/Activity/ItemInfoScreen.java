@@ -107,7 +107,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         saveBtn=(Button)findViewById(R.id.saveBtn1);
         unsaveBtn=(Button)findViewById(R.id.disregard);
         deleteBtn=(Button)findViewById(R.id.deleteBtn1);
-        newBtn=(Button)findViewById(R.id.newPic);
         imageFileView= (ImageView)findViewById(R.id.imgFileView);
         imageFileView.setRotation(90);
         thisSpinner=(Spinner)findViewById(R.id.editSpinner);
@@ -133,7 +132,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         if (extras.getString("item location")!= null){
             location=extras.getString("item location");
             locationDisplay.setText(location);
-            newBtn.setVisibility(View.INVISIBLE);
         }
 
         if (extras.getString("item picture path")!= null) {
@@ -141,14 +139,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             Bitmap bitmap = BitmapFactory.decodeFile(extras.getString("item picture path"));
             imageFileView.setImageBitmap(bitmap);
             imageFileView.setVisibility(View.VISIBLE);
-            newBtn.setVisibility(View.VISIBLE);
             locationDisplay.setVisibility(View.INVISIBLE);
-            newBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dispatchTakePictureIntent();
-                }
-            });
         }
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -380,7 +371,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
                     titleDisplay.setEnabled(true);
                     catDisplay.setEnabled(true);
                     locationDisplay.setEnabled(true);
-                    newBtn.setVisibility(View.VISIBLE);
                     saveBtn.setVisibility(View.VISIBLE);
                     unsaveBtn.setVisibility(View.VISIBLE);
                     thisSpinner.setVisibility(View.VISIBLE);
@@ -425,7 +415,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             locationDisplay.setEnabled(false);
             unsaveBtn.setVisibility(View.INVISIBLE);
             thisSpinner.setVisibility(View.INVISIBLE);
-            newBtn.setVisibility(View.INVISIBLE);
         }
     }
 
