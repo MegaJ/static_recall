@@ -45,7 +45,9 @@ import yiwejeje.staticrecallapp.R;
 
 /**
  * Implements the screen for displaying all the relevant information about an item.
- * The user can edit or delete the item.
+ * The user can edit or delete the item. There is a default view that does not have editable fields,
+ * however by using the switch created in this class, various editable text fields and visibilities
+ * are toggled for easy editing.
  */
 public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private EditText titleDisplay, catDisplay, locationDisplay;
@@ -68,7 +70,9 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         return true;
     }
 
-    //Hides the keyboard if user taps elsewhere on the screen.
+    /**
+     * Hides the keyboard if user taps elsewhere on the screen.
+     */
     private void hideTouchPad() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -190,7 +194,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
 
     /**
-     * The initial info to be displayed.
+     * The initial info to be displayed in static text fields.
      */
     private void initialDisplay(){
         titleDisplay.setText(originalItemName);
@@ -198,6 +202,10 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         locationDisplay.setText(originalLocationName);
     }
 
+    /**
+     * Due to the variety of toast notifications in this screen, easily changed
+     * setup and update toast methods.
+     */
     private void setupToast() {
         toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
     }
@@ -235,7 +243,11 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
 
 
-    //Creates a new category when the user types one in on the editable screen.
+    /**
+     * Creates a new category when the user types one in on the editable screen.
+     * @param categoryName
+     * @return
+     */
     private ItemCategory createNewCategoryIfNotExists(String categoryName) {
         ItemCategory existingCategory = categoryManager.getCategoryByName(categoryName);
         if (existingCategory == null) {
@@ -354,9 +366,10 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
 
     }
 
-
-
-
+    /**
+     * Initializes the editable slider and calls relevant methods to toggle visibility/editability
+     * of text fields.
+     */
     private void createEditableSlider() {
         isEditable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -377,8 +390,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             checkedStatus();
         }
         else {
-            uncheckedStatus();
-            uncheckedVisibility();
+            setUncheckedVisibility();
         }
     }
 
@@ -387,11 +399,14 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             checkedStatus();
         }
         else {
-            uncheckedStatus();
-            uncheckedVisibility();
+            setUncheckedVisibility();
         }
     }
 
+    /**
+     * Following 6 methods alter visibility and enabled edittext fields based on whether the
+     * editable switch is checked or not.
+     */
     private void checkedVisibility(){
         saveBtn.setVisibility(View.VISIBLE);
         unsaveBtn.setVisibility(View.VISIBLE);
@@ -478,6 +493,10 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     public void onNothingSelected(AdapterView<?> parentView){
     }
 
+    /**
+     * Populates category dropdown list.
+     * @return
+     */
     private List<String> categoriesForDropDown(){
         CategoryManager myCategoryManager = CategoryManager.INSTANCE;
         Collection<ItemCategory> allCategories = myCategoryManager.getAllCategories();

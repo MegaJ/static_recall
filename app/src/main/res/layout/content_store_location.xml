@@ -19,6 +19,7 @@
         >
         <!--The background image was found here: http://www.wallpapersonweb.com/image-3102.html-->
 
+        <!-- ITEM TITLE TEXT FIELD -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,6 +46,7 @@
             android:id="@+id/ItemText"
             android:inputType="textCapSentences"/>
 
+        <!-- ITEM CATEGORY TEXT FIELD -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +58,6 @@
             android:layout_marginTop="30dp"
             android:layout_alignLeft="@+id/spinner"
             android:layout_alignStart="@+id/spinner" />
-
 
         <EditText
             android:layout_width="900dp"
@@ -74,7 +75,7 @@
             android:layout_marginRight="10dp"
             />
 
-
+        <!-- ITEM LOCATION TEXT FIELD -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,8 +87,7 @@
             android:layout_alignLeft="@id/viewTitle"
             android:layout_marginTop="30dp"/>
 
-
-
+        <!-- CAMERA INTENT/PHOTO CAPTURE BUTTON -->
         <ImageButton
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -101,7 +101,7 @@
             android:layout_marginLeft="60dp"
             android:layout_marginStart="60dp"/>
 
-
+        <!-- CAPTURE(D) PHOTO IMAGE VIEW -->
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
             android:layout_below="@+id/CameraButton"
             />
 
-
+        <!-- STASH BY TEXT INPUT BUTTON -->
         <ImageButton
             android:layout_width="65dp"
             android:layout_height="60dp"
@@ -125,6 +125,7 @@
             android:layout_marginEnd="60dp"
             android:layout_below="@+id/textView" />
 
+        <!-- LOCATION TEXT INPUT FIELD -->
         <EditText
             android:layout_width="900dp"
             android:layout_height="wrap_content"
@@ -140,7 +141,7 @@
             android:inputType="textCapSentences"
             android:layout_centerHorizontal="true" />
 
-
+        <!-- ADD BUTTON -->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -153,6 +154,7 @@
             android:layout_alignRight="@+id/spinner"
             android:layout_alignEnd="@+id/spinner" />
 
+        <!-- ITEM CATEGORY DROPDOWN -->
         <Spinner
             android:layout_width="450dp"
             android:layout_height="wrap_content"
@@ -163,7 +165,5 @@
             android:layout_marginRight="10dp"
             android:textSize="17sp"
             />
-
-
     </RelativeLayout>
 </ScrollView>

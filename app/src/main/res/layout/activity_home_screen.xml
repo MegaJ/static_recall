@@ -21,7 +21,6 @@
         android:textStyle="bold" />
 
     <!-- STASH IT ICON AND BUTTON -->
-
     <ImageView
         android:id="@+id/stash_icon"
         android:layout_width="match_parent"
@@ -32,7 +31,6 @@
         android:onClick="storeLocation"/>
     <!--The file icon was found here:
     http://www.icons101.com/icon/id_81471/setid_2889/Galaxy_by_angeldenadie/galaxy_download-->
-
 
     <TextView
         android:id="@+id/store_button"
@@ -49,7 +47,6 @@
         android:textSize="30sp"/>
 
     <!-- FIND IT ICON AND BUTTON -->
-
     <ImageView
         android:id="@+id/search_icon"
         android:layout_width="match_parent"
@@ -73,7 +70,6 @@
             android:textSize="30sp"/>
 
     <!-- ABOUT ICON AND BUTTON -->
-
     <ImageView
         android:id="@+id/about_icon"
         android:layout_width="50dp"
@@ -85,5 +81,4 @@
         android:onClick="goToAbout"/>
     <!--The info icon image was found here:
 http://vignette2.wikia.nocookie.net/gravityfalls/images/5/55/More_info_icon.png/revision/20131229000053 -->
-
 </RelativeLayout>

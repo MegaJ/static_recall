@@ -21,9 +21,5 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
-
     <include layout="@layout/content_item_info_screen" />
-
-
-
 </android.support.design.widget.CoordinatorLayout>

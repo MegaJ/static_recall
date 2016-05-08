@@ -40,6 +40,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         setAppNameFont();
     }
 
+    /**
+     * Sets a custom font for the Application Title
+     */
     private void setAppNameFont() {
         TextView textView = (TextView) mContentView;
         Context context = this;
@@ -47,6 +50,12 @@ public class HomeScreenActivity extends AppCompatActivity {
         // Font from: http://www.fontfabric.com/code-free-font-3/
         textView.setTypeface(customFont);
     }
+
+    /**
+     * The following three methods indicate intents for the three icons on the home screen.
+     * Directs to 'Find It', 'Stash It', and 'About' screens, respectively.
+     * @param view
+     */
 
     public void showItemsList(View view) {
         Intent intent = new Intent(this, ListViewSearchActivity.class);

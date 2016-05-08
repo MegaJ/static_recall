@@ -39,7 +39,6 @@
             android:layout_below="@id/welcome_title"
             />
 
-
         <!-- STASH IT INSTRUCTIONS -->
         <ImageView
             android:id="@+id/storeimage"
@@ -62,7 +61,6 @@
             android:textColor="#0D1007"
             android:layout_below="@id/welcome_intro"
             />
-
 
         <!-- FIND IT INSTRUCTIONS -->
         <ImageView
@@ -103,6 +101,5 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.design.widget.AppBarLayout>
-
     </RelativeLayout>
 </ScrollView>
