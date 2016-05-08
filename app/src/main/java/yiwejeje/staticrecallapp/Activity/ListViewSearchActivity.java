@@ -117,7 +117,6 @@ public class ListViewSearchActivity extends AppCompatActivity {
         return true;
     }
 
-
     /**
      * Sets up the Android overflow menu for when user clicks.
      * Routes user to StoreLocationActivity and classic ListView

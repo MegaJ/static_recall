@@ -187,9 +187,8 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
      * To set up the initial status and visibility of the screen.
      */
     private void setupTextField(){
-        uncheckedVisibility();
+        setUncheckedVisibility();
         initialDisplay();
-        uncheckedStatus();
         isEditable=(Switch)findViewById(R.id.isEditable);
     }
 
@@ -241,7 +240,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
 
         super.onActivityResult(requestCode, resultCode, intent);
     }
-
 
     /**
      * Creates a new category when the user types one in on the editable screen.
@@ -305,7 +303,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             }
         }
     }
-
 
     /**
      * Method to disregard changes.
@@ -387,7 +384,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         });
         initialStatus();
         if(isEditable.isChecked()){
-            checkedStatus();
+            checkedDisplay();
         }
         else {
             setUncheckedVisibility();
@@ -396,7 +393,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
 
     private void initialStatus(){
         if(isEditable.isChecked()){
-            checkedStatus();
+            checkedDisplay();
         }
         else {
             setUncheckedVisibility();
@@ -404,41 +401,25 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
 
     /**
-     * Following 6 methods alter visibility and enabled edittext fields based on whether the
+     * Following 4 methods alter visibility and enabled edittext fields based on whether the
      * editable switch is checked or not.
      */
-    private void checkedVisibility(){
+    private void checkedDisplay(){
         saveBtn.setVisibility(View.VISIBLE);
         unsaveBtn.setVisibility(View.VISIBLE);
         thisSpinner.setVisibility(View.VISIBLE);
-    }
-
-    private void checkedStatus(){
         titleDisplay.setEnabled(true);
         catDisplay.setEnabled(true);
         locationDisplay.setEnabled(true);
     }
 
-    private void checkedDisplay(){
-        checkedVisibility();
-        checkedStatus();
-    }
-
-    private void uncheckedVisibility(){
-        saveBtn.setVisibility(View.INVISIBLE);
-        unsaveBtn.setVisibility(View.INVISIBLE);
-        thisSpinner.setVisibility(View.INVISIBLE);
-    }
-
-    private void uncheckedStatus(){
+    private void setUncheckedVisibility(){
         titleDisplay.setEnabled(false);
         catDisplay.setEnabled(false);
         locationDisplay.setEnabled(false);
-    }
-
-    private void setUncheckedVisibility(){
-        uncheckedStatus();
-        uncheckedVisibility();
+        saveBtn.setVisibility(View.INVISIBLE);
+        unsaveBtn.setVisibility(View.INVISIBLE);
+        thisSpinner.setVisibility(View.INVISIBLE);
     }
 
     private void checkedSpacing(){
@@ -461,7 +442,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         locationPlace.setLayoutParams(p);
     }
 
-
     private void setupDropdown(){
         List<String> categories=categoriesForDropDown();
         thisSpinner.setOnItemSelectedListener(this);
@@ -478,8 +458,8 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         };
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         thisSpinner.setAdapter(dataAdapter);
-
     }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             if (position != 0) {
@@ -507,7 +487,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         }
         return categories;
     }
-
 }
 
 
