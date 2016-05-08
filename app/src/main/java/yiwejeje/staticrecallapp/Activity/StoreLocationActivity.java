@@ -268,7 +268,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         spinner.setSelection(0);
     }
 
-
     private void clearImageView(){
         itemImageView.setImageBitmap(null);
         itemImageView.setImageResource(R.drawable.camera);
@@ -294,7 +293,6 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         itemImageView.setRotation(90);
         itemImageView.setVisibility(View.INVISIBLE);
     }
-
 
     private void setDropDownMenu(){
         List<String> categories=neededCategories();
