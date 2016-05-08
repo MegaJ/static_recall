@@ -8,10 +8,7 @@
     <!--The background galaxy image was found here:
     http://freewallpaperdownloads.net/wp-content/uploads/2015/03/ipad-air-2-wallpaper-for-iphone-6-plus.jpg/-->
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-
+    <!-- APPLICATION TITLE, CENTERED -->
     <TextView
         android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
@@ -22,21 +19,6 @@
         android:textColor="#FFFFFF"
         android:textSize="50sp"
         android:textStyle="bold" />
-
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
-
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
-
-        </LinearLayout>
 
     <!-- STASH IT ICON AND BUTTON -->
 
@@ -103,18 +85,5 @@
         android:onClick="goToAbout"/>
     <!--The info icon image was found here:
 http://vignette2.wikia.nocookie.net/gravityfalls/images/5/55/More_info_icon.png/revision/20131229000053 -->
-
-
-
-    <!--<TextView
-        android:id="@+id/search_button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/search_icon"
-        android:layout_alignParentLeft="true"
-        android:textAlignment="center"
-        android:text="@string/search_button"
-        android:textColor="#2a3432"
-        android:textSize="30sp"/>-->
 
 </RelativeLayout>

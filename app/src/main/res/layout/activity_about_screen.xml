@@ -13,6 +13,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context="yiwejeje.staticrecallapp.Activity.AboutScreenActivity">
 
+        <!-- SCREEN TITLE AND INTRODUCTION TO APP -->
         <TextView
             android:id="@+id/welcome_title"
             android:layout_width="match_parent"
@@ -39,6 +40,7 @@
             />
 
 
+        <!-- STASH IT INSTRUCTIONS -->
         <ImageView
             android:id="@+id/storeimage"
             android:layout_width="70dp"
@@ -62,6 +64,7 @@
             />
 
 
+        <!-- FIND IT INSTRUCTIONS -->
         <ImageView
             android:id="@+id/searchimage"
             android:layout_width="70dp"
@@ -85,6 +88,7 @@
             android:layout_below="@id/about_store_text"
             />
 
+        <!-- TOOLBAR SETUP -->
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
