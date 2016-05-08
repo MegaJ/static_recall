@@ -48,25 +48,17 @@ import yiwejeje.staticrecallapp.R;
  * The user can edit or delete the item.
  */
 public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private EditText titleDisplay;
-    private EditText catDisplay;
-    private EditText locationDisplay;
+    private EditText titleDisplay, catDisplay, locationDisplay;
     private TextView locationPlace;
-    private Button saveBtn;
-    private Button unsaveBtn;
-    private Button deleteBtn;
+    private Button saveBtn, unsaveBtn, deleteBtn;
     private Switch isEditable;
-    private String originalItemName;
-    private String originalCategoryName;
-    private String originalLocationName;
-    private String selectedCategory;
+    private String originalItemName, originalCategoryName, originalLocationName, selectedCategory, imageFilePath;
     private ImageView imageFileView;
     private Spinner thisSpinner;
     private Toast toast;
     private android.net.Uri mImageUri;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private File imageFile;
-    private String imageFilePath;
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
 
@@ -76,6 +68,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         return true;
     }
 
+    //Hides the keyboard if user taps elsewhere on the screen.
     private void hideTouchPad() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -118,6 +111,8 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
 
         setupTextField();
         setupToast();
+
+        //Sets item's photo as imageview in screen.
         if (extras.getString("item picture path")!= null) {
             Bitmap bitmap = BitmapFactory.decodeFile(extras.getString("item picture path"));
             imageFileView.setImageBitmap(bitmap);
@@ -213,7 +208,12 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         toast.show();
     }
 
-
+    /**This onActivityResult takes care of writing and saving an image file upon
+     * receiving a captured photo from the take photo intent/from the device's camera
+     * @param requestCode
+     * @param resultCode
+     * @param intent - will be the take picture intent
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             ContentResolver contentResolver = this.getContentResolver();
@@ -235,6 +235,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
 
 
+    //Creates a new category when the user types one in on the editable screen.
     private ItemCategory createNewCategoryIfNotExists(String categoryName) {
         ItemCategory existingCategory = categoryManager.getCategoryByName(categoryName);
         if (existingCategory == null) {
@@ -245,14 +246,11 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         return existingCategory;
     }
 
-    private boolean itemNameExists(String proposedName) {
-        Item foundItem = findItemByName(proposedName);
-        if (foundItem != null) {
-            return true;
-        }
-        return false;
-    }
-
+    /**
+     * Checks application files for title in the editable field to catch repetitions
+     * @param itemName
+     * @return
+     */
     private Item findItemByName(String itemName) {
         for (Item item : categoryManager.getAllItems()) {
             if (item.getName().toLowerCase().equals(itemName.toLowerCase())) {
@@ -262,6 +260,40 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         return null;
     }
 
+    /**
+     * Uses findItemByName to return a boolean regarding whether ItemTitle is a repeated,
+     * and therefore not unique item title.
+     * @param proposedName The string populating editable "ItemTitle" field
+     * @return boolean
+     */
+    private boolean itemNameExists(String proposedName) {
+        Item foundItem = findItemByName(proposedName);
+        if (foundItem != null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Uses itemNameExists to return a boolean regarding whether ItemTitle is a repeated,
+     * and therefore not unique item title. Further, also returns an error message if the item title
+     * field is blank.
+     * @param strItemTitle
+     */
+    private void checkItemTitle(String strItemTitle){
+        if (strItemTitle.equals("")) {
+            updateToast("Item title cannot be blank.", Toast.LENGTH_LONG);;
+            return;
+        }
+
+        if (!strItemTitle.equals(originalItemName)) {
+            if (itemNameExists(strItemTitle)) {
+                updateToast("This item name already exists.", Toast.LENGTH_LONG);
+                return;
+            }
+        }
+    }
+
 
     /**
      * Method to disregard changes.
@@ -269,7 +301,12 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private void disregardChanges(){
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
-        locationDisplay.setText(originalLocationName);
+        if (originalLocationName == null){
+            locationDisplay.setText("No location entered.");
+        }
+        else if (originalLocationName != null){
+            locationDisplay.setText(originalLocationName);
+        }
         titleDisplay.setEnabled(false);
         catDisplay.setEnabled(false);
         locationDisplay.setEnabled(false);
@@ -278,7 +315,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
 
     /**
-     * Method to save changes.
+     * Method to save changes and reset screen to view only/uneditable default state.
      */
 
     private void saveChanges(){
@@ -317,19 +354,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
 
     }
 
-    private void checkItemTitle(String strItemTitle){
-        if (strItemTitle.equals("")) {
-            updateToast("Item title cannot be blank.", Toast.LENGTH_LONG);;
-            return;
-        }
-
-        if (!strItemTitle.equals(originalItemName)) {
-            if (itemNameExists(strItemTitle)) {
-                updateToast("This item name already exists.", Toast.LENGTH_LONG);
-                return;
-            }
-        }
-    }
 
 
 
@@ -375,9 +399,9 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     }
 
     private void checkedStatus(){
-        saveBtn.setVisibility(View.VISIBLE);
-        unsaveBtn.setVisibility(View.VISIBLE);
-        thisSpinner.setVisibility(View.VISIBLE);
+        titleDisplay.setEnabled(true);
+        catDisplay.setEnabled(true);
+        locationDisplay.setEnabled(true);
     }
 
     private void checkedDisplay(){
