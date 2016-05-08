@@ -42,12 +42,11 @@
     <string name="about_store_function">STORE\n\n
         If you tap this icon on the home screen or the plus sign on the search screen, it will take
         you to an input screen where you can store an item’s location. Here, you can type in the
-        name of the item, put it in a category for easier finding later, and use one of three
-        options to indicate its actual storage location. You can type in that the “Shirt” is in the
-        “Dresser”, you can take a picture of the item where you plan on keeping it, or you can even
-        describe the dresser in a verbal audio recording! Just tap on the icon corresponding to your
-        choice of input, and then you can press the ‘Add’ button to store the item’s information in
-        the app’s database.\n</string>
+        name of the item, put it in a category for easier finding later, and use one of two options
+        to indicate its actual storage location. You can type in that the “Shirt” is in the “Dresser”
+        or you can take a picture of the item where you plan on keeping it. Just tap on the icon
+        corresponding to your choice of input, and then you can press the ‘Add’ button to store the
+        item’s information in the app’s file directory.\n</string>
     <string name="about_search_function">SEARCH\n\n
         Once you’ve entered an item or two, when you need to remember where you hid
         grandma’s sweater, you can tap on this icon on the home screen to go to a screen that lists
