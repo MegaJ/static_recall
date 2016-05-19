@@ -290,18 +290,20 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
      * field is blank.
      * @param strItemTitle
      */
-    private void checkItemTitle(String strItemTitle){
+    private boolean isItemTitleValid(String strItemTitle){
         if (strItemTitle.equals("")) {
             updateToast("Item title cannot be blank.", Toast.LENGTH_LONG);;
-            return;
+            return false;
         }
 
         if (!strItemTitle.equals(originalItemName)) {
             if (itemNameExists(strItemTitle)) {
                 updateToast("This item name already exists.", Toast.LENGTH_LONG);
-                return;
+                return false;
             }
         }
+
+        return true;
     }
 
     /**
@@ -331,7 +333,10 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
         String strItemTitle = titleDisplay.getText().toString();
         String strCategory = catDisplay.getText().toString();
         String strLocation = locationDisplay.getText().toString();
-        checkItemTitle(strItemTitle);
+
+        if (!isItemTitleValid(strItemTitle)) {
+            return;
+        }
 
         ItemCategory originalCategory = categoryManager.
                 getCategoryByName(originalCategoryName);
