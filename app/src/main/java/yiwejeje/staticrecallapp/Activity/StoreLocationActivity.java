@@ -1,5 +1,6 @@
 package yiwejeje.staticrecallapp.Activity;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -47,6 +50,7 @@ import yiwejeje.staticrecallapp.R;
  */
 public class StoreLocationActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    private static final int PERMISSIONS_REQUEST_WRITE_EX_STORGE = 100;
     private EditText itemTitle;
     private EditText itemCategory;
     private EditText itemLocation;
@@ -115,7 +119,8 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
                 if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
                     updateToast("No camera installed", Toast.LENGTH_SHORT);
                 } else {
-                    dispatchTakePictureIntent();
+                    checkExternalStorageWritingPermissions();
+                    //dispatchTakePictureIntent();
                 }
             }
         });
@@ -210,7 +215,30 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
 
     //CAMERA CODE -- Picture intent and actual file-writing
 
-    private void dispatchTakePictureIntent() {
+    private void checkExternalStorageWritingPermissions() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            dispatchTakePictureIntent();
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                // TODO
+
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        PERMISSIONS_REQUEST_WRITE_EX_STORGE);
+            }
+        }
+
+    }
+
+    private void dispatchTakePictureIntent () {
         itemLocation.setVisibility(View.INVISIBLE);
         mImageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new ContentValues());
@@ -221,6 +249,35 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_WRITE_EX_STORGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    dispatchTakePictureIntent();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    // TODO
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+
 
     // Original camera code found here: http://adblogcat.com/camera-api-simple-way-to-take-pictures-and-save-them-on-sd-card/
 
