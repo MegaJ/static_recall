@@ -143,7 +143,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
      * @return if the item is successfully added to the category
      */
     private boolean addItemToCategoryManager(Item item) {
-        String finalCategoryName=getFinalCategory();
+        String finalCategoryName = getFinalCategory();
         boolean itemAdded = false;
         boolean categoryAdded = false;
         boolean addingSuccessful = false;
@@ -160,7 +160,7 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
         return addingSuccessful;
     }
 
-    private String getFinalCategory (){
+    private String getFinalCategory() {
         String typedText = itemCategory.getText().toString();
         if (selectedCategory != null) {
             return selectedCategory;
@@ -185,27 +185,32 @@ public class StoreLocationActivity extends AppCompatActivity implements AdapterV
     private void addNewItem(){
         String strItemTitle = itemTitle.getText().toString();
         String strLocation = itemLocation.getText().toString();
-        checkItemTitle(strItemTitle);
+
+        if (!isItemTitleValid(strItemTitle)) {
+            return;
+        }
+
         Item newItem = new Item(strItemTitle, strLocation);
         if (imageFile != null) {
             imageFilePath = imageFile.getAbsolutePath();
             newItem.setPicturePath(imageFilePath);
         }
+
         boolean addingSuccessful = addItemToCategoryManager(newItem);
         persistEverything();
         displayAddItemResult(addingSuccessful);
-
     }
 
-    private void checkItemTitle(String strItemTitle){
+    private boolean isItemTitleValid(String strItemTitle){
         if (strItemTitle.equals("")) {
             updateToast("Item title cannot be blank.", Toast.LENGTH_SHORT);
-            return;
+            return false;
         }
         if (itemNameExists(strItemTitle)) {
             updateToast("This item name already exists.", Toast.LENGTH_SHORT);
-            return;
+            return false;
         }
+        return true;
     }
 
 

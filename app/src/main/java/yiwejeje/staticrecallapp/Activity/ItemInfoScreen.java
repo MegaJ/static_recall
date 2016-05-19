@@ -1,5 +1,6 @@
 package yiwejeje.staticrecallapp.Activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -63,23 +64,6 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     private File imageFile;
 
     CategoryManager categoryManager = CategoryManager.INSTANCE;
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        hideTouchPad();
-        return true;
-    }
-
-    /**
-     * Hides the keyboard if user taps elsewhere on the screen.
-     */
-    private void hideTouchPad() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -309,7 +293,7 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
     /**
      * Method to disregard changes.
      */
-    private void disregardChanges(){
+    private void disregardChanges() {
         titleDisplay.setText(originalItemName);
         catDisplay.setText(originalCategoryName);
         if (originalLocationName == null){
@@ -491,6 +475,27 @@ public class ItemInfoScreen extends AppCompatActivity implements AdapterView.OnI
             categories.add(c.toString());
         }
         return categories;
+    }
+
+    // http://stackoverflow.com/questions/33733075/close-keypad-when-touch-or-click-outside-of-edittext-in-android
+    /**
+     * Hides the keyboard if user taps elsewhere on the screen.
+     */
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        View v = getCurrentFocus();
+        boolean ret = super.dispatchTouchEvent(event);
+        if (v instanceof EditText) {
+            View w = getCurrentFocus();
+            int scrcoords[] = new int[2];
+            w.getLocationOnScreen(scrcoords);
+            float x = event.getRawX() + w.getLeft() - scrcoords[0];
+            float y = event.getRawY() + w.getTop() - scrcoords[1];
+            if (event.getAction() == MotionEvent.ACTION_UP && (x < w.getLeft() || x >= w.getRight() || y < w.getTop() || y > w.getBottom()) ) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+            }
+        }
+        return ret;
     }
 }
 
